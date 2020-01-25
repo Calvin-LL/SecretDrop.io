@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "ES2020"
+  },
+  "exclude": ["build"]
+}
