@@ -1,10 +1,4 @@
-import {
-  arrayBuffer16ToString,
-  arrayBuffer8ToString,
-  arrayBufferToBase64String,
-  base64StringToArrayBuffer,
-  stringToArrayBuffer16,
-} from "./ArrayBufferHelpers";
+import LZUTF8 from "lzutf8";
 
 export interface HashConfig extends Omit<RsaHashedImportParams, "name"> {}
 
@@ -32,53 +26,56 @@ export default class Key {
       return Promise.resolve();
     } else
       return new Promise((resolve, reject) => {
-        if (this.format && this.keyString && this.config)
+        if (this.format && this.keyString && this.config) {
+          const decompressedKey = LZUTF8.decompress(this.keyString, {
+            inputEncoding: "Base64",
+          });
+
           window.crypto.subtle
-            .importKey(
-              this.format,
-              base64StringToArrayBuffer(this.keyString),
-              { name: "RSA-OAEP", ...this.config },
-              true,
-              ["encrypt", "decrypt"]
-            )
+            .importKey(this.format, decompressedKey, { name: "RSA-OAEP", ...this.config }, true, ["encrypt", "decrypt"])
             .then(key => {
               this.cryptoKey = key;
               resolve(key);
             }, reject);
-        else return reject("Key isn't initialized");
+        } else return reject("Key isn't initialized");
       });
-  }
-
-  decryptString(base64String: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (this.cryptoKey)
-        crypto.subtle
-          .decrypt({ name: "RSA-OAEP" }, this.cryptoKey, base64StringToArrayBuffer(base64String))
-          .then(publicKeyArrayBuffer => {
-            resolve(arrayBuffer16ToString(publicKeyArrayBuffer));
-          }, reject);
-      else return reject("Key isn't ready");
-    });
   }
 
   encryptString(rawString: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      console.log(stringToArrayBuffer16(rawString).byteLength);
-      if (this.cryptoKey)
-        crypto.subtle
-          .encrypt({ name: "RSA-OAEP" }, this.cryptoKey, stringToArrayBuffer16(rawString))
-          .then(publicKeyArrayBuffer => {
-            resolve(arrayBufferToBase64String(publicKeyArrayBuffer));
-          }, reject);
-      else return reject("Key isn't ready");
+      if (this.cryptoKey) {
+        const compressedString = LZUTF8.compress(rawString);
+
+        crypto.subtle.encrypt({ name: "RSA-OAEP" }, this.cryptoKey, compressedString).then(encryptStringBuffer => {
+          const decodeString = LZUTF8.encodeBase64(new Uint8Array(encryptStringBuffer));
+
+          resolve(decodeString);
+        }, reject);
+      } else return reject("Key isn't ready");
     });
   }
 
-  getString(): Promise<string> {
+  decryptString(base64String: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (this.cryptoKey) {
+        const encodeString = LZUTF8.decodeBase64(base64String);
+
+        crypto.subtle.decrypt({ name: "RSA-OAEP" }, this.cryptoKey, encodeString).then(decryptStringBuffer => {
+          const decompressedResult = LZUTF8.decompress(new Uint8Array(decryptStringBuffer));
+
+          resolve(decompressedResult);
+        }, reject);
+      } else return reject("Key isn't ready");
+    });
+  }
+
+  getKeyString(): Promise<string> {
     return new Promise((resolve, reject) => {
       if (this.cryptoKey)
         crypto.subtle.exportKey(this.format, this.cryptoKey).then(keyArrayBuffer => {
-          resolve(arrayBuffer8ToString(keyArrayBuffer));
+          const compressedKey = LZUTF8.compress(keyArrayBuffer, { outputEncoding: "Base64" });
+
+          resolve(compressedKey);
         }, reject);
       else return reject("Key isn't ready");
     });
