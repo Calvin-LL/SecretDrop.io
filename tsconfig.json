@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
     "strict": true,
-    "isolatedModules": true,
     "incremental": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
     "target": "ES2020"
   },
+  "include": ["./src/"],
   "exclude": ["build"]
 }
