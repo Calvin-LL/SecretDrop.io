@@ -6,18 +6,16 @@ type KeyType = "public" | "private";
 type KeyFormat = "spki" | "pkcs8";
 
 export default class Key {
+  private keyType: KeyType;
   private keyString: string | undefined;
   private format: KeyFormat;
-  private config: HashConfig | undefined = {
-    hash: "SHA-512",
-  };
 
   private cryptoKey: CryptoKey | undefined;
 
-  constructor(keyType: KeyType, keyString?: string, config?: Partial<HashConfig>) {
+  constructor(keyType: KeyType, keyString?: string) {
+    this.keyType = keyType;
     this.keyString = keyString;
     this.format = keyType === "public" ? "spki" : "pkcs8";
-    if (this.config) this.config = { ...this.config, ...config };
   }
 
   init(cryptoKey?: CryptoKey) {
@@ -26,13 +24,23 @@ export default class Key {
       return Promise.resolve();
     } else
       return new Promise((resolve, reject) => {
-        if (this.format && this.keyString && this.config) {
-          const decompressedKey = LZUTF8.decompress(this.keyString, {
+        if (this.keyString) {
+          const lastIndexOfComma = this.keyString.lastIndexOf(",");
+          const hashType = this.keyString.substring(lastIndexOfComma);
+          const keyString = this.keyString.substring(0, lastIndexOfComma);
+
+          const decompressedKey = LZUTF8.decompress(keyString, {
             inputEncoding: "Base64",
           });
 
-          window.crypto.subtle
-            .importKey(this.format, decompressedKey, { name: "RSA-OAEP", ...this.config }, true, ["encrypt", "decrypt"])
+          crypto.subtle
+            .importKey(
+              this.format,
+              decompressedKey,
+              { name: "RSA-OAEP", hash: hashType },
+              true,
+              this.keyType === "public" ? ["encrypt"] : ["decrypt"]
+            )
             .then(key => {
               this.cryptoKey = key;
               resolve(key);
@@ -73,7 +81,10 @@ export default class Key {
     return new Promise((resolve, reject) => {
       if (this.cryptoKey)
         crypto.subtle.exportKey(this.format, this.cryptoKey).then(keyArrayBuffer => {
-          const compressedKey = LZUTF8.compress(keyArrayBuffer, { outputEncoding: "Base64" });
+          let compressedKey = LZUTF8.compress(keyArrayBuffer, { outputEncoding: "Base64" });
+
+          // @ts-ignore
+          compressedKey += "," + this.cryptoKey?.algorithm.hash;
 
           resolve(compressedKey);
         }, reject);
