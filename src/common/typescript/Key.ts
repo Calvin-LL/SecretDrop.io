@@ -26,17 +26,15 @@ export default class Key {
       return new Promise((resolve, reject) => {
         if (this.keyString) {
           const lastIndexOfComma = this.keyString.lastIndexOf(",");
-          const hashType = this.keyString.substring(lastIndexOfComma);
+          const hashType = this.keyString.substring(lastIndexOfComma + 1);
           const keyString = this.keyString.substring(0, lastIndexOfComma);
 
-          const decompressedKey = LZUTF8.decompress(keyString, {
-            inputEncoding: "Base64",
-          });
+          const decodedKey = LZUTF8.decodeBase64(keyString);
 
           crypto.subtle
             .importKey(
               this.format,
-              decompressedKey,
+              decodedKey,
               { name: "RSA-OAEP", hash: hashType },
               true,
               this.keyType === "public" ? ["encrypt"] : ["decrypt"]
@@ -81,12 +79,12 @@ export default class Key {
     return new Promise((resolve, reject) => {
       if (this.cryptoKey)
         crypto.subtle.exportKey(this.format, this.cryptoKey).then(keyArrayBuffer => {
-          let compressedKey = LZUTF8.compress(keyArrayBuffer, { outputEncoding: "Base64" });
+          let base64KeyString = LZUTF8.encodeBase64(new Uint8Array(keyArrayBuffer));
 
           // @ts-ignore
-          compressedKey += "," + this.cryptoKey?.algorithm.hash;
+          base64KeyString += "," + this.cryptoKey?.algorithm.hash.name;
 
-          resolve(compressedKey);
+          resolve(base64KeyString);
         }, reject);
       else return reject("Key isn't ready");
     });
