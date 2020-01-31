@@ -91,4 +91,9 @@ export default class Key {
       else return reject("Key isn't ready");
     });
   }
+
+  getMaxStringLength() {
+    // @ts-ignore
+    return this.cryptoKey?.algorithm.modulusLength;
+  }
 }
