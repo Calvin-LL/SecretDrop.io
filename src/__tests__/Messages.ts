@@ -43,24 +43,24 @@ describe("PlainMessage to and from EncryptedMessage", () => {
       await expect(encryptFunction()).rejects.toThrow();
     }
   }, 120000);
-});
 
-async function encryptThenDecryptWithKey(config?: KeyPairConfig) {
-  for (const message of blns as string[]) {
-    const keyPair = new KeyPair(config);
-    await keyPair.init();
+  async function encryptThenDecryptWithKey(config?: KeyPairConfig) {
+    for (const message of blns as string[]) {
+      const keyPair = new KeyPair(config);
+      await keyPair.init();
 
-    const privateKey = await keyPair.getPrivateKey();
-    const publicKey = await keyPair.getPublicKey();
+      const privateKey = await keyPair.getPrivateKey();
+      const publicKey = await keyPair.getPublicKey();
 
-    if (!publicKey.isStringEncryptable(message)) continue;
+      if (!publicKey.isStringEncryptable(message)) continue;
 
-    const plainMessage = new PlainMessage(message, publicKey);
-    const encryptedPlainMessage = await plainMessage.encrypt();
+      const plainMessage = new PlainMessage(message, publicKey);
+      const encryptedPlainMessage = await plainMessage.encrypt();
 
-    const encryptedMessage = new EncryptedMessage(encryptedPlainMessage, privateKey);
-    const decryptedEncryptedPlainMessage = await encryptedMessage.decrypt();
+      const encryptedMessage = new EncryptedMessage(encryptedPlainMessage, privateKey);
+      const decryptedEncryptedPlainMessage = await encryptedMessage.decrypt();
 
-    expect(decryptedEncryptedPlainMessage).toBe(message);
+      expect(decryptedEncryptedPlainMessage).toBe(message);
+    }
   }
-}
+});
