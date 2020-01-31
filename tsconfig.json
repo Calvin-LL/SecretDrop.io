@@ -4,7 +4,6 @@
     "incremental": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
     "moduleResolution": "node",
     "target": "ES2020"
   },
