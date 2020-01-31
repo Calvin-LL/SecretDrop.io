@@ -1,7 +1,7 @@
-import Key, { HashConfig } from "./Key";
+import Key from "./Key";
 
 export default class PrivateKey extends Key {
-  constructor(keyString?: string, config?: Partial<HashConfig>) {
-    super("private", keyString, config);
+  constructor(keyString?: string) {
+    super("private", keyString);
   }
 }

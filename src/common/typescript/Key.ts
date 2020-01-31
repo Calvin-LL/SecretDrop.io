@@ -10,7 +10,7 @@ export default class Key {
   private keyString: string | undefined;
   private format: KeyFormat;
 
-  private cryptoKey: CryptoKey | undefined;
+  protected cryptoKey: CryptoKey | undefined;
 
   constructor(keyType: KeyType, keyString?: string) {
     this.keyType = keyType;
@@ -52,7 +52,7 @@ export default class Key {
   encryptString(rawString: string): Promise<string> {
     return new Promise((resolve, reject) => {
       if (this.cryptoKey) {
-        const compressedString = LZUTF8.compress(rawString);
+        const compressedString: Uint8Array = LZUTF8.compress(rawString);
 
         crypto.subtle.encrypt({ name: "RSA-OAEP" }, this.cryptoKey, compressedString).then(encryptStringBuffer => {
           const decodeString = LZUTF8.encodeBase64(new Uint8Array(encryptStringBuffer));
@@ -90,10 +90,5 @@ export default class Key {
         }, reject);
       else return reject("Key isn't ready");
     });
-  }
-
-  getMaxStringLength() {
-    // @ts-ignore
-    return this.cryptoKey?.algorithm.modulusLength;
   }
 }
