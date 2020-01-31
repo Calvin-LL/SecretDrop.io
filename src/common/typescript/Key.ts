@@ -47,34 +47,6 @@ export default class Key {
       });
   }
 
-  encryptString(rawString: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (this.cryptoKey) {
-        const compressedString: Uint8Array = LZUTF8.compress(rawString);
-
-        crypto.subtle.encrypt({ name: "RSA-OAEP" }, this.cryptoKey, compressedString).then(encryptStringBuffer => {
-          const decodeString = LZUTF8.encodeBase64(new Uint8Array(encryptStringBuffer));
-
-          resolve(decodeString);
-        }, reject);
-      } else return reject("Key isn't ready");
-    });
-  }
-
-  decryptString(base64String: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (this.cryptoKey) {
-        const encodeString = LZUTF8.decodeBase64(base64String);
-
-        crypto.subtle.decrypt({ name: "RSA-OAEP" }, this.cryptoKey, encodeString).then(decryptStringBuffer => {
-          const decompressedResult = LZUTF8.decompress(new Uint8Array(decryptStringBuffer));
-
-          resolve(decompressedResult);
-        }, reject);
-      } else return reject("Key isn't ready");
-    });
-  }
-
   getKeyString(): Promise<string> {
     return new Promise((resolve, reject) => {
       if (this.cryptoKey)
@@ -82,7 +54,7 @@ export default class Key {
           let base64KeyString = LZUTF8.encodeBase64(new Uint8Array(keyArrayBuffer));
 
           // @ts-ignore
-          base64KeyString += "," + this.cryptoKey?.algorithm.hash.name;
+          base64KeyString += "," + this.cryptoKey.algorithm.hash.name;
 
           resolve(base64KeyString);
         }, reject);

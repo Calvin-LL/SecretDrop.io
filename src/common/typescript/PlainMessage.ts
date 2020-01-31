@@ -1,10 +1,10 @@
-import Key from "./Key";
+import PublicKey from "./PublicKey";
 
 export default class PlainMessage {
   private message: string;
-  private key: Key;
+  private key: PublicKey;
 
-  constructor(message: string, key: Key) {
+  constructor(message: string, key: PublicKey) {
     this.message = message;
     this.key = key;
   }

@@ -1,10 +1,10 @@
-import Key from "./Key";
+import PrivateKey from "./PrivateKey";
 
 export default class EncryptedMessage {
   private message: string;
-  private key: Key;
+  private key: PrivateKey;
 
-  constructor(message: string, key: Key) {
+  constructor(message: string, key: PrivateKey) {
     this.message = message;
     this.key = key;
   }
