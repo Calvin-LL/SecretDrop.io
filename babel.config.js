@@ -10,11 +10,14 @@ module.exports = function(api) {
         useBuiltIns: "usage",
         corejs: 3,
         modules: "commonjs",
-        shippedProposals: true,
-      },
-    ],
+        shippedProposals: true
+      }
+    ]
   ];
-  const plugins = [];
+  const plugins = [
+    // "@babel/plugin-proposal-object-rest-spread",
+    // ["@babel/plugin-proposal-class-properties", { loose: true }]
+  ];
 
   return { presets, plugins };
 };
