@@ -4,23 +4,31 @@ const postcss = require("gulp-postcss");
 const sourcemaps = require("gulp-sourcemaps");
 const { development, production } = require("gulp-environments");
 const htmlmin = require("gulp-htmlmin");
-const babel = require("gulp-babel");
-const terser = require("gulp-terser");
+const hash = require("gulp-hash-filename");
+const inject = require("gulp-inject");
 const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
 const del = require("del");
+const webpack = require("webpack");
+const browserSync = require("browser-sync").create();
 
 sass.compiler = require("node-sass");
 
-// "browser-sync": "^2.26.7",
+function typescript(cb) {
+  const compiler = production()
+    ? webpack([require("./src/webpack.prod.config"), require("./src/encrypt/webpack.prod.config")])
+    : webpack([require("./src/webpack.dev.config"), require("./src/encrypt/webpack.dev.config")]);
 
-function typescript() {
-  return src("./src/**/*.ts")
-    .pipe(development(sourcemaps.init()))
-    .pipe(babel())
-    .pipe(production(terser()))
-    .pipe(development(sourcemaps.write()))
-    .pipe(dest("build"));
+  compiler.run((err, stats) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    console.log(stats.toString({ colors: true }));
+
+    cb();
+  });
 }
 
 function scss() {
@@ -29,29 +37,64 @@ function scss() {
     .pipe(sass.sync().on("error", sass.logError))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
     .pipe(development(sourcemaps.write()))
-    .pipe(dest("build"));
+    .pipe(hash())
+    .pipe(dest("dist"));
 }
 
-function html() {
-  return src("./src/**/*.html")
+const html = parallel(htmlMain, htmlEncrypt);
+const injectOptions = { removeTags: true };
+
+function htmlMain() {
+  return src("./src/index.html")
+    .pipe(
+      inject(src("./dist/vendors-*.js", { read: false }), {
+        starttag: "<!-- inject:head:{{ext}} -->",
+        ...injectOptions,
+      })
+    )
+    .pipe(inject(src("./dist/styles-*.css", { read: false }), injectOptions))
+    .pipe(inject(src("./dist/main-*.js", { read: false }), injectOptions))
     .pipe(production(htmlmin({ collapseWhitespace: true })))
-    .pipe(dest("build"));
+    .pipe(dest("dist"));
+}
+
+function htmlEncrypt() {
+  return src("./src/encrypt/index.html")
+    .pipe(
+      inject(src("./dist/encrypt/vendors-*.js", { read: false }), {
+        starttag: "<!-- inject:head:{{ext}} -->",
+        ...injectOptions,
+      })
+    )
+    .pipe(inject(src("./dist/encrypt/styles-*.css", { read: false }), injectOptions))
+    .pipe(inject(src("./dist/encrypt/main-*.js", { read: false }), injectOptions))
+    .pipe(production(htmlmin({ collapseWhitespace: true })))
+    .pipe(dest("dist/encrypt"));
 }
 
 function clean() {
-  return del(["./build/**"]);
+  return del(["./dist/**"]);
 }
 
-function watch() {
-  watch("./src/**/*.ts", typescript);
-  watch("./src/**/*.scss", scss);
+function watchAll() {
+  watch("./src/**/*.ts", series(typescript, html));
+  watch("./src/**/*.scss", series(scss, html));
   watch("./src/**/*.html", html);
 }
 
-const build = series(clean, parallel(typescript, scss, html));
+function serve() {
+  browserSync.init({
+    server: {
+      baseDir: "./dist",
+    },
+  });
+}
 
-exports.watch = watch;
+const build = series(clean, parallel(typescript, scss), html);
+
+exports.watch = watchAll;
 exports.clean = clean;
 exports.build = build;
+exports.serve = series(watchAll, serve);
 
 exports.default = build;
