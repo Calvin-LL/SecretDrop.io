@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Public key encryption for everyone at https://secretdrop.io",
   "scripts": {
-    "start": "env NODE_ENV=development gulp serve",
+    "start": "env NODE_ENV=production gulp serve",
     "start-dev": "env NODE_ENV=development gulp serve",
     "test": "tsc --noEmit && jest --coverage",
     "build": "env NODE_ENV=production gulp build",
@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/CoolCyberBrain/secretdrop.io#readme",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
+    "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
     "@babel/preset-typescript": "^7.8.3",
-    "@types/jest": "^24.9.1",
+    "@types/jest": "^25.1.2",
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
@@ -46,12 +46,12 @@
     "node-webcrypto-ossl": "^1.0.48",
     "sass-loader": "^8.0.2",
     "terser-webpack-plugin": "^2.3.4",
-    "ts-jest": "^25.0.0",
+    "ts-jest": "^25.2.0",
     "typescript": "^3.7.5",
-    "webpack": "^4.41.5"
+    "webpack": "^4.41.6"
   },
   "dependencies": {
-    "@material/mwc-button": "^0.12.0",
+    "@material/mwc-button": "^0.13.0",
     "@webcomponents/webcomponentsjs": "^2.4.1",
     "base64-arraybuffer": "^0.2.0",
     "lzutf8": "^0.5.5"
