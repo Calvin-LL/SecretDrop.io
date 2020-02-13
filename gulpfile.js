@@ -88,13 +88,17 @@ function serve() {
       baseDir: "./dist",
     },
   });
+
+  watch("./src/**/*.ts", series(typescript, html, browserSync.reload));
+  watch("./src/**/*.scss", series(scss, html, browserSync.reload));
+  watch("./src/**/*.html", series(html, browserSync.reload));
 }
 
 const build = series(clean, parallel(typescript, scss), html);
 
-exports.watch = watchAll;
+exports.watch = series(build, watchAll);
 exports.clean = clean;
 exports.build = build;
-exports.serve = series(watchAll, serve);
+exports.serve = series(build, serve);
 
 exports.default = build;
