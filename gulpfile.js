@@ -11,10 +11,13 @@ const cssnano = require("cssnano");
 const del = require("del");
 const webpack = require("webpack");
 const browserSync = require("browser-sync").create();
+const path = require("path");
 
 sass.compiler = require("node-sass");
 
 function typescript(cb) {
+  del(["./dist/**/*.js"]);
+
   const compiler = production()
     ? webpack([require("./src/webpack.prod.config"), require("./src/encrypt/webpack.prod.config")])
     : webpack([require("./src/webpack.dev.config"), require("./src/encrypt/webpack.dev.config")]);
@@ -32,6 +35,8 @@ function typescript(cb) {
 }
 
 function scss() {
+  del(["./dist/**/*.scss"]);
+
   return src("./src/**/*.scss")
     .pipe(development(sourcemaps.init()))
     .pipe(sass.sync().on("error", sass.logError))
@@ -43,17 +48,18 @@ function scss() {
 
 const html = parallel(htmlMain, htmlEncrypt);
 const injectOptions = { removeTags: true };
+const distInjectSrc = filePath => src(filePath, { read: false, cwd: path.join(__dirname, "dist") });
 
 function htmlMain() {
   return src("./src/index.html")
     .pipe(
-      inject(src("./dist/vendors-*.js", { read: false }), {
+      inject(distInjectSrc("./vendors-*.js"), {
         starttag: "<!-- inject:head:{{ext}} -->",
         ...injectOptions,
       })
     )
-    .pipe(inject(src("./dist/styles-*.css", { read: false }), injectOptions))
-    .pipe(inject(src("./dist/main-*.js", { read: false }), injectOptions))
+    .pipe(inject(distInjectSrc("./styles-*.css"), injectOptions))
+    .pipe(inject(distInjectSrc("./main-*.js"), injectOptions))
     .pipe(production(htmlmin({ collapseWhitespace: true })))
     .pipe(dest("dist"));
 }
@@ -61,13 +67,13 @@ function htmlMain() {
 function htmlEncrypt() {
   return src("./src/encrypt/index.html")
     .pipe(
-      inject(src("./dist/encrypt/vendors-*.js", { read: false }), {
+      inject(distInjectSrc("./encrypt/vendors-*.js"), {
         starttag: "<!-- inject:head:{{ext}} -->",
         ...injectOptions,
       })
     )
-    .pipe(inject(src("./dist/encrypt/styles-*.css", { read: false }), injectOptions))
-    .pipe(inject(src("./dist/encrypt/main-*.js", { read: false }), injectOptions))
+    .pipe(inject(distInjectSrc("./encrypt/styles-*.css"), injectOptions))
+    .pipe(inject(distInjectSrc("./encrypt/main-*.js"), injectOptions))
     .pipe(production(htmlmin({ collapseWhitespace: true })))
     .pipe(dest("dist/encrypt"));
 }
