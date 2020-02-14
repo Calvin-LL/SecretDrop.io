@@ -35,7 +35,7 @@ function typescript(cb) {
 }
 
 function scss() {
-  del(["./dist/**/*.scss"]);
+  del(["./dist/**/*.css"]);
 
   return src("./src/**/*.scss")
     .pipe(development(sourcemaps.init()))
