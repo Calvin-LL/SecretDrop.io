@@ -3,6 +3,7 @@ import "@material/mwc-formfield";
 import "@material/mwc-icon-button";
 
 import KeyPair from "./common/typescript/KeyPair";
+import { saveAs } from "file-saver";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -12,7 +13,13 @@ const decryptLink = "secretdrop.io/decrypt?key=";
 generateKeys();
 
 $("#button-download-public-key")?.addEventListener("click", () => {
-  console.log("ouahsdfo");
+  const url = ($("#public-url") as HTMLLinkElement)?.href;
+  downloadAsTxt(url, "public-key.txt");
+});
+
+$("#button-download-private-key")?.addEventListener("click", () => {
+  const url = ($("#private-url") as HTMLLinkElement)?.href;
+  downloadAsTxt(url, "private-key.txt");
 });
 
 $$(".checkbox-expert-mode").forEach(el => {
@@ -67,4 +74,9 @@ function animateAddTextTnElement(element: Element, s: string) {
       clearInterval(intervalId);
     }
   }, 1);
+}
+
+function downloadAsTxt(s: string, filename: string) {
+  const blob = new Blob([s], { type: "text/plain;charset=utf-8" });
+  saveAs(blob, filename);
 }
