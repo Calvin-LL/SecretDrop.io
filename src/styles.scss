@@ -36,10 +36,13 @@ body {
 #main {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 #key-pair-url-container {
   max-width: 1800px;
+  min-width: 250px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
@@ -53,7 +56,6 @@ body {
     flex-basis: 500px;
     min-height: 10px;
     max-width: 500px;
-    overflow: hidden;
 
     .title-container {
       margin-bottom: 16px;
@@ -68,7 +70,7 @@ body {
       margin-bottom: 48px; // space for buttons
 
       &.expert {
-        margin-bottom: 96px; // space for buttons
+        margin-bottom: 172px; // space for buttons
       }
 
       a {
@@ -77,23 +79,53 @@ body {
       }
     }
 
-    .bottom-bar {
+    .bottom-bar-container {
       position: absolute;
       left: 8px;
       right: 8px;
       bottom: 8px;
 
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      .bottom-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-flow: row;
+        align-items: center;
 
-      .left {
-        justify-self: start;
-        align-self: center;
+        .left {
+          justify-self: start;
+        }
+
+        .right {
+          justify-self: end;
+        }
       }
 
-      .right {
-        justify-self: end;
-        align-self: center;
+      .bottom-bar-expert {
+        height: 124px;
+
+        &.hidden {
+          display: none;
+        }
+
+        .bottom-bar-expert-inputs-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: center;
+
+          mwc-textfield,
+          mwc-select {
+            margin: 8px;
+
+            --mdc-notched-outline-leading-border-radius: 16px 0 0 16px;
+            --mdc-notched-outline-trailing-border-radius: 0 16px 16px 0;
+          }
+        }
+
+        mwc-button {
+          margin: 8px;
+          border-radius: 16px;
+          overflow: hidden;
+        }
       }
     }
   }

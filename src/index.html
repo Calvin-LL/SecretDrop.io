@@ -32,46 +32,91 @@
     <div id="key-pair-url-container">
 
       <div id="public-key-url-area" class="url-area">
+
         <div class="title-container">
           <h2 class="title">Public Link</h2>
           <span>You can encrypt a message with this link. Share this link.</span>
         </div>
+
         <div class="url-container">
           <a id="public-url" target="_blank"></a>
         </div>
-        <div class="bottom-bar">
-          <div class="left">
-            <mwc-formfield label="Expert Mode">
-              <mwc-checkbox class="checkbox-expert-mode"></mwc-checkbox>
-            </mwc-formfield>
+
+        <div class="bottom-bar-container">
+
+          <div class="bottom-bar">
+            <div class="left">
+              <mwc-formfield label="Expert Mode">
+                <mwc-checkbox class="checkbox-expert-mode"></mwc-checkbox>
+              </mwc-formfield>
+            </div>
+            <div class="right">
+              <mwc-icon-button id="button-download-public-key" icon="save_alt"></mwc-icon-button>
+              <mwc-icon-button id="button-copy-public-key" icon="file_copy"></mwc-icon-button>
+            </div>
           </div>
-          <div class="right">
-            <mwc-icon-button id="button-download-public-key" icon="save_alt"></mwc-icon-button>
-            <mwc-icon-button id="button-copy-public-key" icon="file_copy"></mwc-icon-button>
+
+          <div class="bottom-bar-expert hidden">
+            <div class="bottom-bar-expert-inputs-container">
+              <mwc-textfield outlined class="input-modulus-length" label="Modulus Length" min="256" max="16384" step="8"
+                value="2048" type="number">
+              </mwc-textfield>
+              <mwc-select outlined class="select-hash-algorithm" label="Hash Algorithm">
+                <mwc-list-item value="SHA-1">SHA-1</mwc-list-item>
+                <mwc-list-item selected value="SHA-256">SHA-256</mwc-list-item>
+                <mwc-list-item value="SHA-384">SHA-384</mwc-list-item>
+                <mwc-list-item value="SHA-512">SHA-512</mwc-list-item>
+              </mwc-select>
+            </div>
+            <mwc-button unelevated class="button-generate-new-key" label="Generate New Key Pair"></mwc-button>
           </div>
+
         </div>
       </div>
 
       <div id="private-key-url-area" class="url-area">
+
         <div class="title-container">
           <h2 class="title">Private Link</h2>
           <span>You can decrypt a message with this link.</span>
           <span class="warning">Never share this link.</span>
         </div>
+
         <div class="url-container">
           <a id="private-url" target="_blank"></a>
         </div>
-        <div class="bottom-bar">
-          <div class="left">
-            <mwc-formfield label="Expert Mode">
-              <mwc-checkbox class="checkbox-expert-mode"></mwc-checkbox>
-            </mwc-formfield>
+
+        <div class="bottom-bar-container">
+
+          <div class="bottom-bar">
+            <div class="left">
+              <mwc-formfield label="Expert Mode">
+                <mwc-checkbox class="checkbox-expert-mode"></mwc-checkbox>
+              </mwc-formfield>
+            </div>
+            <div class="right">
+              <mwc-icon-button id="button-download-private-key" icon="save_alt"></mwc-icon-button>
+              <mwc-icon-button id="button-copy-private-key" icon="file_copy"></mwc-icon-button>
+            </div>
           </div>
-          <div class="right">
-            <mwc-icon-button id="button-download-private-key" icon="save_alt"></mwc-icon-button>
-            <mwc-icon-button id="button-copy-private-key" icon="file_copy"></mwc-icon-button>
+
+          <div class="bottom-bar-expert hidden">
+            <div class="bottom-bar-expert-inputs-container">
+              <mwc-textfield outlined class="input-modulus-length" label="Modulus Length" min="256" max="16384" step="8"
+                value="2048" type="number">
+              </mwc-textfield>
+              <mwc-select outlined class="select-hash-algorithm" label="Hash Algorithm">
+                <mwc-list-item value="SHA-1">SHA-1</mwc-list-item>
+                <mwc-list-item selected value="SHA-256">SHA-256</mwc-list-item>
+                <mwc-list-item value="SHA-384">SHA-384</mwc-list-item>
+                <mwc-list-item value="SHA-512">SHA-512</mwc-list-item>
+              </mwc-select>
+            </div>
+            <mwc-button unelevated class="button-generate-new-key" label="Generate New Key Pair"></mwc-button>
           </div>
+
         </div>
+
       </div>
 
     </div>
