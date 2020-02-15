@@ -18,8 +18,13 @@ import { saveAs } from "file-saver";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
-const encryptLink = "https://secretdrop.io/encrypt?key=";
-const decryptLink = "https://secretdrop.io/decrypt?key=";
+let encryptLink = "https://secretdrop.io/encrypt?key=";
+let decryptLink = "https://secretdrop.io/decrypt?key=";
+
+if (process.env.NODE_ENV !== "production") {
+  encryptLink = `http://${window.location.host}/encrypt?key=`;
+  decryptLink = `http://${window.location.host}/decrypt?key=`;
+}
 
 generateKeys();
 
