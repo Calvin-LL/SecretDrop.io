@@ -89,15 +89,20 @@ function watchAll() {
 }
 
 function serve() {
+  const reload = done => {
+    browserSync.reload();
+    done();
+  };
+
   browserSync.init({
     server: {
       baseDir: "./dist",
     },
   });
 
-  watch("./src/**/*.ts", series(typescript, html, browserSync.reload));
-  watch("./src/**/*.scss", series(scss, html, browserSync.reload));
-  watch("./src/**/*.html", series(html, browserSync.reload));
+  watch("./src/**/*.ts", series(typescript, html, reload));
+  watch("./src/**/*.scss", series(scss, html, reload));
+  watch("./src/**/*.html", series(html, reload));
 }
 
 const build = series(clean, parallel(typescript, scss), html);

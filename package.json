@@ -44,6 +44,7 @@
     "jest": "^25.1.0",
     "node-sass": "^4.13.1",
     "node-webcrypto-ossl": "^1.0.48",
+    "regenerator-runtime": "^0.13.3",
     "sass-loader": "^8.0.2",
     "terser-webpack-plugin": "^2.3.4",
     "ts-jest": "^25.2.0",
@@ -52,6 +53,10 @@
   },
   "dependencies": {
     "@material/mwc-button": "^0.13.0",
+    "@material/mwc-checkbox": "^0.13.0",
+    "@material/mwc-formfield": "^0.13.0",
+    "@material/mwc-icon-button": "^0.13.0",
+    "@material/mwc-textarea": "^0.13.0",
     "@webcomponents/webcomponentsjs": "^2.4.1",
     "base64-arraybuffer": "^0.2.0",
     "lzutf8": "^0.5.5"

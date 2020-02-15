@@ -2,6 +2,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
+  target: "web",
   module: {
     rules: [
       {
@@ -18,6 +19,9 @@ module.exports = {
   },
   output: {
     filename: "[name]-[hash].js",
+  },
+  resolve: {
+    extensions: [".js", ".ts"],
   },
   optimization: {
     minimize: true,

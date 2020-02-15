@@ -1,10 +1,11 @@
 module.exports = {
   mode: "development",
+  target: "web",
   devtool: "inline-source-map",
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.(t|j)s$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -17,6 +18,9 @@ module.exports = {
   },
   output: {
     filename: "[name]-[hash].js",
+  },
+  resolve: {
+    extensions: [".js", ".ts"],
   },
   optimization: {
     moduleIds: "hashed",
