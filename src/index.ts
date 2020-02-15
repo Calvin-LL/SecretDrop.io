@@ -18,6 +18,7 @@ import { saveAs } from "file-saver";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
+
 let encryptLink = "https://secretdrop.io/encrypt?key=";
 let decryptLink = "https://secretdrop.io/decrypt?key=";
 
