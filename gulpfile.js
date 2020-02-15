@@ -47,7 +47,7 @@ function scss() {
 }
 
 const html = parallel(htmlMain, htmlEncrypt);
-const injectOptions = { removeTags: true };
+const injectOptions = { removeTags: true, addRootSlash: false };
 const distInjectSrc = filePath => src(filePath, { read: false, cwd: path.join(__dirname, "dist") });
 
 function htmlMain() {
