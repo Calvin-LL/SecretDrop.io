@@ -1,8 +1,11 @@
 import "@material/mwc-checkbox";
 import "@material/mwc-formfield";
 import "@material/mwc-icon-button";
+import "@material/mwc-snackbar";
 
 import KeyPair from "./common/typescript/KeyPair";
+import { Snackbar } from "@material/mwc-snackbar";
+import copy from "copy-to-clipboard";
 import { saveAs } from "file-saver";
 
 const $ = document.querySelector.bind(document);
@@ -12,6 +15,7 @@ const decryptLink = "secretdrop.io/decrypt?key=";
 
 generateKeys();
 
+// --------- begin download buttons ---------
 $("#button-download-public-key")?.addEventListener("click", () => {
   const url = ($("#public-url") as HTMLLinkElement)?.href;
   downloadAsTxt(url, "public-key.txt");
@@ -21,6 +25,23 @@ $("#button-download-private-key")?.addEventListener("click", () => {
   const url = ($("#private-url") as HTMLLinkElement)?.href;
   downloadAsTxt(url, "private-key.txt");
 });
+// --------- end download buttons ---------
+
+// --------- begin copy buttons ---------
+$("#button-copy-public-key")?.addEventListener("click", () => {
+  const url = ($("#public-url") as HTMLLinkElement)?.href;
+
+  if (copy(url)) ($("#copy-success-snackbar") as Snackbar)?.open();
+  else ($("#copy-failed-snackbar") as Snackbar)?.open();
+});
+
+$("#button-copy-private-key")?.addEventListener("click", () => {
+  const url = ($("#private-url") as HTMLLinkElement)?.href;
+
+  if (copy(url)) ($("#copy-success-snackbar") as Snackbar)?.open();
+  else ($("#copy-failed-snackbar") as Snackbar)?.open();
+});
+// --------- end copy buttons ---------
 
 $$(".checkbox-expert-mode").forEach(el => {
   el.addEventListener("change", onExpertModeCheck.bind(el));

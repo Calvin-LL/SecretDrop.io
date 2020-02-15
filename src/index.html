@@ -56,7 +56,7 @@
         <div class="title-container">
           <h2 class="title">Private Link</h2>
           <span>You can decrypt a message with this link.</span>
-          <span class="warning">Never share this link</span>
+          <span class="warning">Never share this link.</span>
         </div>
         <div class="url-container">
           <a id="private-url" target="_blank"></a>
@@ -76,6 +76,10 @@
 
     </div>
   </div>
+
+  <mwc-snackbar id="copy-success-snackbar" labelText="Copied to clipboard."></mwc-snackbar>
+  <mwc-snackbar id="copy-failed-snackbar" labelText="Failed to copy to clipboard. Try copying the link manually">
+  </mwc-snackbar>
 
   <!-- inject:js -->
   <!-- endinject -->
