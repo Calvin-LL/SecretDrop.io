@@ -1,0 +1,36 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row wrap;
+  padding: 48px;
+  padding-bottom: 0px;
+
+  #animated-logo-container {
+    .animated-logo {
+      width: 70px;
+      transform: rotate(-5deg);
+    }
+
+    .animated-logo:not(:hover) {
+      animation: unset;
+
+      .safe-svg {
+        animation: unset;
+      }
+    }
+  }
+
+  #button-container {
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+
+    mwc-button {
+      --mdc-button-horizontal-padding: 16px;
+      margin: 16px;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+  }
+}

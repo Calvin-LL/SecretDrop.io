@@ -6,6 +6,7 @@ import "@material/mwc-textfield";
 import "@material/mwc-select";
 import "@material/mwc-button";
 import "@material/mwc-list/mwc-list-item";
+import "./common/modules/Header/header";
 
 import { Checkbox } from "@material/mwc-checkbox";
 import KeyPair from "./common/typescript/KeyPair";
