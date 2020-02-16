@@ -69,7 +69,7 @@ function htmlMain() {
     )
     .pipe(inject(distInjectSrc("./styles-*.css"), injectOptions))
     .pipe(inject(distInjectSrc("./main-*.js"), injectOptions))
-    .pipe(include({ hardFail: true }).on("error", console.error))
+    .pipe(include())
     .pipe(production(htmlmin({ collapseWhitespace: true })))
     .pipe(dest("./dist"));
 }
@@ -84,7 +84,7 @@ function htmlEncrypt() {
     )
     .pipe(inject(distInjectSrc("./encrypt/styles-*.css"), injectOptions))
     .pipe(inject(distInjectSrc("./encrypt/main-*.js"), injectOptions))
-    .pipe(include({ hardFail: true }).on("error", console.error))
+    .pipe(include())
     .pipe(production(htmlmin({ collapseWhitespace: true })))
     .pipe(dest("./dist/encrypt"));
 }
