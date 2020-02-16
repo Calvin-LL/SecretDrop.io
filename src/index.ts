@@ -143,7 +143,10 @@ async function generateKeys(config?: KeyPairConfig) {
 
   setTimeout(() => {
     $("#overlay-loading-generating-key")?.classList.add("hide");
-  }, 1500);
+    setTimeout(() => {
+      $("#overlay-loading-generating-key")?.classList.add("gone");
+    }, 300);
+  }, 1800);
 }
 
 function animateAddTextTnElement(element: Element, s: string) {

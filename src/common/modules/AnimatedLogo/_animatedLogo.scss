@@ -1,0 +1,35 @@
+.animated-logo {
+  width: 200px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  animation: swing ease-in-out 1s infinite alternate;
+  transform-origin: 50% 80%;
+
+  #safe-svg {
+    width: 44%;
+    margin-top: -10%;
+
+    animation: swing-little ease-in-out 1s infinite alternate-reverse;
+  }
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes swing-little {
+  0% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(-2deg);
+  }
+}

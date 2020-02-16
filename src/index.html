@@ -12,6 +12,13 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined&display=block" rel="stylesheet">
 
+  <script src="/webcomponents/webcomponents-loader.js"></script>
+  <script>
+    if (!window.customElements) { document.write('<!--'); }
+  </script>
+  <script src="/webcomponents/custom-elements-es5-adapter.js"></script>
+  <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+
   <!-- inject:css -->
   <!-- endinject -->
 
@@ -21,11 +28,7 @@
 
 <body>
   <div id="overlay-loading-generating-key">
-    <div class="la-ball-pulse-sync la-2x">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <!--=include ./common/modules/AnimatedLogo/animated-logo.html -->
     <h1 id="text-loading">Generating new kay pair</h1>
   </div>
 

@@ -6,6 +6,7 @@ const { development, production } = require("gulp-environments");
 const htmlmin = require("gulp-htmlmin");
 const hash = require("gulp-hash-filename");
 const inject = require("gulp-inject");
+const include = require("gulp-include");
 const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
 const del = require("del");
@@ -15,8 +16,16 @@ const path = require("path");
 
 sass.compiler = require("node-sass");
 
+function copyImage() {
+  return src("./image/**/*").pipe(dest("./dist/image"));
+}
+
+function copyWebcomponents() {
+  return src("./node_modules/@webcomponents/webcomponentsjs/*.js").pipe(dest("./dist/webcomponents"));
+}
+
 function typescript(cb) {
-  del(["./dist/**/*.js"]);
+  del(["./dist/**/*.js", "!./dist/webcomponents/**/*.js"]);
 
   const compiler = production()
     ? webpack([require("./src/webpack.prod.config"), require("./src/encrypt/webpack.prod.config")])
@@ -43,7 +52,7 @@ function scss() {
     .pipe(production(postcss([autoprefixer(), cssnano()])))
     .pipe(development(sourcemaps.write()))
     .pipe(hash())
-    .pipe(dest("dist"));
+    .pipe(dest("./dist"));
 }
 
 const html = parallel(htmlMain, htmlEncrypt);
@@ -60,8 +69,9 @@ function htmlMain() {
     )
     .pipe(inject(distInjectSrc("./styles-*.css"), injectOptions))
     .pipe(inject(distInjectSrc("./main-*.js"), injectOptions))
+    .pipe(include({ hardFail: true }).on("error", console.error))
     .pipe(production(htmlmin({ collapseWhitespace: true })))
-    .pipe(dest("dist"));
+    .pipe(dest("./dist"));
 }
 
 function htmlEncrypt() {
@@ -74,8 +84,9 @@ function htmlEncrypt() {
     )
     .pipe(inject(distInjectSrc("./encrypt/styles-*.css"), injectOptions))
     .pipe(inject(distInjectSrc("./encrypt/main-*.js"), injectOptions))
+    .pipe(include({ hardFail: true }).on("error", console.error))
     .pipe(production(htmlmin({ collapseWhitespace: true })))
-    .pipe(dest("dist/encrypt"));
+    .pipe(dest("./dist/encrypt"));
 }
 
 function clean() {
@@ -105,7 +116,8 @@ function serve() {
   watch("./src/**/*.html", series(html, reload));
 }
 
-const build = series(clean, parallel(typescript, scss), html);
+const copy = parallel(copyWebcomponents, copyImage);
+const build = series(clean, parallel(copy, typescript, scss), html);
 
 exports.watch = series(build, watchAll);
 exports.clean = clean;
