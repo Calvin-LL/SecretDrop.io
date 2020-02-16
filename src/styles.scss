@@ -1,4 +1,5 @@
 @import "./common/modules/AnimatedLogo/animatedLogo";
+@import "./common/modules/Header/header.scss";
 
 body {
   margin: 0;
@@ -41,6 +42,11 @@ body {
   #text-loading {
     color: white;
     font-weight: 300;
+    text-align: center;
+  }
+
+  .animated-logo {
+    width: 200px;
   }
 }
 
@@ -68,6 +74,10 @@ body {
     min-height: 10px;
     max-width: 500px;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+
+    @media screen and (max-width: 640px) {
+      margin: 4%;
+    }
 
     .title-container {
       margin-bottom: 16px;
@@ -148,11 +158,11 @@ body {
   }
 
   #public-key-url-area {
-    background-color: #fafdfa;
+    background-color: #f1f8e9;
   }
 
   #private-key-url-area {
-    background-color: #fffdfa;
+    background-color: #fff8e1;
 
     .title-container {
       .warning {
