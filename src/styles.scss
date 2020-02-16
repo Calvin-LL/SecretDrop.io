@@ -3,6 +3,7 @@
 body {
   margin: 0;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
+  background: #fafafa;
 
   --mdc-theme-primary: #43a047;
   --mdc-theme-secondary: #e65100;
@@ -55,19 +56,20 @@ body {
 
   .url-area {
     position: relative;
-    border-radius: 16px;
-    margin: 16px;
-    padding: 16px;
+    border-radius: 32px;
+    margin: 48px;
+    padding: 24px;
     flex-grow: 1;
     flex-basis: 500px;
     min-height: 10px;
     max-width: 500px;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 
     .title-container {
       margin-bottom: 16px;
 
       .title {
-        font-weight: 400;
+        font-weight: 500;
         margin: 0px;
       }
     }
@@ -82,14 +84,19 @@ body {
       a {
         overflow-wrap: break-word;
         word-break: break-all;
+        color: #1976d2;
+
+        &:visited {
+          color: #512da8;
+        }
       }
     }
 
     .bottom-bar-container {
       position: absolute;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
 
       .bottom-bar {
         display: grid;
@@ -137,11 +144,11 @@ body {
   }
 
   #public-key-url-area {
-    background-color: #e8f5e9;
+    background-color: #fafdfa;
   }
 
   #private-key-url-area {
-    background-color: #fff3e0;
+    background-color: #fffdfa;
 
     .title-container {
       .warning {
