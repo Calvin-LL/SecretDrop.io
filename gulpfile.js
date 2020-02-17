@@ -77,11 +77,6 @@ const registerHandlebarsPartials = () => {
   Handlebars.registerHelper("json", arg1 => {
     return JSON.parse(arg1);
   });
-
-  Handlebars.registerHelper("toString", arg1 => {
-    console.log(arg1);
-    return new Handlebars.SafeString(arg1);
-  });
 };
 
 function html() {
