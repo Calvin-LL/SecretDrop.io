@@ -39,6 +39,13 @@
     }
   }
 
+  .note {
+    color: rgba($color: #000000, $alpha: 0.54);
+    margin: 16px;
+    margin-top: 0px;
+    font-size: 0.7em;
+  }
+
   .mdc-button {
     @include mdc-button-shape-radius(50%);
 
