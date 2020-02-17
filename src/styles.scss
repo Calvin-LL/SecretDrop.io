@@ -1,14 +1,24 @@
-@import "./common/modules/AnimatedLogo/animatedLogo";
-@import "./common/modules/Header/header.scss";
+@use "@material/theme" with (
+  $primary: #43a047,
+  $secondary: #e65100,
+  $on-primary: #fff,
+  $on-secondary: #fff,
+  $background: #fafafa
+);
+@import "@material/button/mdc-button";
+@import "@material/icon-button/mdc-icon-button";
+@import "@material/form-field/mdc-form-field";
+@import "@material/checkbox/mdc-checkbox";
+@import "@material/snackbar/mdc-snackbar";
+
+@import "./common/modules/AnimatedLogo/animated-logo";
+@import "./common/modules/Header/header";
+@import "./common/modules/ExpertModeBottomBar/expert-mode-bottom-bar";
 
 body {
   margin: 0;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   background: #fafafa;
-
-  --mdc-theme-primary: #43a047;
-  --mdc-theme-secondary: #e65100;
-  --mdc-icon-font: "Material Icons Outlined";
 }
 
 #overlay-loading-generating-key {
@@ -43,10 +53,16 @@ body {
     color: white;
     font-weight: 300;
     text-align: center;
+    font-size: 2em;
+
+    @media (max-width: 640px) {
+      font-weight: 400;
+      font-size: 1.3em;
+    }
   }
 
   .animated-logo {
-    width: 200px;
+    width: min(200px, 30%);
   }
 }
 
@@ -61,39 +77,53 @@ body {
   max-width: 1800px;
   min-width: 250px;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: wrap;
   justify-content: space-evenly;
+  align-items: stretch;
+  padding-top: 48px;
 
   .url-area {
     position: relative;
     border-radius: 32px;
     margin: 48px;
-    padding: 24px;
+    margin-top: 0px;
+    padding: 16px;
+    padding-top: 24px;
     flex-grow: 1;
     flex-basis: 500px;
     min-height: 10px;
     max-width: 500px;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
 
-    @media screen and (max-width: 640px) {
+    @media (max-width: 640px) {
       margin: 4%;
     }
 
     .title-container {
       margin-bottom: 16px;
+      padding-left: 8px;
+      padding-right: 8px;
 
       .title {
         font-weight: 500;
         margin: 0px;
+        margin-bottom: 4px;
+      }
+
+      span {
+        color: rgba($color: #000000, $alpha: 0.54);
       }
     }
 
     .url-container {
-      margin-bottom: 48px; // space for buttons
-
-      &.expert {
-        margin-bottom: 172px; // space for buttons
-      }
+      flex-grow: 1;
+      padding-left: 8px;
+      padding-right: 8px;
+      margin-bottom: 16px;
 
       a {
         overflow-wrap: break-word;
@@ -107,10 +137,7 @@ body {
     }
 
     .bottom-bar-container {
-      position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
+      width: 100%;
 
       .bottom-bar {
         display: grid;
@@ -124,34 +151,6 @@ body {
 
         .right {
           justify-self: end;
-        }
-      }
-
-      .bottom-bar-expert {
-        height: 124px;
-
-        &.hidden {
-          display: none;
-        }
-
-        .bottom-bar-expert-inputs-container {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          align-items: center;
-
-          mwc-textfield,
-          mwc-select {
-            margin: 8px;
-
-            --mdc-notched-outline-leading-border-radius: 16px 0 0 16px;
-            --mdc-notched-outline-trailing-border-radius: 0 16px 16px 0;
-          }
-        }
-
-        mwc-button {
-          margin: 8px;
-          border-radius: 18px;
-          overflow: hidden;
         }
       }
     }
@@ -172,6 +171,7 @@ body {
   }
 }
 
-mwc-icon-button {
+.material-icons {
+  font-family: "Material Icons Outlined";
   color: rgba($color: #000000, $alpha: 0.54);
 }

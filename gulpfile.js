@@ -5,23 +5,21 @@ const sourcemaps = require("gulp-sourcemaps");
 const { development, production } = require("gulp-environments");
 const htmlmin = require("gulp-htmlmin");
 const hash = require("gulp-hash-filename");
-const inject = require("gulp-inject");
-const include = require("gulp-include");
 const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
 const del = require("del");
 const webpack = require("webpack");
 const browserSync = require("browser-sync").create();
 const path = require("path");
+const through = require("through2");
+const Handlebars = require("handlebars");
+const glob = require("glob");
+const fs = require("fs");
 
-sass.compiler = require("node-sass");
+sass.compiler = require("sass");
 
 function copyImage() {
   return src("./image/**/*").pipe(dest("./dist/image"));
-}
-
-function copyWebcomponents() {
-  return src("./node_modules/@webcomponents/webcomponentsjs/*.js").pipe(dest("./dist/webcomponents"));
 }
 
 function typescript(cb) {
@@ -48,45 +46,73 @@ function scss() {
 
   return src("./src/**/*.scss")
     .pipe(development(sourcemaps.init()))
-    .pipe(sass.sync().on("error", sass.logError))
+    .pipe(sass.sync({ includePaths: ["./node_modules"] }).on("error", sass.logError))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
     .pipe(development(sourcemaps.write()))
     .pipe(hash())
     .pipe(dest("./dist"));
 }
 
-const html = parallel(htmlMain, htmlEncrypt);
-const injectOptions = { removeTags: true, addRootSlash: false };
-const distInjectSrc = filePath => src(filePath, { read: false, cwd: path.join(__dirname, "dist") });
+const registerHandlebarsPartials = () => {
+  glob.sync("./src/common/modules/**/*.html").forEach(filePath => {
+    const content = fs.readFileSync(filePath, "utf8");
+    const firstLine = content.split("\n")[0].replace(/\ /g, "");
+    const partialName = firstLine.replace("<!--partialName=", "").replace("-->", "");
 
-function htmlMain() {
-  return src("./src/index.html")
+    if (partialName !== firstLine)
+      Handlebars.registerPartial(partialName, content.substring(content.indexOf("\n"), content.length));
+  });
+
+  Handlebars.registerHelper("safeVal", (value, safeValue) => {
+    const out = value || safeValue;
+    return new Handlebars.SafeString(out);
+  });
+
+  Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => {
+    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+  });
+
+  Handlebars.registerHelper("json", arg1 => {
+    return JSON.parse(arg1);
+  });
+
+  Handlebars.registerHelper("toString", arg1 => {
+    console.log(arg1);
+    return new Handlebars.SafeString(arg1);
+  });
+};
+
+function html() {
+  registerHandlebarsPartials();
+  return src(["./src/**/*.html", "!./src/common/modules/**/*.html"])
     .pipe(
-      inject(distInjectSrc("./vendors-*.js"), {
-        starttag: "<!-- inject:head:{{ext}} -->",
-        ...injectOptions,
+      through.obj((chunk, enc, cb) => {
+        chunk.contents = handlebarsProcess(chunk);
+
+        cb(null, chunk);
       })
     )
-    .pipe(inject(distInjectSrc("./styles-*.css"), injectOptions))
-    .pipe(inject(distInjectSrc("./main-*.js"), injectOptions))
-    .pipe(include())
     .pipe(production(htmlmin({ collapseWhitespace: true })))
     .pipe(dest("./dist"));
 }
 
-function htmlEncrypt() {
-  return src("./src/encrypt/index.html")
-    .pipe(
-      inject(distInjectSrc("./encrypt/vendors-*.js"), {
-        starttag: "<!-- inject:head:{{ext}} -->",
-        ...injectOptions,
-      })
-    )
-    .pipe(inject(distInjectSrc("./encrypt/styles-*.css"), injectOptions))
-    .pipe(inject(distInjectSrc("./encrypt/main-*.js"), injectOptions))
-    .pipe(include())
-    .pipe(production(htmlmin({ collapseWhitespace: true })))
-    .pipe(dest("./dist/encrypt"));
+const getFilesBlobRelativeTo = (relativePath, blob) => {
+  return glob
+    .sync(path.join(relativePath, blob))
+    .map(filePath => path.relative(relativePath, filePath))
+    .map(filePath => (filePath.includes("./") ? filePath : "./" + filePath));
+};
+
+function handlebarsProcess(chunk) {
+  const equivalentDistPath = path.dirname(chunk.path.replace("src", "dist"));
+  const cssPaths = getFilesBlobRelativeTo(equivalentDistPath, "styles-*.css");
+  const vendorsPaths = getFilesBlobRelativeTo(equivalentDistPath, "vendors-*.js");
+  const mainPaths = getFilesBlobRelativeTo(equivalentDistPath, "main-*.js");
+
+  const template = Handlebars.compile(chunk.contents.toString());
+  const compiled = template({ css: cssPaths, vendorsJs: vendorsPaths, mainJs: mainPaths });
+
+  return Buffer.from(compiled);
 }
 
 function clean() {
@@ -116,7 +142,7 @@ function serve() {
   watch("./src/**/*.html", series(html, reload));
 }
 
-const copy = parallel(copyWebcomponents, copyImage);
+const copy = parallel(copyImage);
 const build = series(clean, parallel(copy, typescript, scss), html);
 
 exports.watch = series(build, watchAll);

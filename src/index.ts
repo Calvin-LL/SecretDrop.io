@@ -1,19 +1,14 @@
-import "@material/mwc-checkbox";
-import "@material/mwc-formfield";
-import "@material/mwc-icon-button";
-import "@material/mwc-snackbar";
-import "@material/mwc-textfield";
-import "@material/mwc-select";
-import "@material/mwc-button";
-import "@material/mwc-list/mwc-list-item";
+// import "@material/mwc-checkbox";
 import "./common/modules/Header/header";
 
-import { Checkbox } from "@material/mwc-checkbox";
 import KeyPair from "./common/typescript/KeyPair";
 import { KeyPairConfig } from "./common/typescript/KeyPair";
-import { Select } from "@material/mwc-select";
-import { Snackbar } from "@material/mwc-snackbar";
-import { TextField } from "@material/mwc-textfield";
+import { MDCCheckbox } from "@material/checkbox";
+import { MDCFormField } from "@material/form-field";
+import { MDCRipple } from "@material/ripple";
+import { MDCSelect } from "@material/select";
+import { MDCSnackbar } from "@material/snackbar";
+import { MDCTextField } from "@material/textfield";
 import copy from "copy-to-clipboard";
 import { saveAs } from "file-saver";
 
@@ -30,6 +25,24 @@ if (process.env.NODE_ENV !== "production") {
 
 generateKeys();
 
+// --------- begin init material web components ---------
+const modulusLengthInputs: MDCTextField[] = [];
+const hashAlgorithmSelect: MDCSelect[] = [];
+
+const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
+const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
+
+$$(".mdc-button").forEach(element => MDCRipple.attachTo(element));
+$$(".mdc-icon-button").forEach(element => (MDCRipple.attachTo(element).unbounded = true));
+
+$$(".mdc-checkbox").forEach(element => {
+  if (element.parentElement) MDCFormField.attachTo(element.parentElement).input = MDCCheckbox.attachTo(element);
+});
+
+$$(".mdc-text-field.input-modulus-length").forEach(element => modulusLengthInputs.push(MDCTextField.attachTo(element)));
+$$(".mdc-select.select-hash-algorithm").forEach(element => hashAlgorithmSelect.push(MDCSelect.attachTo(element)));
+// --------- end init material web components ---------
+
 // --------- begin download buttons ---------
 $("#button-download-public-key")?.addEventListener("click", () => {
   const url = ($("#public-url") as HTMLLinkElement)?.href;
@@ -44,58 +57,58 @@ $("#button-download-private-key")?.addEventListener("click", () => {
 
 // --------- begin copy buttons ---------
 $("#button-copy-public-key")?.addEventListener("click", onCopyClick.bind(null, "#public-url"));
-
 $("#button-copy-private-key")?.addEventListener("click", onCopyClick.bind(null, "#private-url"));
 
 function onCopyClick(selector: string) {
   const url = ($(selector) as HTMLLinkElement)?.href;
 
-  if (copy(url)) ($("#copy-success-snackbar") as Snackbar)?.open();
-  else ($("#copy-failed-snackbar") as Snackbar)?.open();
+  if (copy(url)) successSnackbar.open();
+  else failedSnackbar.open();
 }
 // --------- end copy buttons ---------
 
 // --------- begin expert checkboxes ---------
-$$(".checkbox-expert-mode").forEach(el => {
-  el.addEventListener("change", onExpertModeCheck.bind(null, el as Checkbox));
+$$(".checkbox-expert-mode input").forEach(el => {
+  el.addEventListener("change", onExpertModeCheck.bind(null, el as HTMLInputElement));
 });
 
-function onExpertModeCheck(element: Checkbox) {
+function onExpertModeCheck(element: HTMLInputElement) {
   const checked = element.checked;
 
   $$(".bottom-bar-expert").forEach(el => el.classList.toggle("hidden", !checked));
-  $$(".input-modulus-length, .select-hash-algorithm").forEach(el => {
-    if (checked) (el as TextField).layout();
-  });
   $$(".url-container").forEach(el => el.classList.toggle("expert", checked));
 
-  $$(".checkbox-expert-mode").forEach(el => {
-    (el as Checkbox).checked = element.checked;
+  $$(".checkbox-expert-mode input").forEach(el => {
+    (el as HTMLInputElement).checked = element.checked;
+    if (element.checked) {
+      modulusLengthInputs.forEach(el => el.layout());
+      hashAlgorithmSelect.forEach(el => el.layout());
+    }
   });
 }
 // --------- end expert checkboxes ---------
 
 // --------- begin expert modulus length input ---------
-$$(".input-modulus-length").forEach(el => {
-  el.addEventListener("keyup", onModulusLengthChange.bind(null, el as TextField));
-  el.addEventListener("change", onModulusLengthChange.bind(null, el as TextField));
+$$(".mdc-text-field.input-modulus-length input").forEach(el => {
+  el.addEventListener("keyup", onModulusLengthChange.bind(null, el as HTMLInputElement));
+  el.addEventListener("change", onModulusLengthChange.bind(null, el as HTMLInputElement));
 });
 
-function onModulusLengthChange(element: TextField) {
-  $$(".input-modulus-length").forEach(el => {
-    (el as TextField).value = element.value;
+function onModulusLengthChange(element: HTMLInputElement) {
+  modulusLengthInputs.forEach(el => {
+    el.value = element.value;
   });
 }
 // --------- end expert modulus length input ---------
 
 // --------- begin expert modulus length input ---------
-$$(".select-hash-algorithm").forEach(el => {
-  el.addEventListener("selected", onHashAlgorithmChange.bind(null, el as Select));
+hashAlgorithmSelect.forEach(el => {
+  el.listen("MDCSelect:change", onHashAlgorithmChange.bind(null, el));
 });
 
-function onHashAlgorithmChange(element: Select) {
-  $$(".select-hash-algorithm").forEach(el => {
-    (el as Select).select(element.index);
+function onHashAlgorithmChange(element: MDCSelect) {
+  hashAlgorithmSelect.forEach(el => {
+    if (el !== element && el.selectedIndex !== element.selectedIndex) el.selectedIndex = element.selectedIndex;
   });
 }
 // --------- end expert modulus length input ---------
@@ -106,8 +119,8 @@ $$(".button-generate-new-key").forEach(el => {
 });
 
 function onGenerateNewKeyCheck() {
-  const modulusLength = parseInt(($(".input-modulus-length") as HTMLInputElement).value);
-  const hashAlgorithm = ($(".select-hash-algorithm") as HTMLSelectElement).value;
+  const modulusLength = parseInt(modulusLengthInputs[0].value);
+  const hashAlgorithm = hashAlgorithmSelect[0].value;
 
   if (modulusLength >= 256 && modulusLength <= 16384 && modulusLength % 8 === 0 && hashAlgorithm) {
     generateKeys({ modulusLength, hash: hashAlgorithm });

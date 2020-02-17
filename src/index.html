@@ -12,27 +12,22 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined&display=block" rel="stylesheet">
 
-  <script src="/webcomponents/webcomponents-loader.js"></script>
-  <script>
-    if (!window.customElements) { document.write('<!--'); }
-  </script>
-  <script src="/webcomponents/custom-elements-es5-adapter.js"></script>
-  <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+  {{#each css}}
+  <link href="{{this}}" rel="stylesheet">
+  {{/each}}
 
-  <!-- inject:css -->
-  <!-- endinject -->
-
-  <!-- inject:head:js -->
-  <!-- endinject -->
+  {{#each vendorsJs}}
+  <script src="{{this}}"></script>
+  {{/each}}
 </head>
 
 <body>
   <div id="overlay-loading-generating-key">
-    <!-- =include ./common/modules/AnimatedLogo/animated-logo.html -->
+    {{> animated-logo classnames="animate"}}
     <h1 id="text-loading">Generating new kay pair</h1>
   </div>
 
-  <!-- =include ./common/modules/Header/header.html -->
+  {{> header}}
 
   <div id="main">
     <div id="key-pair-url-container">
@@ -53,30 +48,15 @@
 
           <div class="bottom-bar">
             <div class="left">
-              <mwc-formfield label="Expert Mode">
-                <mwc-checkbox class="checkbox-expert-mode"></mwc-checkbox>
-              </mwc-formfield>
+              {{> mdc-checkbox id="checkbox-expert-mode-1" classnames="checkbox-expert-mode" label="Expert Mode"}}
             </div>
             <div class="right">
-              <mwc-icon-button id="button-download-public-key" icon="save_alt"></mwc-icon-button>
-              <mwc-icon-button id="button-copy-public-key" icon="file_copy"></mwc-icon-button>
+              <button id="button-download-public-key" class="mdc-icon-button material-icons">save_alt</button>
+              <button id="button-copy-public-key" class="mdc-icon-button material-icons">file_copy</button>
             </div>
           </div>
 
-          <div class="bottom-bar-expert hidden">
-            <div class="bottom-bar-expert-inputs-container">
-              <mwc-textfield outlined class="input-modulus-length" label="Modulus Length" min="256" max="16384" step="8"
-                value="2048" type="number">
-              </mwc-textfield>
-              <mwc-select outlined class="select-hash-algorithm" label="Hash Algorithm">
-                <mwc-list-item value="SHA-1">SHA-1</mwc-list-item>
-                <mwc-list-item selected value="SHA-256">SHA-256</mwc-list-item>
-                <mwc-list-item value="SHA-384">SHA-384</mwc-list-item>
-                <mwc-list-item value="SHA-512">SHA-512</mwc-list-item>
-              </mwc-select>
-            </div>
-            <mwc-button unelevated class="button-generate-new-key" label="Generate New Key Pair"></mwc-button>
-          </div>
+          {{> expert-mode-bottom-bar}}
 
         </div>
       </div>
@@ -97,30 +77,15 @@
 
           <div class="bottom-bar">
             <div class="left">
-              <mwc-formfield label="Expert Mode">
-                <mwc-checkbox class="checkbox-expert-mode"></mwc-checkbox>
-              </mwc-formfield>
+              {{> mdc-checkbox id="checkbox-expert-mode-2" classnames="checkbox-expert-mode" label="Expert Mode"}}
             </div>
             <div class="right">
-              <mwc-icon-button id="button-download-private-key" icon="save_alt"></mwc-icon-button>
-              <mwc-icon-button id="button-copy-private-key" icon="file_copy"></mwc-icon-button>
+              <button id="button-download-private-key" class="mdc-icon-button material-icons">save_alt</button>
+              <button id="button-copy-private-key" class="mdc-icon-button material-icons">file_copy</button>
             </div>
           </div>
 
-          <div class="bottom-bar-expert hidden">
-            <div class="bottom-bar-expert-inputs-container">
-              <mwc-textfield outlined class="input-modulus-length" label="Modulus Length" min="256" max="16384" step="8"
-                value="2048" type="number">
-              </mwc-textfield>
-              <mwc-select outlined class="select-hash-algorithm" label="Hash Algorithm">
-                <mwc-list-item value="SHA-1">SHA-1</mwc-list-item>
-                <mwc-list-item selected value="SHA-256">SHA-256</mwc-list-item>
-                <mwc-list-item value="SHA-384">SHA-384</mwc-list-item>
-                <mwc-list-item value="SHA-512">SHA-512</mwc-list-item>
-              </mwc-select>
-            </div>
-            <mwc-button unelevated class="button-generate-new-key" label="Generate New Key Pair"></mwc-button>
-          </div>
+          {{> expert-mode-bottom-bar}}
 
         </div>
 
@@ -129,12 +94,12 @@
     </div>
   </div>
 
-  <mwc-snackbar id="copy-success-snackbar" labelText="Copied to clipboard."></mwc-snackbar>
-  <mwc-snackbar id="copy-failed-snackbar" labelText="Failed to copy to clipboard. Try copying the link manually">
-  </mwc-snackbar>
+  {{> mdc-snackbar id="copy-success-snackbar" labelText="Copied to clipboard."}}
+  {{> mdc-snackbar id="copy-failed-snackbar" labelText="Failed to copy to clipboard. Try copying the link manually."}}
 
-  <!-- inject:js -->
-  <!-- endinject -->
+  {{#each mainJs}}
+  <script src="{{this}}"></script>
+  {{/each}}
 </body>
 
 </html>

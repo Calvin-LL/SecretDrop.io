@@ -1,0 +1,12 @@
+<!-- partialName = mdc-button -->
+{{#if useA}}
+<a id="{{id}}" href={{href}} class="mdc-button {{classnames}}">
+  <div class="mdc-button__ripple"></div>
+  <span class="mdc-button__label">{{label}}</span>
+</a>
+{{else}}
+<button id="{{id}}" class="mdc-button {{classnames}}">
+  <div class="mdc-button__ripple"></div>
+  <span class="mdc-button__label">{{label}}</span>
+</button>
+{{/if}}

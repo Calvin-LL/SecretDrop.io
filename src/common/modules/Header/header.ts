@@ -1,7 +1,10 @@
-import "@material/mwc-button";
-
 const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+
+const logo: HTMLDivElement | null = $("#animated-logo-container");
+const buttons: HTMLDivElement | null = $("#button-container");
+
+window.addEventListener("resize", resizeHeader);
+resizeHeader();
 
 switch (window.location.pathname.replace(/\//g, "")) {
   case "":
@@ -19,5 +22,13 @@ switch (window.location.pathname.replace(/\//g, "")) {
 }
 
 function setToUnelevated(selector: string) {
-  $(selector)?.setAttribute("unelevated", "");
+  $(selector)?.classList.add("mdc-button--raised");
+}
+
+function resizeHeader() {
+  const logoBottom = (logo?.offsetTop ?? 0) + (logo?.offsetHeight ?? 0);
+  const buttonTop = buttons?.offsetTop ?? 0;
+  const isHeaderWrapped = logoBottom <= buttonTop;
+
+  $("#content")?.classList.toggle("wrapped", isHeaderWrapped);
 }

@@ -12,18 +12,21 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
 
-  <!-- inject:css -->
-  <!-- endinject -->
+  {{#each css}}
+  <link href="{{this}}" rel="stylesheet">
+  {{/each}}
 
-  <!-- inject:head:js -->
-  <!-- endinject -->
+  {{#each vendorsJs}}
+  <script src="{{this}}"></script>
+  {{/each}}
 </head>
 
 <body>
   <mwc-button id="myButton" label="Click Me!" raised></mwc-button>
 
-  <!-- inject:js -->
-  <!-- endinject -->
+  {{#each mainJs}}
+  <script src="{{this}}"></script>
+  {{/each}}
 </body>
 
 </html>

@@ -1,0 +1,19 @@
+<!-- partialName = expert-mode-bottom-bar -->
+<div class="bottom-bar-expert hidden">
+  <div class="bottom-bar-expert-inputs-container">
+    {{> mdc-text-field 
+        classnames="input-modulus-length" 
+        label="Modulus Length" 
+        inputProps="min='256' max='16384' step='8' value='2048' type='number'"
+    }}
+    {{> mdc-select 
+      outlined="true" 
+      classnames="select-hash-algorithm"
+      widthClass="select-hash-algorithm-width" 
+      label="Hash Algorithm" 
+      selected="SHA-256" 
+      list=(json '{"SHA-1":"SHA-1","SHA-256":"SHA-256","SHA-384":"SHA-384","SHA-512":"SHA-512"}')
+    }}
+  </div>
+  {{> mdc-button classnames="button-generate-new-key mdc-button--unelevated	" label="Generate New Key Pair"}}
+</div>

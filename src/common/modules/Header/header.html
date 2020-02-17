@@ -1,11 +1,14 @@
+<!-- partialName = header -->
 <div id="header">
-  <div id="animated-logo-container">
-    <!-- =include ../AnimatedLogo/animated-logo.html -->
-  </div>
-  <div id="button-container">
-    <mwc-button id="generate-page-button" label="Generate key pair"></mwc-button>
-    <mwc-button id="encrypt-page-button" label="encrypt"></mwc-button>
-    <mwc-button id="decrypt-page-button" label="decrypt"></mwc-button>
-    <mwc-button id="help-page-button" label="How does this work?"></mwc-button>
+  <div id="content">
+    <div id="animated-logo-container">
+      {{> animated-logo classnames="animate-on-hover"}}
+    </div>
+    <div id="button-container">
+      {{> mdc-button id="generate-page-button" label="Generate key pair" useA="true" href="/"}}
+      {{> mdc-button id="encrypt-page-button" label="encrypt" useA="true" href="/encrypt"}}
+      {{> mdc-button id="decrypt-page-button" label="decrypt" useA="true" href="/decrypt"}}
+      {{> mdc-button id="help-page-button" label="How does this work?" useA="true" href="/help"}}
+    </div>
   </div>
 </div>
