@@ -64,7 +64,7 @@
     "@material/theme": "^5.0.0",
     "base64-arraybuffer": "^0.2.0",
     "copy-to-clipboard": "^3.2.1",
-    "file-saver": "^1.3.2",
+    "file-saver": "^2.0.2",
     "lzutf8": "^0.5.5"
   }
 }
