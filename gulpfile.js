@@ -15,6 +15,7 @@ const through = require("through2");
 const Handlebars = require("handlebars");
 const glob = require("glob");
 const fs = require("fs");
+const removeClass = require("postcss-remove-classes").default;
 
 sass.compiler = require("sass");
 
@@ -47,6 +48,7 @@ function scss() {
   return src("./src/**/*.scss")
     .pipe(development(sourcemaps.init()))
     .pipe(sass.sync({ includePaths: ["./node_modules"] }).on("error", sass.logError))
+    .pipe(postcss([removeClass(["mdc-ripple-upgraded--background-focused", ".mdc-button--raised:focus"])]))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
     .pipe(development(sourcemaps.write()))
     .pipe(hash())

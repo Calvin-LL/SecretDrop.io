@@ -45,6 +45,7 @@
     "handlebars": "^4.7.3",
     "jest": "^25.1.0",
     "node-webcrypto-ossl": "^1.0.48",
+    "postcss-remove-classes": "^1.0.4",
     "regenerator-runtime": "^0.13.3",
     "sass": "^1.25.0",
     "terser-webpack-plugin": "^2.3.4",

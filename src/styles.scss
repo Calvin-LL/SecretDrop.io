@@ -82,6 +82,10 @@ body {
   align-items: stretch;
   padding-top: 48px;
 
+  @media (max-width: 640px) {
+    padding-top: 24px;
+  }
+
   .url-area {
     position: relative;
     border-radius: 32px;

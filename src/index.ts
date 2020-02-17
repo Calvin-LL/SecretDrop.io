@@ -12,6 +12,9 @@ import { MDCTextField } from "@material/textfield";
 import copy from "copy-to-clipboard";
 import { saveAs } from "file-saver";
 
+if (window.crypto?.subtle === undefined)
+  alert("This browser does not support Web Crypto API. This website will not work.");
+
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
