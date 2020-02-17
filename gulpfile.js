@@ -27,8 +27,8 @@ function typescript(cb) {
   del(["./dist/**/*.js", "!./dist/webcomponents/**/*.js"]);
 
   const compiler = production()
-    ? webpack([require("./src/webpack.prod.config"), require("./src/encrypt/webpack.prod.config")])
-    : webpack([require("./src/webpack.dev.config"), require("./src/encrypt/webpack.dev.config")]);
+    ? webpack(glob.sync("./src/**/webpack.prod.config.js").map(require))
+    : webpack(glob.sync("./src/**/webpack.dev.config.js").map(require));
 
   compiler.run((err, stats) => {
     if (err) {
