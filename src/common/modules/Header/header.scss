@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
 
-  #content {
+  .content {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,12 +19,12 @@
     &.wrapped {
       justify-content: center;
 
-      #button-container {
+      .button-container {
         margin-top: 16px;
       }
     }
 
-    #animated-logo-container {
+    .animated-logo-container {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,7 +35,7 @@
       }
     }
 
-    #button-container {
+    .button-container {
       display: flex;
       justify-content: center;
       align-items: center;

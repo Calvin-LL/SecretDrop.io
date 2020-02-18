@@ -19,8 +19,8 @@ const removeClass = require("postcss-remove-classes").default;
 
 sass.compiler = require("sass");
 
-function copyImage() {
-  return src("./image/**/*").pipe(dest("./dist/image"));
+function copyImages() {
+  return src("./images/**/*").pipe(dest("./dist/images"));
 }
 
 function typescript(cb) {
@@ -139,7 +139,7 @@ function serve() {
   watch("./src/**/*.html", series(html, reload));
 }
 
-const copy = parallel(copyImage);
+const copy = parallel(copyImages);
 const build = series(clean, parallel(copy, typescript, scss), html);
 
 exports.watch = series(build, watchAll);
