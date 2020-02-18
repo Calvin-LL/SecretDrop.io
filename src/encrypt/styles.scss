@@ -148,19 +148,17 @@ body {
         visibility: hidden;
       }
 
+      .swal2-icon {
+        zoom: 1.4;
+      }
+
       .error-text {
         color: $primary-text-color;
         font-weight: 300;
         text-align: center;
-        font-size: 1.5em;
 
         @media (prefers-color-scheme: dark) {
           color: $primary-text-color-dark;
-        }
-
-        @media (max-width: 640px) {
-          font-weight: 400;
-          font-size: 1em;
         }
       }
     }

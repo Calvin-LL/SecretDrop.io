@@ -18,7 +18,6 @@ const publicKeyString = window.location.search.replace("?key=", "");
 const publicKey = new PublicKey(publicKeyString);
 const errorOverlay = $("#error-overlay") as HTMLDivElement;
 const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
-const errorOverlayText = $("#error-overlay .error-text") as HTMLDivElement;
 const loadingOverlay = $("#loading-key-overlay") as HTMLDivElement;
 const loadingText = $("#loading-text") as HTMLDivElement;
 const encryptingText = $("#encrypting-text") as HTMLDivElement;
@@ -39,16 +38,16 @@ if (publicKeyString.length > 0)
       console.error(e);
       onInvalidKey();
     });
-else onInvalidKey(new Error());
+else onInvalidKey();
 
-function onInvalidKey(e?: Error) {
+function onInvalidKey() {
   loadingOverlay.classList.add("hide");
   setTimeout(() => {
     loadingText.classList.add("gone");
     loadingOverlay.classList.add("gone");
     errorOverlay.classList.remove("gone");
     errorOverlayIcon.classList.add("swal2-icon-show");
-  }, 300);
+  }, 250);
 }
 // --------- end init key ---------
 
