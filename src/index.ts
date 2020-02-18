@@ -1,4 +1,3 @@
-// import "@material/mwc-checkbox";
 import "./common/modules/Header/header";
 
 import KeyPair from "./common/typescript/KeyPair";
@@ -88,6 +87,13 @@ function onExpertModeCheck(element: HTMLInputElement) {
       hashAlgorithmSelect.forEach(el => el.layout());
     }
   });
+
+  // change titles
+  const publicKeyTitle = $("#public-key-url-area .title");
+  const privateKeyTitle = $("#private-key-url-area .title");
+
+  if (publicKeyTitle) publicKeyTitle.innerHTML = checked ? "Public Key Link" : "Encryption Link";
+  if (privateKeyTitle) privateKeyTitle.innerHTML = checked ? "Private Key Link" : "Decryption Link";
 }
 // --------- end expert checkboxes ---------
 
