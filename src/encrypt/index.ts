@@ -16,22 +16,40 @@ const $$ = document.querySelectorAll.bind(document);
 let messageLimit = 0;
 const publicKeyString = window.location.search.replace("?key=", "");
 const publicKey = new PublicKey(publicKeyString);
+const errorOverlay = $("#error-overlay") as HTMLDivElement;
+const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
+const errorOverlayText = $("#error-overlay .error-text") as HTMLDivElement;
 const loadingOverlay = $("#loading-key-overlay") as HTMLDivElement;
 const loadingText = $("#loading-text") as HTMLDivElement;
 const encryptingText = $("#encrypting-text") as HTMLDivElement;
 
-publicKey
-  .init()
-  .then(() => {
-    messageLimit = publicKey.getMaxStringLength();
-    onMessageTextareaInput();
-    loadingOverlay.classList.add("hide");
-    setTimeout(() => {
-      loadingText.classList.add("gone");
-      loadingOverlay.classList.add("gone");
-    }, 300);
-  })
-  .catch(alert);
+if (publicKeyString.length > 0)
+  publicKey
+    .init()
+    .then(() => {
+      messageLimit = publicKey.getMaxStringLength();
+      onMessageTextareaInput();
+      loadingOverlay.classList.add("hide");
+      setTimeout(() => {
+        loadingText.classList.add("gone");
+        loadingOverlay.classList.add("gone");
+      }, 300);
+    })
+    .catch(e => {
+      console.error(e);
+      onInvalidKey();
+    });
+else onInvalidKey(new Error());
+
+function onInvalidKey(e?: Error) {
+  loadingOverlay.classList.add("hide");
+  setTimeout(() => {
+    loadingText.classList.add("gone");
+    loadingOverlay.classList.add("gone");
+    errorOverlay.classList.remove("gone");
+    errorOverlayIcon.classList.add("swal2-icon-show");
+  }, 300);
+}
 // --------- end init key ---------
 
 // --------- begin init material web components ---------
