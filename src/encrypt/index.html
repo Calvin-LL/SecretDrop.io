@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width">
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined&display=block" rel="stylesheet">
 
   {{#each css}}
   <link href="{{this}}" rel="stylesheet">
@@ -22,7 +22,53 @@
 </head>
 
 <body>
-  <mwc-button id="myButton" label="Click Me!" raised></mwc-button>
+  {{> header}}
+
+  <div id="main">
+    <div id="encryption-card">
+      <div id="loading-key-overlay">
+        {{> animated-logo classnames="animate"}}
+        <h1 id="loading-text">Loading Key</h1>
+        <h1 id="encrypting-text" class="gone">Encrypting</h1>
+      </div>
+
+      <div class="title-container">
+        <h2 class="title">Encrypt Message</h2>
+        <span>Only the person who has the decryption link can decrypt your message.</span>
+      </div>
+
+      <div id="textarea-container">
+        <textarea autofocus placeholder="Enter your message here"></textarea>
+        <div id="message-limit"></div>
+      </div>
+
+      {{> mdc-button id="encrypt-message-button" classnames="mdc-button--unelevated	" icon="lock" label="Encrypt"}}
+
+      <div id="encrypted-message-container" class="hide">
+        <div class="title-container">
+          <h2 class="title">Encrypted Message</h2>
+        </div>
+
+        <textarea autofocus readonly></textarea>
+        <div class="bottom-bar-container">
+          <div class="bottom-bar">
+            <div class="left">
+
+            </div>
+            <div class="right">
+              <button id="download-encrypted-text-button" class="mdc-icon-button material-icons">save_alt</button>
+              <button id="copy-encrypted-text-button" class="mdc-icon-button material-icons">file_copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{> footer}}
+
+  {{> mdc-snackbar id="copy-success-snackbar" labelText="Copied to clipboard."}}
+  {{> mdc-snackbar id="copy-failed-snackbar" labelText="Failed to copy to clipboard. Try copying the link manually."}}
 
   {{#each mainJs}}
   <script src="{{this}}"></script>

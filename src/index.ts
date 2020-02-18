@@ -1,5 +1,7 @@
 import "./common/modules/Header/header";
 
+import { animateAddTextTnElement, downloadAsTxt } from "./common/typescript/Helpers";
+
 import KeyPair from "./common/typescript/KeyPair";
 import { KeyPairConfig } from "./common/typescript/KeyPair";
 import { MDCCheckbox } from "@material/checkbox";
@@ -9,7 +11,6 @@ import { MDCSelect } from "@material/select";
 import { MDCSnackbar } from "@material/snackbar";
 import { MDCTextField } from "@material/textfield";
 import copy from "copy-to-clipboard";
-import { saveAs } from "file-saver";
 
 if (window.crypto?.subtle === undefined)
   alert("This browser does not support Web Crypto API. This website will not work.");
@@ -123,6 +124,8 @@ function onHashAlgorithmChange(element: MDCSelect) {
 // --------- end expert modulus length input ---------
 
 // --------- begin generate new key buttons ---------
+const loadingOverlay = $("#overlay-loading-generating-key") as HTMLDivElement;
+
 $$(".button-generate-new-key").forEach(el => {
   el.addEventListener("click", onGenerateNewKeyCheck.bind(el));
 });
@@ -133,6 +136,9 @@ function onGenerateNewKeyCheck() {
 
   if (modulusLength >= 256 && modulusLength <= 16384 && modulusLength % 8 === 0 && hashAlgorithm) {
     generateKeys({ modulusLength, hash: hashAlgorithm });
+
+    loadingOverlay.classList.remove("hide");
+    loadingOverlay.classList.remove("gone");
   }
 }
 // --------- end generate new key buttons ---------
@@ -148,12 +154,19 @@ async function generateKeys(config?: KeyPairConfig) {
   const publicKeyEl = $("#public-url") as HTMLLinkElement | null;
   const privateKeyEl = $("#private-url") as HTMLLinkElement | null;
 
+  let publicKeyShown = false;
+  let privateKeyShown = false;
+
   if (publicKeyEl) {
     publicKeyEl.href = encryptLink + publicKeyString;
     publicKeyEl.innerHTML = "";
     publicKeyEl.innerHTML += encryptLink;
     if (config) publicKeyEl.innerHTML += publicKeyString;
-    else animateAddTextTnElement(publicKeyEl, publicKeyString);
+    else
+      animateAddTextTnElement(publicKeyEl, publicKeyString, undefined, undefined, undefined, () => {
+        publicKeyShown = true;
+        bothKeyShown();
+      });
   }
 
   if (privateKeyEl) {
@@ -161,31 +174,22 @@ async function generateKeys(config?: KeyPairConfig) {
     privateKeyEl.innerHTML = "";
     privateKeyEl.innerHTML += decryptLink;
     if (config) privateKeyEl.innerHTML += privatekeyString;
-    else animateAddTextTnElement(privateKeyEl, privatekeyString);
+    else
+      animateAddTextTnElement(privateKeyEl, privatekeyString, undefined, undefined, undefined, () => {
+        privateKeyShown = true;
+        bothKeyShown();
+      });
   }
 
-  setTimeout(() => {
-    $("#overlay-loading-generating-key")?.classList.add("hide");
-    setTimeout(() => {
-      $("#overlay-loading-generating-key")?.classList.add("gone");
-    }, 300);
-  }, 1800);
-}
+  if (config) bothKeyShown(true);
 
-function animateAddTextTnElement(element: Element, s: string) {
-  let length = 0;
-
-  const intervalId = setInterval(() => {
-    if (length <= s.length) {
-      element.innerHTML += s.substring(length, length + 5);
-      length += 5;
-    } else {
-      clearInterval(intervalId);
-    }
-  }, 1);
-}
-
-function downloadAsTxt(s: string, filename: string) {
-  const blob = new Blob([s], { type: "text/plain;charset=utf-8" });
-  saveAs(blob, filename);
+  function bothKeyShown(force: boolean = false) {
+    if ((publicKeyShown && privateKeyShown) || force)
+      setTimeout(() => {
+        loadingOverlay.classList.add("hide");
+        setTimeout(() => {
+          loadingOverlay.classList.add("gone");
+        }, 300);
+      }, 500);
+  }
 }

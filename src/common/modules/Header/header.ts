@@ -1,7 +1,7 @@
 const $ = document.querySelector.bind(document);
 
-const logo: HTMLDivElement | null = $("#animated-logo-container");
-const buttons: HTMLDivElement | null = $("#button-container");
+const logo: HTMLDivElement | null = $("#header .animated-logo-container");
+const buttons: HTMLDivElement | null = $("#header .button-container");
 
 window.addEventListener("resize", resizeHeader);
 resizeHeader();
@@ -30,5 +30,5 @@ function resizeHeader() {
   const buttonTop = buttons?.offsetTop ?? 0;
   const isHeaderWrapped = logoBottom <= buttonTop;
 
-  $("#content")?.classList.toggle("wrapped", isHeaderWrapped);
+  $("#header .content")?.classList.toggle("wrapped", isHeaderWrapped);
 }

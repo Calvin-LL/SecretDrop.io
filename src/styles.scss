@@ -7,6 +7,8 @@
 );
 
 @import "./common/stylesheets/variables.scss";
+@import "./common/stylesheets/mdc-dark-theme.scss";
+@import "./common/stylesheets/material-icons-outlined.scss";
 
 @import "@material/button/mdc-button";
 @import "@material/icon-button/mdc-icon-button";
@@ -18,18 +20,6 @@
 @import "./common/modules/Header/header";
 @import "./common/modules/Footer/footer";
 @import "./common/modules/ExpertModeBottomBar/expert-mode-bottom-bar";
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --mdc-theme-primary: #2e7d32;
-    --mdc-theme-secondary: #bf360c;
-    --mdc-theme-background: #{$background};
-    --mdc-theme-surface: #{$dark-background-dark};
-    --mdc-theme-on-surface: #{$primary-text-color-dark};
-    --mdc-theme-text-primary-on-background: #{$primary-text-color-dark};
-    --mdc-theme-text-secondary-on-background: #{$secondary-text-color-dark};
-  }
-}
 
 body {
   margin: 0;
@@ -44,7 +34,7 @@ body {
 }
 
 #overlay-loading-generating-key {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -186,6 +176,8 @@ body {
         }
 
         .right {
+          @include material-icons-outlined;
+
           justify-self: end;
         }
       }
@@ -216,55 +208,5 @@ body {
         }
       }
     }
-  }
-}
-
-.material-icons {
-  font-family: "Material Icons Outlined";
-  color: $secondary-text-color;
-
-  @media (prefers-color-scheme: dark) {
-    color: $secondary-text-color-dark;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .mdc-button--raised .mdc-button__ripple::before,
-  .mdc-button--raised .mdc-button__ripple::after,
-  .mdc-button--unelevated .mdc-button__ripple::before,
-  .mdc-button--unelevated .mdc-button__ripple::after {
-    background-color: #000;
-  }
-
-  .mdc-icon-button::before,
-  .mdc-icon-button::after {
-    background-color: #fff;
-  }
-
-  .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__leading,
-  .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__notch,
-  .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__trailing,
-  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
-  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
-  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-    border-color: $secondary-text-color-dark;
-  }
-
-  .mdc-select:not(.mdc-select--disabled):not(.mdc-select--focused) .mdc-floating-label,
-  .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-floating-label {
-    color: $secondary-text-color-dark;
-  }
-
-  .mdc-menu .mdc-list {
-    color: $primary-text-color-dark;
-  }
-
-  .mdc-select:not(.mdc-select--activated) .mdc-select__dropdown-icon {
-    filter: brightness(0) invert(1);
-  }
-
-  :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item::before,
-  :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item::after {
-    background-color: #fff;
   }
 }

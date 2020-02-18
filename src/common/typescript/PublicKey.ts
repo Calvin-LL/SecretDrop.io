@@ -36,9 +36,13 @@ export default class PublicKey extends Key {
     throw "Key isn't ready";
   }
 
-  isStringEncryptable(rawString: string) {
+  getCompressedStringLength(rawString: string) {
     const compressedString: Uint8Array = LZUTF8.compress(rawString);
 
-    return compressedString.length <= this.getMaxStringLength();
+    return compressedString.length;
+  }
+
+  isStringEncryptable(rawString: string) {
+    return this.getCompressedStringLength(rawString) <= this.getMaxStringLength();
   }
 }

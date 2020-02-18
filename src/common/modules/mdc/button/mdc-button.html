@@ -2,11 +2,17 @@
 {{#if useA}}
 <a id="{{id}}" href={{href}} class="mdc-button {{classnames}}" target="_blank">
   <div class="mdc-button__ripple"></div>
+  {{#if icon}}
+  <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
+  {{/if}}
   <span class="mdc-button__label">{{label}}</span>
 </a>
 {{else}}
 <button id="{{id}}" class="mdc-button {{classnames}}">
   <div class="mdc-button__ripple"></div>
+  {{#if icon}}
+  <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
+  {{/if}}
   <span class="mdc-button__label">{{label}}</span>
 </button>
 {{/if}}
