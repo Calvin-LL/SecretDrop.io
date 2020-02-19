@@ -1,3 +1,5 @@
+import "webcrypto-shim";
+
 import PrivateKey from "./PrivateKey";
 import PublicKey from "./PublicKey";
 

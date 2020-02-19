@@ -1,3 +1,5 @@
+import "webcrypto-shim";
+
 import LZUTF8 from "lzutf8";
 
 export interface HashConfig extends Omit<RsaHashedImportParams, "name"> {}
