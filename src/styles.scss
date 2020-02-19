@@ -109,6 +109,8 @@ body {
     flex-basis: 500px;
     min-height: 10px;
     max-width: 500px;
+    width: 500px;
+    box-sizing: border-box;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
     display: flex;
     flex-direction: column;
@@ -120,6 +122,8 @@ body {
     }
 
     .title-container {
+      width: 100%;
+      box-sizing: border-box;
       margin-bottom: 16px;
       padding-left: 8px;
       padding-right: 8px;
@@ -200,6 +204,9 @@ body {
     }
 
     .title-container {
+      width: 100%;
+      box-sizing: border-box;
+
       .warning {
         color: #d50000;
 

@@ -5,12 +5,12 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Encrypt Message</title>
+  <title>Decrypt Message</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined&display=block" rel="stylesheet">
 
   {{#each css}}
   <link href="{{this}}" rel="stylesheet">
@@ -22,7 +22,57 @@
 </head>
 
 <body>
-  <mwc-button id="myButton" label="Click Me!" raised></mwc-button>
+  {{> header}}
+
+  <div id="main">
+    <div id="decryption-card">
+      <div id="loading-key-overlay">
+        {{> animated-logo classnames="animate"}}
+        <h2 id="loading-text">Loading Key</h2>
+        <h2 id="decrypting-text" class="gone">Decrypting</h2>
+      </div>
+
+      <div id="error-overlay" class="gone">
+        {{> error-icon}}
+        <h1 class="error-text">Invalid Link</h1>
+        <h3 class="error-detail-text">Invalid Link</h3>
+      </div>
+
+      <div class="title-container">
+        <h2 class="title">Decrypt Message</h2>
+      </div>
+
+      <div id="textarea-container">
+        <textarea autofocus placeholder="Paste the encrypted message here"></textarea>
+      </div>
+
+      {{> mdc-button id="decrypt-message-button" classnames="mdc-button--unelevated	" icon="lock_open" label="Decrypt"}}
+
+      <div id="decrypted-message-container" class="hide">
+        <div class="title-container">
+          <h2 class="title">Original Message</h2>
+        </div>
+
+        <textarea></textarea>
+        <div class="bottom-bar-container">
+          <div class="bottom-bar">
+            <div class="left">
+
+            </div>
+            <div class="right">
+              <button id="download-text-button" class="mdc-icon-button material-icons">save_alt</button>
+              <button id="copy-text-button" class="mdc-icon-button material-icons">file_copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{> footer}}
+
+  {{> mdc-snackbar id="copy-success-snackbar" labelText="Copied to clipboard."}}
+  {{> mdc-snackbar id="copy-failed-snackbar" labelText="Failed to copy to clipboard. Try copying the link manually."}}
 
   {{#each mainJs}}
   <script src="{{this}}"></script>

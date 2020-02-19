@@ -53,6 +53,8 @@ body {
     flex-grow: 1;
     min-height: 10px;
     max-width: 500px;
+    width: 500px;
+    box-sizing: border-box;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
     display: flex;
     flex-direction: column;
@@ -164,6 +166,8 @@ body {
     }
 
     .title-container {
+      width: 100%;
+      box-sizing: border-box;
       margin-bottom: 16px;
       padding-left: 8px;
       padding-right: 8px;
@@ -186,8 +190,11 @@ body {
     #textarea-container {
       position: relative;
       flex-grow: 1;
-      width: calc(100% - 16px);
+      width: 100%;
+      padding-left: 8px;
+      padding-right: 8px;
       margin-bottom: 8px;
+      box-sizing: border-box;
 
       textarea {
         resize: none;
@@ -195,7 +202,6 @@ body {
         height: 100px;
         background-color: transparent;
         border: none;
-        font-size: 1em;
         outline: none;
         overflow-y: hidden;
         padding: 0px;
@@ -219,6 +225,7 @@ body {
         text-align: end;
         margin-top: 8px;
         margin-bottom: 8px;
+        margin-right: 4px;
         color: $secondary-text-color;
 
         @media (prefers-color-scheme: dark) {
@@ -260,17 +267,18 @@ body {
 
       textarea {
         resize: none;
-        width: calc(100% - 16px);
+        width: 100%;
         height: 100px;
         background-color: transparent;
         border: none;
         font-size: 1em;
         outline: none;
         overflow-y: hidden;
-        padding: 0px;
         color: $primary-text-color;
-        margin-left: 8px;
-        margin-right: 8px;
+        box-sizing: border-box;
+        padding: 0px;
+        padding-left: 8px;
+        padding-right: 8px;
 
         @media (prefers-color-scheme: dark) {
           color: $primary-text-color-dark;
