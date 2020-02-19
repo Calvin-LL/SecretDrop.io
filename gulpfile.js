@@ -23,6 +23,18 @@ function copyImages() {
   return src("./images/**/*").pipe(dest("./dist/images"));
 }
 
+function copyTxts() {
+  return src("./txt/**/*").pipe(dest("./dist"));
+}
+
+function copyFavicons() {
+  return src("./favicon/**/*").pipe(dest("./dist"));
+}
+
+function copyOpenGraphs() {
+  return src("./open-graph/**/*").pipe(dest("./dist"));
+}
+
 function typescript(cb) {
   del(["./dist/**/*.js", "!./dist/webcomponents/**/*.js"]);
 
@@ -139,7 +151,7 @@ function serve() {
   watch("./src/**/*.html", series(html, reload));
 }
 
-const copy = parallel(copyImages);
+const copy = parallel(copyImages, copyTxts, copyFavicons, copyOpenGraphs);
 const build = series(clean, parallel(copy, typescript, scss), html);
 
 exports.watch = series(build, watchAll);

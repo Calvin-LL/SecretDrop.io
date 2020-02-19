@@ -17,7 +17,7 @@ export function animateAddTextTnElement(
   if ((stringLength / textPerMil) * mil < speed) {
     mil = Math.ceil(speed / (stringLength / textPerMil));
   }
-  console.log(textPerMil, mil, (stringLength / textPerMil) * mil);
+
   const intervalId = setInterval(() => {
     if (length <= stringLength) {
       // @ts-ignore

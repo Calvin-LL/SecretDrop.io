@@ -1,9 +1,14 @@
 <!-- partialName = header -->
 <div id="header">
   <div class="content">
-    <div class="animated-logo-container">
-      {{> animated-logo classnames="animate-on-hover"}}
-    </div>
+    <a class="logo-with-text-a" href="https://secretdrop.io">
+      <div class="logo-with-text">
+        <div class="animated-logo-container">
+          {{> animated-logo classnames="animate-on-hover"}}
+        </div>
+        <span class="logo-text">SecretDrop.io</span>
+      </div>
+    </a>
     <div class="button-container">
       {{> mdc-button id="generate-page-button" label="Generate new key pair" useA="true" href="/"}}
       {{> mdc-button id="faq-page-button" label="FAQ" useA="true" href="/faq"}}

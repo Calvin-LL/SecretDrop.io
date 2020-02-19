@@ -53,5 +53,15 @@ body {
         background-color: rgba($color: #fff, $alpha: 0.1);
       }
     }
+
+    a {
+      overflow-wrap: break-word;
+      word-break: break-all;
+      color: #1976d2;
+
+      &:visited {
+        color: #512da8;
+      }
+    }
   }
 }

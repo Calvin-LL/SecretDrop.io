@@ -128,14 +128,14 @@ function showDecryptedMessage(decryptedMessage: string) {
 // --------- end encrypt button ---------
 
 // --------- begin download buttons ---------
-$("#download-encrypted-text-button")?.addEventListener("click", () => {
+$("#download-text-button")?.addEventListener("click", () => {
   downloadAsTxt(decryptedMessageTextarea.value, "decrypted-message.txt");
 });
 // --------- end download buttons ---------
 
 // --------- begin copy buttons ---------
 
-$("#copy-encrypted-text-button")?.addEventListener("click", () => {
+$("#copy-text-button")?.addEventListener("click", () => {
   if (copy(decryptedMessageTextarea.value)) successSnackbar.open();
   else failedSnackbar.open();
 });

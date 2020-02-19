@@ -1,4 +1,6 @@
 @import "@material/button/mdc-button";
+
+@import "../../stylesheets/variables.scss";
 @import "../AnimatedLogo/animated-logo";
 
 #header {
@@ -24,14 +26,35 @@
       }
     }
 
-    .animated-logo-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .logo-with-text-a {
+      text-decoration: none;
+      color: $primary-text-color;
 
-      .animated-logo {
-        width: 70px;
-        transform: rotate(-5deg);
+      @media (prefers-color-scheme: dark) {
+        color: $primary-text-color-dark;
+      }
+
+      .logo-with-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .animated-logo-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .animated-logo {
+            width: 70px;
+            transform: rotate(-5deg);
+          }
+        }
+
+        .logo-text {
+          font-size: 2em;
+          font-weight: 300;
+          margin-left: 16px;
+        }
       }
     }
 
