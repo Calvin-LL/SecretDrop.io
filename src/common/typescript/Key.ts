@@ -33,7 +33,7 @@ export default class Key {
 
           const decodedKey = LZUTF8.decodeBase64(keyString);
 
-          crypto.subtle
+          window.crypto.subtle
             .importKey(
               this.format,
               decodedKey,
@@ -52,7 +52,7 @@ export default class Key {
   getKeyString(): Promise<string> {
     return new Promise((resolve, reject) => {
       if (this.cryptoKey)
-        crypto.subtle.exportKey(this.format, this.cryptoKey).then(keyArrayBuffer => {
+        window.crypto.subtle.exportKey(this.format, this.cryptoKey).then(keyArrayBuffer => {
           let base64KeyString = LZUTF8.encodeBase64(new Uint8Array(keyArrayBuffer));
 
           // @ts-ignore

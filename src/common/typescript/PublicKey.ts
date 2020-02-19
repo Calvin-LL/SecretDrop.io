@@ -11,11 +11,13 @@ export default class PublicKey extends Key {
       if (this.cryptoKey) {
         const compressedString: Uint8Array = LZUTF8.compress(rawString);
 
-        crypto.subtle.encrypt({ name: "RSA-OAEP" }, this.cryptoKey, compressedString).then(encryptStringBuffer => {
-          const decodeString = LZUTF8.encodeBase64(new Uint8Array(encryptStringBuffer));
+        window.crypto.subtle
+          .encrypt({ name: "RSA-OAEP" }, this.cryptoKey, compressedString)
+          .then(encryptStringBuffer => {
+            const decodeString = LZUTF8.encodeBase64(new Uint8Array(encryptStringBuffer));
 
-          resolve(decodeString);
-        }, reject);
+            resolve(decodeString);
+          }, reject);
       } else return reject("Key isn't ready");
     });
   }

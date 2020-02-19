@@ -19,7 +19,7 @@ export default class KeyPair {
 
   init() {
     return new Promise((resolve, reject) => {
-      crypto.subtle
+      window.crypto.subtle
         .generateKey(
           {
             name: "RSA-OAEP",

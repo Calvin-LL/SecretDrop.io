@@ -11,7 +11,7 @@ export default class PrivateKey extends Key {
       if (this.cryptoKey) {
         const encodeString = LZUTF8.decodeBase64(base64String);
 
-        crypto.subtle.decrypt({ name: "RSA-OAEP" }, this.cryptoKey, encodeString).then(decryptStringBuffer => {
+        window.crypto.subtle.decrypt({ name: "RSA-OAEP" }, this.cryptoKey, encodeString).then(decryptStringBuffer => {
           const decompressedResult = LZUTF8.decompress(new Uint8Array(decryptStringBuffer));
 
           resolve(decompressedResult);
