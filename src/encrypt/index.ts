@@ -105,22 +105,24 @@ function encryptMessage() {
 }
 
 function showEncryptedMessage(encryptedMessage: string) {
-  animateAddTextTnElement(
-    encryptedMessageTextarea,
-    encryptedMessage,
-    1,
-    "value",
-    () => {
-      autosize.update(encryptedMessageTextarea);
-    },
-    () => {
-      encryptedMessageTextarea.select();
-      loadingOverlay.classList.add("hide");
-      setTimeout(() => {
-        loadingOverlay.classList.add("gone");
-      }, 300);
-    }
-  );
+  setTimeout(() => {
+    animateAddTextTnElement(
+      encryptedMessageTextarea,
+      encryptedMessage,
+      1000,
+      "value",
+      () => {
+        autosize.update(encryptedMessageTextarea);
+      },
+      () => {
+        encryptedMessageTextarea.select();
+        loadingOverlay.classList.add("hide");
+        setTimeout(() => {
+          loadingOverlay.classList.add("gone");
+        }, 300);
+      }
+    );
+  }, 1000);
 }
 // --------- end encrypt button ---------
 

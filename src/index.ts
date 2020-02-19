@@ -49,12 +49,12 @@ $$(".mdc-select.select-hash-algorithm").forEach(element => hashAlgorithmSelect.p
 // --------- begin download buttons ---------
 $("#button-download-public-key")?.addEventListener("click", () => {
   const url = ($("#public-url") as HTMLLinkElement)?.href;
-  downloadAsTxt(url, "public-key.txt");
+  downloadAsTxt(url, "public-link.txt");
 });
 
 $("#button-download-private-key")?.addEventListener("click", () => {
   const url = ($("#private-url") as HTMLLinkElement)?.href;
-  downloadAsTxt(url, "private-key.txt");
+  downloadAsTxt(url, "private-link.txt");
 });
 // --------- end download buttons ---------
 

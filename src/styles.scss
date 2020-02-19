@@ -26,6 +26,7 @@ body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   background-color: $background;
   color: $primary-text-color;
+  min-width: 260px;
 
   @media (prefers-color-scheme: dark) {
     color: $primary-text-color-dark;

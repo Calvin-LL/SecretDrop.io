@@ -110,7 +110,7 @@ function showDecryptedMessage(decryptedMessage: string) {
     animateAddTextTnElement(
       decryptedMessageTextarea,
       decryptedMessage,
-      1,
+      1000,
       "value",
       () => {
         autosize.update(decryptedMessageTextarea);
@@ -123,7 +123,7 @@ function showDecryptedMessage(decryptedMessage: string) {
         }, 300);
       }
     );
-  }, 1500);
+  }, 1000);
 }
 // --------- end encrypt button ---------
 

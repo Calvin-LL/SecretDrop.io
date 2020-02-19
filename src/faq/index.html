@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>How Does This Work?</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined&display=block" rel="stylesheet">
+
+  {{#each css}}
+  <link href="{{this}}" rel="stylesheet">
+  {{/each}}
+
+  {{#each vendorsJs}}
+  <script src="{{this}}"></script>
+  {{/each}}
+</head>
+
+<body>
+  {{> header}}
+
+  <div id="main">
+    <div>
+      <div>
+        <h2>"Can you explain how this works to me like I'm 5?"</h2>
+        <p>We use RSA to encrypt the messages. The encryption link contains the public key. The decryption link contains
+          the private key.</p>
+        <p>You might find this YouTube video helpful: <a href="https://www.youtube.com/watch?v=AQDCe585Lnc"
+            target="_blank">Asymmetric encryption - Simply explained</a></p>
+        <p>Wikipedia: <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem) " target="_blank">RSA</a></p>
+        <p>Reddit user <a href="https://www.reddit.com/user/acteon29/" target="_blank">/u/acteon29</a> puts it best:
+          <quote>"Imagine you have
+            a computer program that will allow you to encrypt a text file or digital document by using either one of two
+            passwords, so that once you freely choose any one of the two passwords for encrypting, then decryption can
+            only be performed by using the other password. That is: you can't both encrypt and decrypt by using the same
+            password; once you use one of the two possible passwords for encryption, then you can only decrypt by using
+            the other password you did not use for encrypting."</quote><a
+            href="https://www.reddit.com/r/explainlikeimfive/comments/1jvduu/eli5_how_does_publicprivate_key_encryption_work/cbj44o6/"
+            target="_blank">(comment)</a>
+        </p>
+      </div>
+      <div>
+        <h2>"How secure is this?"</h2>
+        <p>We use <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem) " target="_blank">RSA</a> to encrypt
+          messages. Everything is done in the browser. We do not collect any of your information. We don't even have a
+          server (can't afford one).</p>
+
+        <p>By default we use RSA-2048, according to the an <a
+            href="https://www.weforum.org/agenda/2019/10/quantum-computers-next-frontier-classical-google-ibm-nasa-supremacy/"
+            target="_blank">article</a> by the World Economic Forum, <quote>"To break a widely used RSA 2048-bit
+            encryption, a classical computer with one trillion operations per second would need around 300 trillion
+            years."</quote>
+        </p>
+
+        <p>The source code for this website is publicly available on <a
+            href="https://github.com/CoolCyberBrain/secretdrop.io" target="_blank">Github</a> anyone can read it since
+          we have nothing to hide.</p>
+      </div>
+
+      <div>
+        <h2>"Who made this?"</h2>
+        <p>I did. Feel free to visit <a href="https://calvin.sh" target="_blank">my website</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  {{> footer}}
+
+  {{#each mainJs}}
+  <script src="{{this}}"></script>
+  {{/each}}
+</body>
+
+</html>

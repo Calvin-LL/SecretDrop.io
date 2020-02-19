@@ -6,6 +6,6 @@ module.exports = {
   entry: path.join(__dirname, "index.ts"),
   output: {
     ...common.output,
-    path: path.join(__dirname, "..", "..", "dist", "help"),
+    path: path.join(__dirname, "..", "..", "dist", "faq"),
   },
 };

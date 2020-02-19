@@ -10,14 +10,8 @@ switch (window.location.pathname.replace(/\//g, "")) {
   case "":
     setToUnelevated("#generate-page-button");
     break;
-  case "encrypt":
-    setToUnelevated("#encrypt-page-button");
-    break;
-  case "decrypt":
-    setToUnelevated("#decrypt-page-button");
-    break;
-  case "help":
-    setToUnelevated("#help-page-button");
+  case "faq":
+    setToUnelevated("#faq-page-button");
     break;
 }
 

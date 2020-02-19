@@ -1,0 +1,57 @@
+@use "@material/theme" with (
+  $background: #fafafa,
+  $primary: #43a047,
+  $secondary: #e65100,
+  $on-primary: #fff,
+  $on-secondary: #fff
+);
+
+@import "../common/stylesheets/variables.scss";
+@import "../common/stylesheets/mdc-dark-theme.scss";
+
+@import "@material/button/mdc-button";
+@import "@material/icon-button/mdc-icon-button";
+@import "@material/snackbar/mdc-snackbar";
+
+@import "../common/modules/Header/header";
+@import "../common/modules/Footer/footer";
+
+body {
+  margin: 0;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  background-color: $background;
+  color: $primary-text-color;
+  min-width: 260px;
+
+  @media (prefers-color-scheme: dark) {
+    color: $primary-text-color-dark;
+    background-color: $background-dark;
+  }
+}
+
+#main {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+  div {
+    max-width: 600px;
+
+    h2 {
+      margin-top: 48px;
+
+      @media (max-width: 640px) {
+        padding-top: 24px;
+      }
+    }
+
+    quote {
+      background-color: rgba($color: #000, $alpha: 0.1);
+
+      @media (prefers-color-scheme: dark) {
+        background-color: rgba($color: #fff, $alpha: 0.1);
+      }
+    }
+  }
+}
