@@ -17,12 +17,12 @@
   .mdc-button--raised .mdc-button__ripple::after,
   .mdc-button--unelevated .mdc-button__ripple::before,
   .mdc-button--unelevated .mdc-button__ripple::after {
-    background-color: #000;
+    background-color: #000 !important;
   }
 
   .mdc-icon-button::before,
   .mdc-icon-button::after {
-    background-color: #fff;
+    background-color: #fff !important;
   }
 
   .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__leading,
@@ -31,16 +31,16 @@
   .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
   .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
   .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-    border-color: $secondary-text-color-dark;
+    border-color: $secondary-text-color-dark !important;
   }
 
   .mdc-select:not(.mdc-select--disabled):not(.mdc-select--focused) .mdc-floating-label,
   .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-floating-label {
-    color: $secondary-text-color-dark;
+    color: $secondary-text-color-dark !important;
   }
 
   .mdc-menu .mdc-list {
-    color: $primary-text-color-dark;
+    color: $primary-text-color-dark !important;
   }
 
   .mdc-select:not(.mdc-select--activated) .mdc-select__dropdown-icon {
@@ -49,6 +49,6 @@
 
   :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item::before,
   :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item::after {
-    background-color: #fff;
+    background-color: #fff !important;
   }
 }
