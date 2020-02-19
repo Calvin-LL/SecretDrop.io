@@ -28,11 +28,13 @@ module.exports = {
     minimizer: [new TerserPlugin()],
     moduleIds: "hashed",
     splitChunks: {
+      chunks: "all",
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
           chunks: "all",
+          enforce: true,
         },
       },
     },

@@ -15,8 +15,8 @@
       list=(json '{"SHA-1":"SHA-1","SHA-256":"SHA-256","SHA-384":"SHA-384","SHA-512":"SHA-512"}')
     }}
   </div>
-  <div class="note">The modulus length must be a multiple of 8 and >= 256 and <= 16384. A larger modulus length will
-      generate longer keys and allow for longer messages. A smaller hash will allow for longer messages. SHA-1 is
-      considered insecure and should no longer be used. Longer keys will take a long time to generate.</div>
-      {{> mdc-button classnames="button-generate-new-key mdc-button--unelevated	" label="Generate New Key Pair"}}
-  </div>
+  <div class="note">The modulus length must be a multiple of 8 and &gt;= 256 and &lt;= 16384. A larger modulus length
+    will generate longer keys and allow for longer messages. A smaller hash will allow for longer messages. SHA-1 is
+    considered insecure and should no longer be used. Longer keys will take a long time to generate.</div>
+  {{> mdc-button classnames="button-generate-new-key mdc-button--unelevated	" label="Generate New Key Pair"}}
+</div>
