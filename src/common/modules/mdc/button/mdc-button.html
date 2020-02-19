@@ -1,6 +1,6 @@
 <!-- partialName = mdc-button -->
 {{#if useA}}
-<a id="{{id}}" href={{href}} class="mdc-button {{classnames}}" target="_blank">
+<a id="{{id}}" href={{href}} class="mdc-button {{classnames}}" {{#if newPage}}target="_blank" {{/if}}>
   <div class="mdc-button__ripple"></div>
   {{#if icon}}
   <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
