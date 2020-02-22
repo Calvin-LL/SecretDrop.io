@@ -1,7 +1,8 @@
-import Key from "./Key";
+import AesKey from "./AesKey";
 import LZUTF8 from "lzutf8";
+import RsaKey from "./RsaKey";
 
-export default class PrivateKey extends Key {
+export default class PrivateKey extends RsaKey {
   constructor(keyString?: string) {
     super("private", keyString);
   }
@@ -16,6 +17,23 @@ export default class PrivateKey extends Key {
 
           resolve(decompressedResult);
         }, reject);
+      } else return reject("Key isn't ready");
+    });
+  }
+
+  unwrapUint8ArrayKey(key: Uint8Array): Promise<AesKey> {
+    return new Promise((resolve, reject) => {
+      if (this.cryptoKey) {
+        window.crypto.subtle
+          .unwrapKey("raw", key.buffer, this.cryptoKey, { name: "RSA-OAEP" }, { name: "AES-GCM" }, false, ["decrypt"])
+          .then(encryptArrayBuffer => {
+            const aesKey = new AesKey();
+
+            aesKey
+              .init(encryptArrayBuffer)
+              .then(() => resolve(aesKey))
+              .catch(reject);
+          }, reject);
       } else return reject("Key isn't ready");
     });
   }

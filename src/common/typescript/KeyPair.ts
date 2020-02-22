@@ -8,7 +8,7 @@ export interface KeyPairConfig extends Partial<Omit<RsaHashedKeyGenParams, "name
 export default class KeyPair {
   private cryptoKeyPair: CryptoKeyPair | undefined;
   private config: Omit<RsaHashedKeyGenParams, "name"> = {
-    modulusLength: 2048,
+    modulusLength: 4096,
     publicExponent: new Uint8Array([1, 0, 1]),
     hash: "SHA-256",
   };
@@ -26,7 +26,7 @@ export default class KeyPair {
             ...this.config,
           },
           true,
-          ["encrypt", "decrypt"]
+          ["encrypt", "decrypt", "wrapKey", "unwrapKey"]
         )
         .then(key => {
           this.cryptoKeyPair = key;

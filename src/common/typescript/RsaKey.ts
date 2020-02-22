@@ -39,7 +39,7 @@ export default class Key {
               decodedKey,
               { name: "RSA-OAEP", hash: hashType },
               true,
-              this.keyType === "public" ? ["encrypt"] : ["decrypt"]
+              this.keyType === "public" ? ["encrypt", "wrapKey"] : ["decrypt", "unwrapKey"]
             )
             .then(key => {
               this.cryptoKey = key;

@@ -1,7 +1,8 @@
-import Key from "./Key";
+import AesKey from "./AesKey";
 import LZUTF8 from "lzutf8";
+import RsaKey from "./RsaKey";
 
-export default class PublicKey extends Key {
+export default class PublicKey extends RsaKey {
   constructor(keyString?: string) {
     super("public", keyString);
   }
@@ -22,6 +23,19 @@ export default class PublicKey extends Key {
     });
   }
 
+  wrapKeyAsUint8Array(key: AesKey): Promise<Uint8Array> {
+    return new Promise((resolve, reject) => {
+      if (this.cryptoKey && key.cryptoKey) {
+        window.crypto.subtle
+          .wrapKey("raw", key.cryptoKey, this.cryptoKey, { name: "RSA-OAEP" })
+          .then(encryptArrayBuffer => {
+            resolve(new Uint8Array(encryptArrayBuffer));
+          }, reject);
+      } else return reject("Key isn't ready");
+    });
+  }
+
+  // max length that can be encrypted by the public key itself
   getMaxStringLength() {
     // @ts-ignore
     const modulusLength = this.cryptoKey?.algorithm.modulusLength;
