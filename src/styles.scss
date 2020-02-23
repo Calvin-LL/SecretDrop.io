@@ -6,27 +6,28 @@
   $on-secondary: #fff
 );
 
-@import "./common/stylesheets/variables.scss";
-@import "./common/stylesheets/mdc-dark-theme.scss";
-@import "./common/stylesheets/material-icons-outlined.scss";
+@import "./common/stylesheets/variables";
+@import "./common/stylesheets/mdc-dark-theme";
+@import "./common/stylesheets/material-icons-outlined";
 
 @import "@material/button/mdc-button";
 @import "@material/icon-button/mdc-icon-button";
-@import "@material/form-field/mdc-form-field";
-@import "@material/checkbox/mdc-checkbox";
 @import "@material/snackbar/mdc-snackbar";
 
 @import "./common/modules/AnimatedLogo/animated-logo";
 @import "./common/modules/Header/header";
 @import "./common/modules/Footer/footer";
-@import "./common/modules/ExpertModeBottomBar/expert-mode-bottom-bar";
+@import "./common/modules/BottomBar/bottom-bar";
 
 body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   background-color: $background;
   color: $primary-text-color;
   min-width: 260px;
+  min-height: 100vh;
 
   @media (prefers-color-scheme: dark) {
     color: $primary-text-color-dark;
@@ -75,15 +76,16 @@ body {
   }
 
   .animated-logo {
+    width: 200px;
     width: min(200px, 30%);
   }
 }
 
 #main {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 }
 
 #key-pair-url-container {
@@ -149,6 +151,7 @@ body {
       padding-left: 8px;
       padding-right: 8px;
       margin-bottom: 16px;
+      align-self: flex-start;
 
       a {
         overflow-wrap: break-word;
@@ -157,33 +160,6 @@ body {
 
         &:visited {
           color: #512da8;
-        }
-      }
-    }
-
-    .bottom-bar-container {
-      width: 100%;
-
-      .bottom-bar {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-auto-flow: row;
-        align-items: center;
-
-        .left {
-          justify-self: start;
-
-          @media (prefers-color-scheme: dark) {
-            .mdc-checkbox__background {
-              border-color: $secondary-text-color-dark;
-            }
-          }
-        }
-
-        .right {
-          @include material-icons-outlined;
-
-          justify-self: end;
         }
       }
     }

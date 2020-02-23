@@ -6,9 +6,9 @@
   $on-secondary: #fff
 );
 
-@import "../common/stylesheets/variables.scss";
-@import "../common/stylesheets/mdc-dark-theme.scss";
-@import "../common/stylesheets/material-icons-outlined.scss";
+@import "../common/stylesheets/variables";
+@import "../common/stylesheets/mdc-dark-theme";
+@import "../common/stylesheets/material-icons-outlined";
 
 @import "@material/button/mdc-button";
 @import "@material/icon-button/mdc-icon-button";
@@ -17,13 +17,17 @@
 @import "../common/modules/Header/header";
 @import "../common/modules/Footer/footer";
 @import "../common/modules/ErrorIcon/error-icon";
+@import "../common/modules/BottomBar/bottom-bar";
 
 body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   background-color: $background;
   color: $primary-text-color;
   min-width: 260px;
+  min-height: 100vh;
 
   @media (prefers-color-scheme: dark) {
     color: $primary-text-color-dark;
@@ -32,6 +36,7 @@ body {
 }
 
 #main {
+  flex: 1;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -50,7 +55,6 @@ body {
     margin-top: 0px;
     padding: 16px;
     padding-top: 24px;
-    flex-grow: 1;
     min-height: 10px;
     max-width: 500px;
     min-width: 250px;
@@ -160,6 +164,7 @@ body {
         color: $primary-text-color;
         font-weight: 300;
         text-align: center;
+        margin-top: 0px;
 
         @media (prefers-color-scheme: dark) {
           color: $primary-text-color-dark;
@@ -269,27 +274,6 @@ body {
 
         @media (prefers-color-scheme: dark) {
           color: $primary-text-color-dark;
-        }
-      }
-
-      .bottom-bar-container {
-        width: 100%;
-
-        .bottom-bar {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-auto-flow: row;
-          align-items: center;
-
-          .left {
-            justify-self: start;
-          }
-
-          .right {
-            @include material-icons-outlined;
-
-            justify-self: end;
-          }
         }
       }
     }

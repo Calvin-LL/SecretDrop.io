@@ -1,52 +1,33 @@
-import "blob-polyfill";
+import { concatUint8Arrays, fileToArrayBuffer, numberToArrayBuffer } from "./Helpers";
 
-import AesKey from "./AesKey";
 import LZUTF8 from "lzutf8";
 import PublicKey from "./PublicKey";
 import { saveAs } from "file-saver";
 
 export default class PlainFile {
   private file: File;
+  private key: PublicKey;
   private encryptedContent: Uint8Array | undefined;
-  private wrappingKey: PublicKey;
 
-  constructor(file: File, wrappingKey: PublicKey) {
+  constructor(file: File, key: PublicKey) {
     this.file = file;
-    this.wrappingKey = wrappingKey;
+    this.key = key;
   }
 
-  encrypt() {
-    // @ts-ignore
-    const fileArrayBuffer: Promise<ArrayBuffer> = this.file.arrayBuffer();
-    const aesKey: AesKey = new AesKey();
+  async encrypt() {
+    const fileArrayBuffer = await fileToArrayBuffer(this.file);
+    const encryptArrayBuffer = await this.key.encryptArrayBuffer(fileArrayBuffer);
 
-    return Promise.all([fileArrayBuffer, aesKey.init()])
-      .then(([fileArrayBuffer, _]) =>
-        Promise.all([
-          this.wrappingKey.wrapKeyAsUint8Array(aesKey),
-          aesKey.encryptArrayBuffer(fileArrayBuffer as ArrayBuffer),
-        ])
-      )
-      .then(([wrappedKey, encryptedFile]) => {
-        const wkLengthArrayBuffer = new Uint8Array(PlainFile.numberToArrayBuffer(wrappedKey.length));
+    let type = new Uint8Array();
+    if (this.file.type) type = LZUTF8.encodeUTF8(this.file.type);
 
-        return AesKey.concatUint8Arrays(wkLengthArrayBuffer, AesKey.concatUint8Arrays(wrappedKey, encryptedFile));
-      })
-      .then(encryptedFileBuffer => {
-        // add file type
-        let type = new Uint8Array();
-        if (this.file.type) type = LZUTF8.encodeUTF8(this.file.type);
+    const typeLengthArrayBuffer = new Uint8Array(numberToArrayBuffer(type.length));
+    const combinedEncryptArrayBuffer1 = concatUint8Arrays(type, encryptArrayBuffer); // add type
+    const combinedEncryptArrayBuffer2 = concatUint8Arrays(typeLengthArrayBuffer, combinedEncryptArrayBuffer1); // add type length
 
-        const typeLengthArrayBuffer = new Uint8Array(PlainFile.numberToArrayBuffer(type.length));
-        const result = AesKey.concatUint8Arrays(
-          typeLengthArrayBuffer,
-          AesKey.concatUint8Arrays(type, encryptedFileBuffer)
-        );
+    this.encryptedContent = combinedEncryptArrayBuffer2;
 
-        this.encryptedContent = result;
-        return result;
-      });
-    // [length of type string(4 bytes)][type string][length of RSA wrapped AES key(4 bytes)][RSA wrapped AES key][iv][encrypted file]
+    return combinedEncryptArrayBuffer2;
   }
 
   download() {
@@ -57,12 +38,5 @@ export default class PlainFile {
   getSafeEncryptedFileName() {
     if (this.file.name) return "encrypted-" + this.file.name;
     else return "encrypted";
-  }
-
-  static numberToArrayBuffer(num: number) {
-    const arr = new ArrayBuffer(4);
-    const view = new DataView(arr);
-    view.setUint32(0, num, false);
-    return arr;
   }
 }

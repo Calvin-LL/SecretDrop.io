@@ -8,104 +8,108 @@ import PlainMessage from "../common/typescript/PlainMessage";
 import PublicKey from "../common/typescript/PublicKey";
 import autosize from "autosize";
 import copy from "copy-to-clipboard";
+import delay from "delay";
+import isCryptoUseable from "../common/typescript/CryptoCheck";
 
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+main();
 
-// --------- begin init key ---------
-let messageLimit = 0;
-const publicKeyString = window.location.search.replace("?key=", "");
-const publicKey = new PublicKey(publicKeyString);
-const errorOverlay = $("#error-overlay") as HTMLDivElement;
-const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
-const loadingOverlay = $("#loading-key-overlay") as HTMLDivElement;
-const loadingText = $("#loading-text") as HTMLDivElement;
-const encryptingText = $("#encrypting-text") as HTMLDivElement;
+function main() {
+  const $ = document.querySelector.bind(document);
+  const $$ = document.querySelectorAll.bind(document);
 
-if (publicKeyString.length > 0)
-  publicKey
-    .init()
-    .then(() => {
-      messageLimit = publicKey.getMaxStringLength();
-      onMessageTextareaInput();
-      loadingOverlay.classList.add("hide");
-      setTimeout(() => {
-        loadingText.classList.add("gone");
-        loadingOverlay.classList.add("gone");
-      }, 300);
-    })
-    .catch(e => {
-      console.error(e);
-      onInvalidKey();
-    });
-else onInvalidKey();
+  // --------- begin init key ---------
+  const publicKeyString = window.location.search.replace("?key=", "");
+  const errorOverlay = $("#error-overlay") as HTMLDivElement;
+  const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
+  const errorOverlayText = $("#error-overlay .error-text") as HTMLDivElement;
+  const loadingOverlay = $("#loading-key-overlay") as HTMLDivElement;
+  const loadingText = $("#loading-text") as HTMLDivElement;
+  const encryptingText = $("#encrypting-text") as HTMLDivElement;
 
-function onInvalidKey() {
-  loadingOverlay.classList.add("hide");
-  setTimeout(() => {
+  if (!isCryptoUseable()) return onIncompatibleBrowser();
+  if (publicKeyString.length <= 0 || publicKeyString.match(/[^a-z0-9]/g) !== null) return onInvalidKey();
+
+  const publicKey = new PublicKey(publicKeyString);
+
+  startLoadingAnimation();
+
+  async function startLoadingAnimation() {
+    await delay(3000);
+
+    loadingOverlay.classList.add("hide");
+
+    await delay(300);
+
+    loadingText.classList.add("gone");
+    loadingOverlay.classList.add("gone");
+  }
+
+  async function onInvalidKey() {
+    loadingOverlay.classList.add("hide");
+
+    await delay(250);
+
     loadingText.classList.add("gone");
     loadingOverlay.classList.add("gone");
     errorOverlay.classList.remove("gone");
     errorOverlayIcon.classList.add("swal2-icon-show");
-  }, 250);
-}
-// --------- end init key ---------
+  }
 
-// --------- begin init material web components ---------
-$$(".mdc-button").forEach(element => MDCRipple.attachTo(element));
-$$(".mdc-icon-button").forEach(element => (MDCRipple.attachTo(element).unbounded = true));
-// --------- end init material web components ---------
+  async function onIncompatibleBrowser() {
+    loadingOverlay.classList.add("hide");
+    errorOverlayText.innerHTML = "Browser not supported";
 
-const messageTextarea = $("#textarea-container > textarea") as HTMLTextAreaElement;
-const messageLimitText = $("#message-limit") as HTMLDivElement;
-const encryptButton = $("#encrypt-message-button") as HTMLButtonElement;
-const encryptedMessageContainer = $("#encrypted-message-container") as HTMLDivElement;
-const encryptedMessageTextarea = $("#encrypted-message-container > textarea") as HTMLTextAreaElement;
-const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
-const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
+    await delay(250);
 
-// --------- begin textarea ---------
+    loadingText.classList.add("gone");
+    loadingOverlay.classList.add("gone");
+    errorOverlay.classList.remove("gone");
+    errorOverlayIcon.classList.add("swal2-icon-show");
+  }
+  // --------- end init key ---------
 
-autosize(messageTextarea);
-messageTextarea.addEventListener("input", onMessageTextareaInput);
+  // --------- begin init material web components ---------
+  $$(".mdc-button").forEach(element => MDCRipple.attachTo(element));
+  $$(".mdc-icon-button").forEach(element => (MDCRipple.attachTo(element).unbounded = true));
+  // --------- end init material web components ---------
 
-function onMessageTextareaInput() {
-  const compressedLength = publicKey.getCompressedStringLength(messageTextarea.value);
-  const isNotStringEncryptable = compressedLength > messageLimit;
-  messageLimitText.innerHTML = `${compressedLength}/${messageLimit}`;
+  const messageTextarea = $("#textarea-container > textarea") as HTMLTextAreaElement;
+  const encryptButton = $("#encrypt-message-button") as HTMLButtonElement;
+  const encryptedMessageContainer = $("#encrypted-message-container") as HTMLDivElement;
+  const encryptedMessageTextarea = $("#encrypted-message-container > textarea") as HTMLTextAreaElement;
+  const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
+  const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
 
-  messageLimitText.classList.toggle("warning", isNotStringEncryptable);
+  autosize(messageTextarea);
 
-  encryptButton.disabled = isNotStringEncryptable;
-}
-// --------- end textarea ---------
+  autosize(encryptedMessageTextarea);
 
-// --------- begin encrypt button ---------
+  // --------- begin encrypt button ---------
+  encryptButton.addEventListener("click", encryptMessage);
 
-autosize(encryptedMessageTextarea);
-encryptButton.addEventListener("click", encryptMessage);
+  async function encryptMessage() {
+    const plainMessage = new PlainMessage(messageTextarea.value, publicKey);
 
-function encryptMessage() {
-  const plainMessage = new PlainMessage(messageTextarea.value, publicKey);
+    encryptedMessageTextarea.value = "";
+    autosize.update(encryptedMessageTextarea);
 
-  encryptedMessageTextarea.value = "";
-  autosize.update(encryptedMessageTextarea);
+    encryptedMessageContainer.classList.remove("hide");
+    encryptingText.classList.remove("gone");
+    loadingOverlay.classList.remove("hide");
+    loadingOverlay.classList.remove("gone");
 
-  encryptedMessageContainer.classList.remove("hide");
-  encryptingText.classList.remove("gone");
-  loadingOverlay.classList.remove("hide");
-  loadingOverlay.classList.remove("gone");
-
-  plainMessage
-    .encrypt()
-    .then(encryptedMessage => {
+    try {
+      const encryptedMessage = await plainMessage.encrypt();
       showEncryptedMessage(encryptedMessage);
-    })
-    .catch(alert);
-}
+    } catch (e) {
+      alert("Error");
+      console.error(e);
+    }
+  }
 
-function showEncryptedMessage(encryptedMessage: string) {
-  setTimeout(() => {
+  async function showEncryptedMessage(encryptedMessage: string) {
+    await delay(1000);
+
     animateAddTextTnElement(
       encryptedMessageTextarea,
       encryptedMessage,
@@ -122,20 +126,20 @@ function showEncryptedMessage(encryptedMessage: string) {
         }, 300);
       }
     );
-  }, 1000);
+  }
+  // --------- end encrypt button ---------
+
+  // --------- begin download buttons ---------
+  $(".download-button")?.addEventListener("click", () => {
+    downloadAsTxt(encryptedMessageTextarea.value, "encrypted-message.txt");
+  });
+  // --------- end download buttons ---------
+
+  // --------- begin copy buttons ---------
+
+  $(".copy-button")?.addEventListener("click", () => {
+    if (copy(encryptedMessageTextarea.value)) successSnackbar.open();
+    else failedSnackbar.open();
+  });
+  // --------- end copy buttons ---------
 }
-// --------- end encrypt button ---------
-
-// --------- begin download buttons ---------
-$("#download-encrypted-text-button")?.addEventListener("click", () => {
-  downloadAsTxt(encryptedMessageTextarea.value, "encrypted-message.txt");
-});
-// --------- end download buttons ---------
-
-// --------- begin copy buttons ---------
-
-$("#copy-encrypted-text-button")?.addEventListener("click", () => {
-  if (copy(encryptedMessageTextarea.value)) successSnackbar.open();
-  else failedSnackbar.open();
-});
-// --------- end copy buttons ---------

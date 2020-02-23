@@ -1,4 +1,4 @@
-import "blob-polyfill";
+import { arrayBufferToNumber, fileToArrayBuffer } from "./Helpers";
 
 import LZUTF8 from "lzutf8";
 import PrivateKey from "./PrivateKey";
@@ -6,32 +6,32 @@ import { saveAs } from "file-saver";
 
 export default class EncryptedFile {
   private file: File;
+  private key: PrivateKey;
   private type: string | undefined;
   private decryptedContent: Uint8Array | undefined;
-  private unwrappingKey: PrivateKey;
 
-  constructor(file: File, unwrappingKey: PrivateKey) {
+  constructor(file: File, key: PrivateKey) {
     this.file = file;
-    this.unwrappingKey = unwrappingKey;
+    this.key = key;
   }
 
-  decrypt() {
+  async decrypt() {
     // @ts-ignore
-    const fileArrayBuffer: Promise<ArrayBuffer> = this.file.arrayBuffer();
+    const fileArrayBuffer = new Uint8Array(await fileToArrayBuffer(this.file));
 
-    return fileArrayBuffer.then(fileArrayBuffer => {
-      const fileUint8Array = new Uint8Array(fileArrayBuffer);
-      const typeLength = EncryptedFile.arrayBufferToNumber(fileUint8Array.subarray(0, 4));
-      if (typeLength) {
-        this.type = LZUTF8.decodeUTF8(fileUint8Array.subarray(4, typeLength + 4));
-      }
-      const keyStart = 4 + typeLength;
-      const keyLength = EncryptedFile.arrayBufferToNumber(fileUint8Array.subarray(keyStart, keyStart + 4));
-      const wrappedKey = fileUint8Array.subarray(keyStart + 4, keyStart + 4 + keyLength);
-      const file = fileUint8Array.subarray(keyStart + 4 + keyLength, keyStart + fileUint8Array.length);
+    const typeLength = arrayBufferToNumber(fileArrayBuffer.slice(0, 4).buffer);
+    const typeBuffer = fileArrayBuffer.subarray(4, 4 + typeLength);
 
-      return this.unwrappingKey.unwrapUint8ArrayKey(wrappedKey).then(aesKey => aesKey.decryptArrayBuffer(file));
-    });
+    if (typeBuffer.length > 0) {
+      this.type = LZUTF8.decodeUTF8(typeBuffer);
+    }
+
+    const contentBuffer = fileArrayBuffer.subarray(4 + typeLength);
+    const decryptArrayBuffer = await this.key.decryptArrayBuffer(contentBuffer);
+
+    this.decryptedContent = decryptArrayBuffer;
+
+    return decryptArrayBuffer;
   }
 
   download() {
@@ -46,10 +46,5 @@ export default class EncryptedFile {
       if (this.file.name.includes("encrypted-")) return this.file.name.replace("encrypted-", "");
       else return this.file.name;
     else return "decrypted";
-  }
-
-  static arrayBufferToNumber(arr: ArrayBuffer) {
-    const view = new DataView(arr);
-    return view.getUint32(0, false);
   }
 }

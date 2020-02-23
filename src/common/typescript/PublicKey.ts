@@ -1,64 +1,56 @@
+import { concatUint8Arrays, getRandomDataOfLength, numberToArrayBuffer } from "./Helpers";
+
 import AesKey from "./AesKey";
+import { ec as EC } from "elliptic";
+import EcKey from "./EcKey";
 import LZUTF8 from "lzutf8";
-import RsaKey from "./RsaKey";
 
-export default class PublicKey extends RsaKey {
-  constructor(keyString?: string) {
-    super("public", keyString);
+export default class PublicKey extends EcKey {
+  private theirKeyPair: EC.KeyPair;
+  private myKeyPair: EC.KeyPair;
+
+  constructor(keyString: string) {
+    super();
+
+    this.myKeyPair = this.ec.genKeyPair();
+    this.theirKeyPair = this.ec.keyFromPublic(keyString, "hex");
   }
 
-  encryptString(rawString: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (this.cryptoKey) {
-        const compressedString: Uint8Array = LZUTF8.compress(rawString);
+  async encryptString(rawString: string) {
+    const compressedString: Uint8Array = LZUTF8.compress(rawString);
+    const encryptedArrayBuffer = await this.encryptArrayBuffer(compressedString, false);
+    const encodedString = LZUTF8.encodeBase64(encryptedArrayBuffer);
+    const publicKey = this.myKeyPair.getPublic("hex");
+    const combinedString = publicKey + "," + encodedString;
 
-        window.crypto.subtle
-          .encrypt({ name: "RSA-OAEP" }, this.cryptoKey, compressedString)
-          .then(encryptStringBuffer => {
-            const decodeString = LZUTF8.encodeBase64(new Uint8Array(encryptStringBuffer));
-
-            resolve(decodeString);
-          }, reject);
-      } else return reject("Key isn't ready");
-    });
+    // [public key string][encrypted base64 string]
+    return combinedString;
   }
 
-  wrapKeyAsUint8Array(key: AesKey): Promise<Uint8Array> {
-    return new Promise((resolve, reject) => {
-      if (this.cryptoKey && key.cryptoKey) {
-        window.crypto.subtle
-          .wrapKey("raw", key.cryptoKey, this.cryptoKey, { name: "RSA-OAEP" })
-          .then(encryptArrayBuffer => {
-            resolve(new Uint8Array(encryptArrayBuffer));
-          }, reject);
-      } else return reject("Key isn't ready");
-    });
-  }
+  async encryptArrayBuffer(arrayBuffer: ArrayBuffer, includeKey: boolean = true) {
+    const aesKey = new AesKey(true);
+    const sharedSecret = this.myKeyPair.derive(this.theirKeyPair.getPublic()).toString(16);
+    const importSalt = getRandomDataOfLength(16);
+    const importSaltLengthBuffer = new Uint8Array(numberToArrayBuffer(importSalt.length));
 
-  // max length that can be encrypted by the public key itself
-  getMaxStringLength() {
-    // @ts-ignore
-    const modulusLength = this.cryptoKey?.algorithm.modulusLength;
-    // @ts-ignore
-    const hashAlgorithm = this.cryptoKey?.algorithm.hash.name;
+    await aesKey.init(sharedSecret, importSalt);
 
-    if (modulusLength && hashAlgorithm) {
-      const hashLength = Number.parseInt(hashAlgorithm.replace(/\D/g, ""));
+    const encryptedBuffer = await aesKey.encryptArrayBuffer(arrayBuffer);
+    const combinedEncryptedBuffer1 = concatUint8Arrays(importSalt, encryptedBuffer); // add import salt
+    const combinedEncryptedBuffer2 = concatUint8Arrays(importSaltLengthBuffer, combinedEncryptedBuffer1); // add import salt length
 
-      const maxLength = modulusLength / 8 - 2 * (hashLength / 8) - 2;
-      return maxLength;
+    if (includeKey) {
+      const publicKey = this.myKeyPair.getPublic("hex");
+      const publicKeyBuffer = LZUTF8.encodeUTF8(publicKey);
+      const publicKeyBufferLengthBuffer = new Uint8Array(numberToArrayBuffer(publicKeyBuffer.length));
+      const combinedEncryptedBuffer3 = concatUint8Arrays(publicKeyBuffer, combinedEncryptedBuffer2); // add public key
+      const combinedEncryptedBuffer4 = concatUint8Arrays(publicKeyBufferLengthBuffer, combinedEncryptedBuffer3); // add public key length
+
+      // [public key length(4 bytes)][public key][import salt length(4 bytes)][import salt][encrypted arrayBuffer from AesKey]
+      return combinedEncryptedBuffer4;
     }
 
-    throw "Key isn't ready";
-  }
-
-  getCompressedStringLength(rawString: string) {
-    const compressedString: Uint8Array = LZUTF8.compress(rawString);
-
-    return compressedString.length;
-  }
-
-  isStringEncryptable(rawString: string) {
-    return this.getCompressedStringLength(rawString) <= this.getMaxStringLength();
+    // [import salt length(4 bytes)][import salt][encrypted arrayBuffer from AesKey]
+    return combinedEncryptedBuffer2;
   }
 }

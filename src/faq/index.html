@@ -32,39 +32,71 @@
   <div id="main">
     <div>
       <div>
-        <h2>"Can you explain how this works to me like I'm 5?"</h2>
-        <p>We use RSA to encrypt the messages. The encryption link contains the public key. The decryption link contains
-          the private key.</p>
-        <p>You might find this YouTube video helpful: <a href="https://www.youtube.com/watch?v=AQDCe585Lnc"
-            target="_blank">Asymmetric encryption - Simply explained</a></p>
-        <p>Wikipedia: <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem) " target="_blank">RSA</a></p>
-        <p>Reddit user <a href="https://www.reddit.com/user/acteon29/" target="_blank">/u/acteon29</a> puts it best:
-          <quote>"Imagine you have
-            a computer program that will allow you to encrypt a text file or digital document by using either one of two
-            passwords, so that once you freely choose any one of the two passwords for encrypting, then decryption can
-            only be performed by using the other password. That is: you can't both encrypt and decrypt by using the same
-            password; once you use one of the two possible passwords for encryption, then you can only decrypt by using
-            the other password you did not use for encrypting."</quote><a
-            href="https://www.reddit.com/r/explainlikeimfive/comments/1jvduu/eli5_how_does_publicprivate_key_encryption_work/cbj44o6/"
-            target="_blank">(comment)</a>
+        <h2>"Can you explain how this works to me simply?"</h2>
+        <p>We use <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank">Elliptic-curve
+            cryptography</a> to exchange keys and <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard"
+            target="_blank">Advanced Encryption
+            Standard (AES)</a> to encrypt the files and messages. The
+          encryption link contains the public key. The decryption link contains the private key.</p>
+
+        <p>You might find these YouTube videos helpful:
+          <br><a href="https://www.youtube.com/watch?v=NF1pwjL9-DE" target="_blank">Elliptic Curves - Computerphile</a>
+          <br><a href="https://www.youtube.com/watch?v=NmM9HA2MQGI" target="_blank">Secret Key Exchange (Diffie-Hellman)
+            - Computerphile</a>
+          <br><a href="https://www.youtube.com/watch?v=O4xNJsjtN6E" target="_blank">AES Explained (Advanced Encryption
+            Standard) - Computerphile</a>
+        </p>
+
+        <p>Wikipedia:
+          <br><a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank">Elliptic-curve
+            cryptography</a>
+          <br><a href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman"
+            target="_blank">Elliptic-curve Diffie–Hellman</a>
+          <br><a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard" target="_blank">Advanced Encryption
+            Standard (AES)</a>
         </p>
       </div>
+
       <div>
         <h2>"How secure is this?"</h2>
-        <p>We use <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem) " target="_blank">RSA</a> to encrypt
-          messages. Everything is done in the browser. We do not collect any of your information. We don't even have a
-          server (can't afford one).</p>
+        <p>We use <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank">Elliptic-curve
+            cryptography</a> to exchange keys, <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography"
+            target="_blank">Elliptic-curve cryptography</a> is also used in bitcoin to secure billion of dollars of
+          transactions every day.</p>
 
-        <p>By default we use RSA-2048, according to the an <a
-            href="https://www.weforum.org/agenda/2019/10/quantum-computers-next-frontier-classical-google-ibm-nasa-supremacy/"
-            target="_blank">article</a> by the World Economic Forum, <quote>"To break a widely used RSA 2048-bit
-            encryption, a classical computer with one trillion operations per second would need around 300 trillion
-            years."</quote>
+        <p><a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard" target="_blank">Advanced Encryption
+            Standard (AES)</a> is then uses to encrypt the files and messages. According to Wikipedia: "<quote>Fifty
+            supercomputers that could check a billion billion (10<sup>18</sup>) AES keys per second (if such a device
+            could ever
+            be made) would, in theory, require about 3×10<sup>51</sup> years to exhaust the 256-bit key space.</quote>"
+          (3×10<sup>51</sup> years is 3 sexdecillion years)
+        </p>
+
+        <p>Plus everything is done in the browser. Nothing leaves your device and we do not collect any of your
+          information. We don't even have a server that can process users information (can't afford one).
         </p>
 
         <p>The source code for this website is publicly available on <a
             href="https://github.com/CoolCyberBrain/secretdrop.io" target="_blank">Github</a> anyone can read it since
-          we have nothing to hide.</p>
+          we have nothing to hide.
+        </p>
+      </div>
+
+      <div>
+        <h2>"Can you explain how this works to me in more detail?"</h2>
+        <p>Elliptic-curve Diffie–Hellman (ECDH) is used for both sides to establish a shared secret. We chose Curve25519
+          because it is considered the most secured curve. The shared secret is then pass through PBKDF2 with 100000
+          iterations and 16 bits of random data as salt to derive a 256 bit AES key. The message or file is then
+          encrypted with AES-GCM.
+        </p>
+        <p>Encryption links are of the form:<br>
+          https://SecretDrop.io/encrypt/?key=[public key]</p>
+        <p>Decryption links are of the form:<br>
+          https://SecretDrop.io/decrypt/?key=[private key]</p>
+        <p>Encrypted messages are of the form:<br>"[encryption side public key string],[encrypted message in base64]"
+        </p>
+        <p>Encrypted files are of the form:<br>{[encryption side public key length (4 bytes)][encryption side public
+          key][PBKDF2 salt length (4 bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary]}</p>
       </div>
 
       <div>

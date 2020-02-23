@@ -8,105 +8,128 @@ import { MDCSnackbar } from "@material/snackbar";
 import PrivateKey from "../common/typescript/PrivateKey";
 import autosize from "autosize";
 import copy from "copy-to-clipboard";
+import delay from "delay";
+import isCryptoUseable from "../common/typescript/CryptoCheck";
 
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+main();
 
-// --------- begin init key ---------
-const privateKeyString = window.location.search.replace("?key=", "");
-const privateKey = new PrivateKey(privateKeyString);
-const errorOverlay = $("#error-overlay") as HTMLDivElement;
-const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
-const errorOverlayText = $("#error-overlay .error-text") as HTMLDivElement;
-const errorOverlayDetailText = $("#error-overlay .error-detail-text") as HTMLDivElement;
-const loadingOverlay = $("#loading-key-overlay") as HTMLDivElement;
-const loadingText = $("#loading-text") as HTMLDivElement;
-const decryptingText = $("#decrypting-text") as HTMLDivElement;
+function main() {
+  const $ = document.querySelector.bind(document);
+  const $$ = document.querySelectorAll.bind(document);
 
-if (privateKeyString.length > 0)
-  privateKey
-    .init()
-    .then(() => {
-      loadingOverlay.classList.add("hide");
-      setTimeout(() => {
-        loadingText.classList.add("gone");
-        loadingOverlay.classList.add("gone");
-      }, 300);
-    })
-    .catch(e => {
-      console.error(e);
-      onInvalidKey();
-    });
-else onInvalidKey();
+  // --------- begin init key ---------
+  const privateKeyString = window.location.search.replace("?key=", "");
+  const errorOverlay = $("#error-overlay") as HTMLDivElement;
+  const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
+  const errorOverlayText = $("#error-overlay .error-text") as HTMLDivElement;
+  const errorOverlayDetailText = $("#error-overlay .error-detail-text") as HTMLDivElement;
+  const loadingOverlay = $("#loading-key-overlay") as HTMLDivElement;
+  const loadingText = $("#loading-text") as HTMLDivElement;
+  const decryptingText = $("#decrypting-text") as HTMLDivElement;
 
-function onInvalidKey() {
-  loadingOverlay.classList.add("hide");
-  setTimeout(() => {
+  if (!isCryptoUseable()) return onIncompatibleBrowser();
+  if (privateKeyString.length <= 0 || privateKeyString.match(/[^a-z0-9]/g) !== null) return onInvalidKey();
+  const privateKey = new PrivateKey(privateKeyString);
+
+  startLoadingAnimation();
+
+  async function startLoadingAnimation() {
+    await delay(3000);
+
+    loadingOverlay.classList.add("hide");
+
+    await delay(300);
+
+    loadingText.classList.add("gone");
+    loadingOverlay.classList.add("gone");
+  }
+
+  async function onInvalidKey() {
+    loadingOverlay.classList.add("hide");
+    errorOverlayDetailText.remove();
+
+    await delay(250);
+
     loadingText.classList.add("gone");
     loadingOverlay.classList.add("gone");
     errorOverlay.classList.remove("gone");
     errorOverlayIcon.classList.add("swal2-icon-show");
-  }, 250);
-}
-// --------- end init key ---------
+  }
 
-// --------- begin init material web components ---------
-$$(".mdc-button").forEach(element => MDCRipple.attachTo(element));
-$$(".mdc-icon-button").forEach(element => (MDCRipple.attachTo(element).unbounded = true));
-// --------- end init material web components ---------
+  async function onIncompatibleBrowser() {
+    loadingOverlay.classList.add("hide");
+    errorOverlayText.innerHTML = "Browser not supported";
+    errorOverlayDetailText.remove();
 
-const messageTextarea = $("#textarea-container > textarea") as HTMLTextAreaElement;
-const decryptButton = $("#decrypt-message-button") as HTMLButtonElement;
-const decryptedMessageContainer = $("#decrypted-message-container") as HTMLDivElement;
-const decryptedMessageTextarea = $("#decrypted-message-container > textarea") as HTMLTextAreaElement;
-const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
-const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
+    await delay(250);
 
-// --------- begin textarea ---------
+    loadingText.classList.add("gone");
+    loadingOverlay.classList.add("gone");
+    errorOverlay.classList.remove("gone");
+    errorOverlayIcon.classList.add("swal2-icon-show");
+  }
+  // --------- end init key ---------
 
-autosize(messageTextarea);
+  // --------- begin init material web components ---------
+  $$(".mdc-button").forEach(element => MDCRipple.attachTo(element));
+  $$(".mdc-icon-button").forEach(element => (MDCRipple.attachTo(element).unbounded = true));
+  // --------- end init material web components ---------
 
-// --------- end textarea ---------
+  const messageTextarea = $("#textarea-container > textarea") as HTMLTextAreaElement;
+  const decryptButton = $("#decrypt-message-button") as HTMLButtonElement;
+  const decryptedMessageContainer = $("#decrypted-message-container") as HTMLDivElement;
+  const decryptedMessageTextarea = $("#decrypted-message-container > textarea") as HTMLTextAreaElement;
+  const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
+  const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
 
-// --------- begin encrypt button ---------
+  // --------- begin textarea ---------
 
-autosize(decryptedMessageTextarea);
-decryptButton.addEventListener("click", decryptMessage);
+  autosize(messageTextarea);
 
-function decryptMessage() {
-  if (messageTextarea.value.length > 0) {
+  // --------- end textarea ---------
+
+  // --------- begin encrypt button ---------
+
+  autosize(decryptedMessageTextarea);
+  decryptButton.addEventListener("click", decryptMessage);
+
+  async function decryptMessage() {
+    if (messageTextarea.value.length <= 0) return onInvalidMessage();
+
     const encryptedMessage = new EncryptedMessage(messageTextarea.value, privateKey);
+
     decryptedMessageTextarea.value = "";
     autosize.update(decryptedMessageTextarea);
     decryptedMessageContainer.classList.remove("hide");
     decryptingText.classList.remove("gone");
     loadingOverlay.classList.remove("hide");
     loadingOverlay.classList.remove("gone");
-    encryptedMessage
-      .decrypt()
-      .then(decryptedMessage => {
-        showDecryptedMessage(decryptedMessage);
-      })
-      .catch(() => {
-        onInvalidMessage();
-      });
-  } else onInvalidMessage();
-}
 
-function onInvalidMessage() {
-  loadingOverlay.classList.add("hide");
-  setTimeout(() => {
+    try {
+      const decryptedMessage = await encryptedMessage.decrypt();
+      showDecryptedMessage(decryptedMessage);
+    } catch (e) {
+      console.error(e);
+      onInvalidMessage();
+    }
+  }
+
+  async function onInvalidMessage() {
+    loadingOverlay.classList.add("hide");
+
+    await delay(250);
+
     loadingOverlay.classList.add("gone");
     errorOverlay.classList.remove("gone");
     errorOverlayIcon.classList.add("swal2-icon-show");
     errorOverlayText.innerHTML = "Invalid Message";
     errorOverlayDetailText.innerHTML =
       "Possibly not encrypted by the corresponding encryption link. Refresh to try again.";
-  }, 250);
-}
+  }
 
-function showDecryptedMessage(decryptedMessage: string) {
-  setTimeout(() => {
+  async function showDecryptedMessage(decryptedMessage: string) {
+    await delay(1000);
+
     animateAddTextTnElement(
       decryptedMessageTextarea,
       decryptedMessage,
@@ -123,20 +146,20 @@ function showDecryptedMessage(decryptedMessage: string) {
         }, 300);
       }
     );
-  }, 1000);
+  }
+  // --------- end encrypt button ---------
+
+  // --------- begin download buttons ---------
+  $(".download-button")?.addEventListener("click", () => {
+    downloadAsTxt(decryptedMessageTextarea.value, "decrypted-message.txt");
+  });
+  // --------- end download buttons ---------
+
+  // --------- begin copy buttons ---------
+
+  $(".copy-button")?.addEventListener("click", () => {
+    if (copy(decryptedMessageTextarea.value)) successSnackbar.open();
+    else failedSnackbar.open();
+  });
+  // --------- end copy buttons ---------
 }
-// --------- end encrypt button ---------
-
-// --------- begin download buttons ---------
-$("#download-text-button")?.addEventListener("click", () => {
-  downloadAsTxt(decryptedMessageTextarea.value, "decrypted-message.txt");
-});
-// --------- end download buttons ---------
-
-// --------- begin copy buttons ---------
-
-$("#copy-text-button")?.addEventListener("click", () => {
-  if (copy(decryptedMessageTextarea.value)) successSnackbar.open();
-  else failedSnackbar.open();
-});
-// --------- end copy buttons ---------

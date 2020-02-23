@@ -52,7 +52,6 @@
 
       <div id="textarea-container">
         <textarea autofocus placeholder="Enter your message here"></textarea>
-        <div id="message-limit"></div>
       </div>
 
       {{> mdc-button id="encrypt-message-button" classnames="mdc-button--unelevated	" icon="lock" label="Encrypt"}}
@@ -65,17 +64,8 @@
         </div>
 
         <textarea readonly></textarea>
-        <div class="bottom-bar-container">
-          <div class="bottom-bar">
-            <div class="left">
 
-            </div>
-            <div class="right">
-              <button id="download-encrypted-text-button" class="mdc-icon-button material-icons">save_alt</button>
-              <button id="copy-encrypted-text-button" class="mdc-icon-button material-icons">file_copy</button>
-            </div>
-          </div>
-        </div>
+        {{> bottom-bar}}
       </div>
     </div>
   </div>
