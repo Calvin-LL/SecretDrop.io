@@ -32,7 +32,7 @@ function copyFavicons() {
 }
 
 function copyOpenGraphs() {
-  return src("./open-graph/**/*").pipe(dest("./dist"));
+  return src("./open-graph/**/*").pipe(dest("./dist/fbog"));
 }
 
 function copyFileIcons() {
