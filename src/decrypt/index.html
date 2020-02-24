@@ -47,16 +47,18 @@
       </div>
 
       <div class="title-container">
-        <h2 class="title">Decrypt Message</h2>
+        <h2 class="title">Decrypt</h2>
       </div>
 
       <div id="textarea-container">
         <textarea autofocus placeholder="Paste the encrypted message here"></textarea>
       </div>
 
+      {{> file-drop}}
+
       {{> mdc-button id="decrypt-message-button" classnames="mdc-button--unelevated	" icon="lock_open" label="Decrypt"}}
 
-      <div id="decrypted-message-container" class="hide">
+      <div id="decrypted-message-container" class="hide gone">
         <div class="title-container">
           <h2 class="title">Original Message</h2>
         </div>

@@ -46,17 +46,19 @@
       </div>
 
       <div class="title-container">
-        <h2 class="title">Encrypt Message</h2>
-        <span>Only the person who has the decryption link can decrypt your message.</span>
+        <h2 class="title">Encrypt</h2>
+        <span>Only the person who has the decryption link can decrypt your message or file.</span>
       </div>
 
       <div id="textarea-container">
         <textarea autofocus placeholder="Enter your message here"></textarea>
       </div>
 
+      {{> file-drop}}
+
       {{> mdc-button id="encrypt-message-button" classnames="mdc-button--unelevated	" icon="lock" label="Encrypt"}}
 
-      <div id="encrypted-message-container" class="hide">
+      <div id="encrypted-message-container" class="hide gone">
         <div class="title-container">
           <h2 class="title">Encrypted Message</h2>
           <span>You may post or send this on anything. Only the person who has the decryption link can decrypt your

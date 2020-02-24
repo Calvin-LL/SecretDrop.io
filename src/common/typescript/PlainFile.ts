@@ -1,7 +1,5 @@
-import { concatUint8Arrays, fileToArrayBuffer, numberToArrayBuffer } from "./Helpers";
-
-import LZUTF8 from "lzutf8";
 import PublicKey from "./PublicKey";
+import { fileToArrayBuffer } from "./Helpers";
 import { saveAs } from "file-saver";
 
 export default class PlainFile {
@@ -18,16 +16,9 @@ export default class PlainFile {
     const fileArrayBuffer = await fileToArrayBuffer(this.file);
     const encryptArrayBuffer = await this.key.encryptArrayBuffer(fileArrayBuffer);
 
-    let type = new Uint8Array();
-    if (this.file.type) type = LZUTF8.encodeUTF8(this.file.type);
+    this.encryptedContent = encryptArrayBuffer;
 
-    const typeLengthArrayBuffer = new Uint8Array(numberToArrayBuffer(type.length));
-    const combinedEncryptArrayBuffer1 = concatUint8Arrays(type, encryptArrayBuffer); // add type
-    const combinedEncryptArrayBuffer2 = concatUint8Arrays(typeLengthArrayBuffer, combinedEncryptArrayBuffer1); // add type length
-
-    this.encryptedContent = combinedEncryptArrayBuffer2;
-
-    return combinedEncryptArrayBuffer2;
+    return encryptArrayBuffer;
   }
 
   download() {

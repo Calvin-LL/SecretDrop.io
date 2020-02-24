@@ -22,6 +22,7 @@ body {
   background-color: $background;
   color: $primary-text-color;
   min-width: 260px;
+  overflow-y: overlay;
 
   @media (prefers-color-scheme: dark) {
     color: $primary-text-color-dark;

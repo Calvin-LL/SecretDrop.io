@@ -1,13 +1,10 @@
-import { arrayBufferToNumber, fileToArrayBuffer } from "./Helpers";
-
-import LZUTF8 from "lzutf8";
 import PrivateKey from "./PrivateKey";
+import { fileToArrayBuffer } from "./Helpers";
 import { saveAs } from "file-saver";
 
 export default class EncryptedFile {
   private file: File;
   private key: PrivateKey;
-  private type: string | undefined;
   private decryptedContent: Uint8Array | undefined;
 
   constructor(file: File, key: PrivateKey) {
@@ -18,16 +15,7 @@ export default class EncryptedFile {
   async decrypt() {
     // @ts-ignore
     const fileArrayBuffer = new Uint8Array(await fileToArrayBuffer(this.file));
-
-    const typeLength = arrayBufferToNumber(fileArrayBuffer.slice(0, 4).buffer);
-    const typeBuffer = fileArrayBuffer.subarray(4, 4 + typeLength);
-
-    if (typeBuffer.length > 0) {
-      this.type = LZUTF8.decodeUTF8(typeBuffer);
-    }
-
-    const contentBuffer = fileArrayBuffer.subarray(4 + typeLength);
-    const decryptArrayBuffer = await this.key.decryptArrayBuffer(contentBuffer);
+    const decryptArrayBuffer = await this.key.decryptArrayBuffer(fileArrayBuffer);
 
     this.decryptedContent = decryptArrayBuffer;
 
@@ -35,9 +23,7 @@ export default class EncryptedFile {
   }
 
   download() {
-    if (this.decryptedContent)
-      if (this.type) saveAs(new Blob([this.decryptedContent], { type: this.type }), this.getSafeEncryptedFileName());
-      else saveAs(new Blob([this.decryptedContent]), this.getSafeEncryptedFileName());
+    if (this.decryptedContent) saveAs(new Blob([this.decryptedContent]), this.getSafeEncryptedFileName());
     else throw "file not encrypted";
   }
 

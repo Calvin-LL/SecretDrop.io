@@ -1,12 +1,21 @@
 import "../common/modules/Header/header";
 
-import { animateAddTextTnElement, downloadAsTxt } from "../common/typescript/Helpers";
+import {
+  animateAddTextTnElement,
+  calculatePreviewSize,
+  downloadAsTxt,
+  getFileExtFromString,
+} from "../common/typescript/Helpers";
 
+import Dropzone from "dropzone";
+import EncryptedFile from "../common/typescript/EncryptedFile";
 import EncryptedMessage from "../common/typescript/EncryptedMessage";
 import { MDCRipple } from "@material/ripple";
 import { MDCSnackbar } from "@material/snackbar";
+import PlainFile from "../common/typescript/PlainFile";
 import PrivateKey from "../common/typescript/PrivateKey";
 import autosize from "autosize";
+import availabelIcons from "../common/modules/FileDrop/available-icons.json";
 import copy from "copy-to-clipboard";
 import delay from "delay";
 import isCryptoUseable from "../common/typescript/CryptoCheck";
@@ -18,6 +27,7 @@ function main() {
   const $$ = document.querySelectorAll.bind(document);
 
   // --------- begin init key ---------
+  let decryptType: "text" | "file" = "text";
   const privateKeyString = window.location.search.replace("?key=", "");
   const errorOverlay = $("#error-overlay") as HTMLDivElement;
   const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
@@ -75,7 +85,10 @@ function main() {
   $$(".mdc-icon-button").forEach(element => (MDCRipple.attachTo(element).unbounded = true));
   // --------- end init material web components ---------
 
+  const messageTextareaContainer = $("#textarea-container") as HTMLTextAreaElement;
   const messageTextarea = $("#textarea-container > textarea") as HTMLTextAreaElement;
+  const orParagraph = $("#or-p") as HTMLTextAreaElement;
+  const fileDropContainer = $("#file-drop-container") as HTMLTextAreaElement;
   const decryptButton = $("#decrypt-message-button") as HTMLButtonElement;
   const decryptedMessageContainer = $("#decrypted-message-container") as HTMLDivElement;
   const decryptedMessageTextarea = $("#decrypted-message-container > textarea") as HTMLTextAreaElement;
@@ -88,10 +101,144 @@ function main() {
 
   // --------- end textarea ---------
 
+  // --------- begin dropzone ---------
+  Dropzone.autoDiscover = false;
+
+  const previewTemplate = $("#file-preview-template") as HTMLTemplateElement;
+  const filePreviewContainer = $("#file-preview-container") as HTMLTemplateElement;
+  const filePreviewContainerWidth = filePreviewContainer.offsetWidth;
+  const previewSize = calculatePreviewSize(filePreviewContainerWidth) + "px";
+
+  const dropzone = new Dropzone("#dropzone", {
+    autoProcessQueue: false,
+    dictDefaultMessage: "Drop encrypted files here or click here to select encrypted files to decrypt",
+    previewsContainer: "#file-preview-container",
+    previewTemplate: previewTemplate.innerHTML,
+    thumbnailMethod: "contain",
+    thumbnailWidth: 90,
+    thumbnailHeight: 90,
+    fallback: () => {
+      orParagraph.remove();
+      fileDropContainer.remove();
+    },
+  });
+
+  dropzone.on("addedfile", function(file) {
+    onFileChange();
+
+    const preview = file.previewElement.querySelector(".dz-preview") as HTMLDivElement;
+
+    preview.style.width = previewSize;
+    preview.style.height = previewSize;
+
+    const fileNameSpan = file.previewElement.querySelector(".dz-filename > span") as HTMLSpanElement;
+    const previewImage = file.previewElement.querySelector("img") as HTMLImageElement;
+    const removeButton = file.previewElement.querySelector("button") as HTMLButtonElement;
+
+    fileNameSpan.setAttribute("title", fileNameSpan.innerHTML);
+
+    let fileExt = file.name ? getFileExtFromString(file.name) : "blank";
+    const iconSpan = document.createElement("span");
+
+    if (!availabelIcons.includes(fileExt)) fileExt = "blank";
+
+    iconSpan.className = `file-icon fiv-viv fiv-icon-${fileExt} fiv-size-lg`;
+    previewImage.parentNode?.insertBefore(iconSpan, previewImage);
+
+    removeButton.addEventListener("click", () => {
+      dropzone.removeFile(file);
+    });
+  });
+
+  dropzone.on("removedfile", function(file) {
+    onFileChange();
+  });
+
+  dropzone.on("thumbnail", function(file, dataUrl) {
+    if (typeof dataUrl === "string") {
+      const fileIcon = file.previewElement.querySelector(".file-icon") as HTMLSpanElement;
+
+      fileIcon.remove();
+    } else {
+      const previewImage = file.previewElement.querySelector("img") as HTMLImageElement;
+
+      previewImage.src = "";
+      previewImage.alt = "";
+    }
+  });
+
+  async function onFileChange() {
+    decryptType = dropzone.files.length > 0 ? "file" : "text";
+    toggleElement(messageTextareaContainer, dropzone.files.length > 0);
+    toggleElement(orParagraph, dropzone.files.length > 0);
+    hideElement(decryptedMessageContainer);
+  }
+
+  // hide dropzone when text is in the text box
+  messageTextarea.addEventListener("input", onInput);
+  async function onInput() {
+    decryptType = messageTextarea.value.length > 0 ? "text" : "file";
+    toggleElement(fileDropContainer, messageTextarea.value.length > 0);
+    toggleElement(orParagraph, messageTextarea.value.length > 0);
+    hideElement(decryptedMessageContainer);
+  }
+
+  async function toggleElement(element: HTMLElement, hide: boolean) {
+    if (hide) hideElement(element);
+    else showElement(element);
+  }
+
+  async function hideElement(element: HTMLElement) {
+    element.classList.add("hide");
+    await delay(250);
+    if (element.classList.contains("hide")) element.classList.add("gone");
+  }
+
+  async function showElement(element: HTMLElement) {
+    element.classList.remove("gone");
+    await delay(1);
+    element.classList.remove("hide");
+  }
+
+  // --------- end dropzone ---------
+
   // --------- begin encrypt button ---------
 
   autosize(decryptedMessageTextarea);
-  decryptButton.addEventListener("click", decryptMessage);
+  decryptButton.addEventListener("click", () => {
+    if (decryptType === "text") decryptMessage();
+    else decryptFiles();
+  });
+
+  async function decryptFiles() {
+    const decryptPromises = dropzone.files.map(file => {
+      const encryptedFile = new EncryptedFile(file, privateKey);
+
+      return encryptedFile.decrypt().then(() => encryptedFile.download());
+    });
+
+    decryptedMessageTextarea.value = "";
+    autosize.update(decryptedMessageTextarea);
+
+    hideElement(decryptedMessageContainer);
+    decryptingText.classList.remove("gone");
+    loadingOverlay.classList.remove("hide");
+    loadingOverlay.classList.remove("gone");
+
+    try {
+      await Promise.all(decryptPromises);
+
+      dropzone.removeAllFiles();
+    } catch (e) {
+      alert("Error possibly because one of the files was not encrypted with the corresponding encryption link");
+      console.error(e);
+    }
+
+    await delay(1000);
+    loadingOverlay.classList.add("hide");
+    await delay(300);
+    loadingOverlay.classList.add("gone");
+  }
 
   async function decryptMessage() {
     if (messageTextarea.value.length <= 0) return onInvalidMessage();
@@ -100,7 +247,7 @@ function main() {
 
     decryptedMessageTextarea.value = "";
     autosize.update(decryptedMessageTextarea);
-    decryptedMessageContainer.classList.remove("hide");
+    showElement(decryptedMessageContainer);
     decryptingText.classList.remove("gone");
     loadingOverlay.classList.remove("hide");
     loadingOverlay.classList.remove("gone");

@@ -1,0 +1,185 @@
+@import "../../stylesheets/variables";
+@import "../../stylesheets/mdc-dark-theme";
+@import "../../stylesheets/material-icons-outlined";
+
+@import "file-icon-vectors/src/scss/variables";
+@import "file-icon-vectors/src/scss/file-icon-base";
+@import "file-icon-vectors/src/scss/file-icon-vivid";
+@import "file-icon-vectors/src/scss/file-icon-vivid-list";
+@import "file-icon-vectors/src/scss/file-icon-extra";
+@import "@material/icon-button/mdc-icon-button";
+
+#or-p {
+  @include secondary-text-auto;
+  text-align: center;
+
+  &.gone {
+    display: none;
+  }
+}
+
+#file-drop-container {
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  max-height: 100vh;
+  will-change: max-height;
+  transition-property: max-height;
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out;
+
+  &.hide {
+    max-height: 0px;
+  }
+
+  &.gone {
+    display: none;
+  }
+
+  template {
+    display: none;
+  }
+
+  #dropzone-container {
+    background-color: rgba(#000, 0.1);
+    border-radius: 16px;
+    box-sizing: border-box;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgba(#fff, 0.1);
+    }
+  }
+
+  #dropzone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    min-height: 100px;
+
+    border-radius: 16px;
+    border-style: dashed;
+    box-sizing: border-box;
+    border-color: rgba(#000, 0.2);
+
+    transition-property: background-color, border-color, border-style;
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
+
+    cursor: pointer;
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(#fff, 0.2);
+    }
+
+    &.dz-drag-hover {
+      border-style: solid;
+
+      background-color: rgba(#000, 0.1);
+
+      @media (prefers-color-scheme: dark) {
+        background-color: rgba(#fff, 0.1);
+      }
+    }
+
+    .dz-message {
+      text-align: center;
+
+      button {
+        padding: 16px;
+        background: none;
+        color: inherit;
+        border: none;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+      }
+    }
+  }
+
+  #file-preview-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding-left: 4px;
+    padding-right: 4px;
+
+    .dz-file-preview {
+      @include background-auto;
+
+      margin-top: 8px;
+      margin-bottom: 8px;
+      margin-left: 4px;
+      margin-right: 4px;
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+
+      .dz-details {
+        position: relative;
+
+        height: 100%;
+        width: 100%;
+
+        padding: 6px;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        button {
+          @include primary-text-auto;
+          @include mdc-icon-button-size(16px);
+          @include mdc-icon-button-icon-size(16px, 16px, 4px);
+
+          position: absolute;
+          top: 1px;
+          right: 1px;
+        }
+
+        img {
+          flex: 1;
+          display: block;
+          margin: 0 auto;
+          object-fit: contain;
+          background-size: contain;
+
+          min-height: 0px;
+          min-width: 0px;
+        }
+
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          display: block;
+          text-overflow: ellipsis;
+        }
+
+        .dz-filename {
+          @include primary-text-auto;
+
+          width: 100%;
+
+          margin-top: 2px;
+        }
+
+        .dz-size {
+          @include primary-text-auto;
+
+          width: 100%;
+        }
+      }
+    }
+  }
+}

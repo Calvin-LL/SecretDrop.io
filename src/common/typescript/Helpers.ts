@@ -33,6 +33,13 @@ export function animateAddTextTnElement(
   }, mil);
 }
 
+export function getFileExtFromString(fileName: string) {
+  const lastIndexOfDot = fileName.lastIndexOf(".");
+  const ext = fileName.substring(lastIndexOfDot + 1);
+
+  return ext;
+}
+
 export function downloadAsTxt(s: string, filename: string) {
   const blob = new Blob([s], { type: "text/plain;charset=utf-8" });
   saveAs(blob, filename);
@@ -77,4 +84,14 @@ export function fileToArrayBuffer(file: File): Promise<ArrayBuffer> {
 
     reader.readAsArrayBuffer(file);
   });
+}
+
+export function calculatePreviewSize(parentWidth: number) {
+  const parentWidthActual = parentWidth - 8; // for 4px padding on the sides
+  for (let i = 90; i <= 120; i++) {
+    const totalWidth = i + 8; // for 4px margin on the sides
+    if (parentWidthActual % totalWidth === 0) return i;
+  }
+
+  return 100;
 }

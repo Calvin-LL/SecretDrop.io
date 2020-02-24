@@ -1,4 +1,3 @@
-import LZUTF8 from "lzutf8";
 import PrivateKey from "./PrivateKey";
 
 export default class EncryptedMessage {

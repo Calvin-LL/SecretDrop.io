@@ -35,6 +35,10 @@ function copyOpenGraphs() {
   return src("./open-graph/**/*").pipe(dest("./dist"));
 }
 
+function copyFileIcons() {
+  return src("./node_modules/file-icon-vectors/dist/icons/vivid/*.svg").pipe(dest("./dist/icons/vivid"));
+}
+
 function typescript(cb) {
   del(["./dist/**/*.js", "!./dist/webcomponents/**/*.js"]);
 
@@ -151,7 +155,7 @@ function serve() {
   watch("./src/**/*.html", series(html, reload));
 }
 
-const copy = parallel(copyImages, copyTxts, copyFavicons, copyOpenGraphs);
+const copy = parallel(copyImages, copyTxts, copyFavicons, copyOpenGraphs, copyFileIcons);
 const build = series(clean, parallel(copy, typescript, scss), html);
 
 exports.watch = series(build, watchAll);

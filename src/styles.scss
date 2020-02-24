@@ -28,6 +28,7 @@ body {
   color: $primary-text-color;
   min-width: 260px;
   min-height: 100vh;
+  overflow-y: overlay;
 
   @media (prefers-color-scheme: dark) {
     color: $primary-text-color-dark;

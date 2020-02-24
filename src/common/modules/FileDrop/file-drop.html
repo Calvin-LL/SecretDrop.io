@@ -1,0 +1,21 @@
+<!-- partialName = file-drop -->
+<p id="or-p">or</p>
+<div id="file-drop-container">
+  <div id="dropzone-container">
+    <form action="/" class="dropzone" id="dropzone"></form>
+    <div id="file-preview-container"></div>
+  </div>
+
+  <template id="file-preview-template">
+    <div class="file-preview">
+      <div class="dz-preview dz-file-preview">
+        <div class="dz-details">
+          <button class="mdc-icon-button material-icons">close</button>
+          <img data-dz-thumbnail />
+          <div class="dz-filename"><span data-dz-name></span></div>
+          <div class="dz-size" data-dz-size></div>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>

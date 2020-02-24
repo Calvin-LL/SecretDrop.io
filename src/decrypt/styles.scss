@@ -18,6 +18,7 @@
 @import "../common/modules/Footer/footer";
 @import "../common/modules/ErrorIcon/error-icon";
 @import "../common/modules/BottomBar/bottom-bar";
+@import "../common/modules/FileDrop/file-drop";
 
 body {
   display: flex;
@@ -28,6 +29,7 @@ body {
   color: $primary-text-color;
   min-width: 260px;
   min-height: 100vh;
+  overflow-y: overlay;
 
   @media (prefers-color-scheme: dark) {
     color: $primary-text-color-dark;
@@ -208,6 +210,21 @@ body {
       margin-bottom: 8px;
       box-sizing: border-box;
 
+      max-height: 100vh;
+      will-change: max-height;
+      transition-property: all;
+      transition-duration: 250ms;
+      transition-timing-function: ease-in-out;
+
+      &.hide {
+        max-height: 0px;
+        visibility: hidden;
+      }
+
+      &.gone {
+        display: none;
+      }
+
       textarea {
         resize: none;
         width: 100%;
@@ -252,8 +269,19 @@ body {
       width: 100%;
       margin-top: 48px;
       min-height: 100px;
+      max-height: 100vh;
+
+      will-change: max-height;
+      transition-property: max-height;
+      transition-duration: 250ms;
+      transition-timing-function: ease-in-out;
 
       &.hide {
+        max-height: 0px;
+        min-height: 0px;
+      }
+
+      &.gone {
         display: none;
       }
 
