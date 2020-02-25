@@ -46,6 +46,7 @@
     "gulp-environments": "^1.0.0",
     "gulp-hash-filename": "^3.0.0",
     "gulp-htmlmin": "^5.0.1",
+    "gulp-insert": "^0.5.0",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
@@ -63,7 +64,8 @@
     "through2": "^3.0.1",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.2",
-    "webpack": "^4.41.6"
+    "webpack": "^4.41.6",
+    "workbox-build": "^5.0.0"
   },
   "dependencies": {
     "@material/button": "^5.0.0",

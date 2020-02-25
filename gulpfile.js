@@ -5,10 +5,12 @@ const sourcemaps = require("gulp-sourcemaps");
 const { development, production } = require("gulp-environments");
 const htmlmin = require("gulp-htmlmin");
 const hash = require("gulp-hash-filename");
+const insert = require("gulp-insert");
 const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
 const del = require("del");
 const webpack = require("webpack");
+const workboxBuild = require("workbox-build");
 const browserSync = require("browser-sync").create();
 const path = require("path");
 const through = require("through2");
@@ -61,7 +63,7 @@ function typescript(cb) {
 function scss() {
   del(["./dist/**/*.css"]);
 
-  return src("./src/**/*.scss")
+  return src(["./src/**/*.scss", "!./src/common/**/*.scss"])
     .pipe(development(sourcemaps.init()))
     .pipe(sass.sync({ includePaths: ["./node_modules"] }).on("error", sass.logError))
     .pipe(postcss([removeClass(["mdc-ripple-upgraded--background-focused", ".mdc-button--raised:focus"])]))
@@ -71,7 +73,7 @@ function scss() {
     .pipe(dest("./dist"));
 }
 
-const registerHandlebarsPartials = () => {
+function registerHandlebarsPartials() {
   glob.sync("./src/common/modules/**/*.html").forEach(filePath => {
     const content = fs.readFileSync(filePath, "utf8");
     const firstLine = content.split("\n")[0].replace(/\ /g, "");
@@ -93,7 +95,7 @@ const registerHandlebarsPartials = () => {
   Handlebars.registerHelper("json", arg1 => {
     return JSON.parse(arg1);
   });
-};
+}
 
 function html() {
   registerHandlebarsPartials();
@@ -128,6 +130,55 @@ function handlebarsProcess(chunk) {
   return Buffer.from(compiled);
 }
 
+function serviceWorker() {
+  return Promise.all(
+    glob
+      .sync("./dist/**/index.html")
+      .map(p => path.dirname(p))
+      .map(dir =>
+        workboxBuild.generateSW({
+          globDirectory: dir,
+          globPatterns: [
+            "../dist/**/*.{json,svg,png,webmanifest}",
+            "../../dist/**/*.{json,svg,png,webmanifest}",
+            "**/*.{html,js,css}",
+          ],
+          swDest: path.join(dir, "sw.js"),
+          sourcemap: false,
+          ignoreURLParametersMatching: [/.*/],
+          runtimeCaching: [
+            { urlPattern: /^https:\/\/fonts\.googleapis\.com/, handler: "StaleWhileRevalidate" },
+            {
+              urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "google-fonts-webfonts",
+                expiration: {
+                  maxAgeSeconds: 60 * 60 * 24 * 365,
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            { urlPattern: /\.(?:js|css)$/, handler: "StaleWhileRevalidate" },
+            {
+              urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "images",
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 30 * 24 * 60 * 60,
+                },
+              },
+            },
+          ],
+        })
+      )
+  );
+}
+
 function clean() {
   return del(["./dist/**"]);
 }
@@ -156,7 +207,7 @@ function serve() {
 }
 
 const copy = parallel(copyImages, copyTxts, copyFavicons, copyOpenGraphs, copyFileIcons);
-const build = series(clean, parallel(copy, typescript, scss), html);
+const build = series(clean, parallel(copy, typescript, scss), html, serviceWorker);
 
 exports.watch = series(build, watchAll);
 exports.clean = clean;
