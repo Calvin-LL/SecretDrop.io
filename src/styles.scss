@@ -93,7 +93,7 @@ body {
   max-width: 1800px;
   min-width: 250px;
   display: flex;
-  flex-flow: wrap;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: stretch;
   padding-top: 48px;
@@ -110,7 +110,6 @@ body {
     padding: 16px;
     padding-top: 24px;
     flex-grow: 1;
-    flex-basis: 500px;
     min-height: 10px;
     max-width: 500px;
     width: 500px;
