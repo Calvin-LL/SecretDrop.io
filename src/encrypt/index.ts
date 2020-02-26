@@ -204,9 +204,16 @@ function main() {
 
   async function encryptFiles() {
     const encryptPromises = dropzone.files.map(file => {
+      const startTime = Date.now();
       const plainFile = new PlainFile(file, publicKey);
 
-      return plainFile.encrypt().then(() => plainFile.download());
+      return plainFile
+        .encrypt()
+        .then(() => {
+          if (Date.now() - startTime < 5000) return delay(3000);
+          else return Promise.resolve();
+        })
+        .then(() => plainFile.download());
     });
 
     encryptedMessageTextarea.value = "";

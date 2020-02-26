@@ -12,7 +12,6 @@ import EncryptedFile from "../common/typescript/EncryptedFile";
 import EncryptedMessage from "../common/typescript/EncryptedMessage";
 import { MDCRipple } from "@material/ripple";
 import { MDCSnackbar } from "@material/snackbar";
-import PlainFile from "../common/typescript/PlainFile";
 import PrivateKey from "../common/typescript/PrivateKey";
 import autosize from "autosize";
 import availabelIcons from "../common/modules/FileDrop/available-icons.json";
@@ -212,9 +211,16 @@ function main() {
 
   async function decryptFiles() {
     const decryptPromises = dropzone.files.map(file => {
+      const startTime = Date.now();
       const encryptedFile = new EncryptedFile(file, privateKey);
 
-      return encryptedFile.decrypt().then(() => encryptedFile.download());
+      return encryptedFile
+        .decrypt()
+        .then(() => {
+          if (Date.now() - startTime < 5000) return delay(3000);
+          else return Promise.resolve();
+        })
+        .then(() => encryptedFile.download());
     });
 
     decryptedMessageTextarea.value = "";
