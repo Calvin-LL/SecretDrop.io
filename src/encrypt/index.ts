@@ -264,9 +264,9 @@ function main() {
   }
 
   function showAnimatingText() {
-    const privateKeyStringLength = publicKeyString.length;
-    const base64Length = LZUTF8.encodeBase64(LZUTF8.encodeUTF8(messageTextarea.value)).length;
-    const totalLength = privateKeyStringLength + base64Length + 1;
+    const privateKeyStringLength = 64;
+    const base64Length = Math.max(4 * (messageTextarea.value.length + 44 / 3), 10);
+    const totalLength = Math.ceil(privateKeyStringLength + base64Length + 1);
 
     return fillElementWithRandomText(encryptedMessageTextarea, "value", totalLength, () => {
       autosize.update(encryptedMessageTextarea);

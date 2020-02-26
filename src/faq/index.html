@@ -103,7 +103,8 @@
           https://SecretDrop.io/encrypt/?key=[public key]</p>
         <p>Decryption links are of the form:<br>
           https://SecretDrop.io/decrypt/?key=[private key]</p>
-        <p>Encrypted messages are of the form:<br>"[encryption side public key string],[encrypted message in base64]"
+        <p>Encrypted messages are of the form:<br>"[encryption side public key string],[{[PBKDF2 salt length (4
+          bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary]} in base64]"
         </p>
         <p>Encrypted files are of the form:<br>{[encryption side public key length (4 bytes)][encryption side public
           key][PBKDF2 salt length (4 bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary]}</p>
