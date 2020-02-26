@@ -40,12 +40,12 @@ function main() {
   // --------- begin download buttons ---------
   $("#public-key-url-area .download-button")?.addEventListener("click", () => {
     const url = ($("#public-url") as HTMLLinkElement)?.href;
-    downloadAsTxt(url, "public-link.txt");
+    downloadAsTxt(url, "encryption-link.txt");
   });
 
   $("#private-key-url-area .download-button")?.addEventListener("click", () => {
     const url = ($("#private-url") as HTMLLinkElement)?.href;
-    downloadAsTxt(url, "private-link.txt");
+    downloadAsTxt(url, "decryption-link.txt");
   });
   // --------- end download buttons ---------
 
