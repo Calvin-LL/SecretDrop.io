@@ -79,6 +79,11 @@ function registerHandlebarsPartials() {
     const firstLine = content.split("\n")[0].replace(/\ /g, "");
     const partialName = firstLine.replace("<!--partialName=", "").replace("-->", "");
 
+    if (partialName === "register-sw" && development()) {
+      Handlebars.registerPartial(partialName, "");
+      return;
+    } // ignore register-sw partial at development
+
     if (partialName !== firstLine)
       Handlebars.registerPartial(partialName, content.substring(content.indexOf("\n"), content.length));
   });
@@ -189,7 +194,9 @@ function watchAll() {
   watch("./src/**/*.html", html);
 }
 
-function serve() {
+async function serve() {
+  await del(["./dist/**/sw.js"]); // remvoe all service workers for testing
+
   const reload = done => {
     browserSync.reload();
     done();
