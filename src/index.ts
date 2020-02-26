@@ -78,8 +78,6 @@ function main() {
     publicKeyEl.href = encryptLink + publicKeyString;
     privateKeyEl.href = decryptLink + privatekeyString;
 
-    await delay(1000); // pause for dramatic effects
-
     animateAddTextTnElement(publicKeyEl, publicKeyString, 3000, undefined, undefined, () => {
       publicKeyShown = true;
       bothKeyShown();
