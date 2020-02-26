@@ -167,6 +167,7 @@ function serviceWorker() {
               },
             },
             { urlPattern: /\.(?:js|css)$/, handler: "StaleWhileRevalidate" },
+            { urlPattern: /\.html$/, handler: "StaleWhileRevalidate" },
             {
               urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
               handler: "CacheFirst",
