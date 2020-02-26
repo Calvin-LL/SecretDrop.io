@@ -4,10 +4,12 @@ import {
   animateAddTextTnElement,
   calculatePreviewSize,
   downloadAsTxt,
+  fillElementWithRandomText,
   getFileExtFromString,
 } from "../common/typescript/Helpers";
 
 import Dropzone from "dropzone";
+import LZUTF8 from "lzutf8";
 import { MDCRipple } from "@material/ripple";
 import { MDCSnackbar } from "@material/snackbar";
 import PlainFile from "../common/typescript/PlainFile";
@@ -251,12 +253,24 @@ function main() {
     loadingOverlay.classList.remove("gone");
 
     try {
+      const stopAnimation = showAnimatingText();
       const encryptedMessage = await plainMessage.encrypt();
+      stopAnimation();
       showEncryptedMessage(encryptedMessage);
     } catch (e) {
       alert("Error");
       console.error(e);
     }
+  }
+
+  function showAnimatingText() {
+    const privateKeyStringLength = publicKeyString.length;
+    const base64Length = LZUTF8.encodeBase64(LZUTF8.encodeUTF8(messageTextarea.value)).length;
+    const totalLength = privateKeyStringLength + base64Length + 1;
+
+    return fillElementWithRandomText(encryptedMessageTextarea, "value", totalLength, () => {
+      autosize.update(encryptedMessageTextarea);
+    });
   }
 
   async function showEncryptedMessage(encryptedMessage: string) {
@@ -265,6 +279,7 @@ function main() {
       encryptedMessage,
       1500,
       "value",
+      false,
       () => {
         autosize.update(encryptedMessageTextarea);
       },

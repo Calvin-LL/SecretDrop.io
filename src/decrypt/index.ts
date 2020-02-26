@@ -4,12 +4,14 @@ import {
   animateAddTextTnElement,
   calculatePreviewSize,
   downloadAsTxt,
+  fillElementWithRandomText,
   getFileExtFromString,
 } from "../common/typescript/Helpers";
 
 import Dropzone from "dropzone";
 import EncryptedFile from "../common/typescript/EncryptedFile";
 import EncryptedMessage from "../common/typescript/EncryptedMessage";
+import LZUTF8 from "lzutf8";
 import { MDCRipple } from "@material/ripple";
 import { MDCSnackbar } from "@material/snackbar";
 import PrivateKey from "../common/typescript/PrivateKey";
@@ -259,7 +261,9 @@ function main() {
     loadingOverlay.classList.remove("gone");
 
     try {
+      const stopAnimation = showAnimatingText();
       const decryptedMessage = await encryptedMessage.decrypt();
+      stopAnimation();
       showDecryptedMessage(decryptedMessage);
     } catch (e) {
       console.error(e);
@@ -280,12 +284,23 @@ function main() {
       "Possibly not encrypted by the corresponding encryption link. Refresh to try again.";
   }
 
+  function showAnimatingText() {
+    const privateKeyStringLength = privateKeyString.length;
+    const base64Length = LZUTF8.encodeBase64(LZUTF8.encodeUTF8(messageTextarea.value)).length;
+    const totalLength = privateKeyStringLength + base64Length + 1;
+
+    return fillElementWithRandomText(decryptedMessageTextarea, "value", totalLength, () => {
+      autosize.update(decryptedMessageTextarea);
+    });
+  }
+
   async function showDecryptedMessage(decryptedMessage: string) {
     animateAddTextTnElement(
       decryptedMessageTextarea,
       decryptedMessage,
       1500,
       "value",
+      false,
       () => {
         autosize.update(decryptedMessageTextarea);
       },

@@ -95,7 +95,7 @@
       <div>
         <h2>"Can you explain how this works to me in more detail?"</h2>
         <p>Elliptic-curve Diffie–Hellman (ECDH) is used for both sides to establish a shared secret. We chose Curve25519
-          because it is considered the most secured curve. The shared secret is then pass through PBKDF2 with 100000
+          because it is considered the most secured curve. The shared secret is then pass through PBKDF2 with 3000000
           iterations and 16 bits of random data as salt to derive a 256 bit AES key. The message or file is then
           encrypted with AES-GCM.
         </p>

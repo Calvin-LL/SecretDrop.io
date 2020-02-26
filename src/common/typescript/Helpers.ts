@@ -7,30 +7,48 @@ export function animateAddTextTnElement(
   s: string,
   duration: number = 500,
   property: string = "innerHTML",
+  keepExistingText: boolean = true,
   onUpdate?: () => void,
   onFinish?: () => void
 ) {
   // @ts-ignore
-  const startingString = element[property];
+  const startingString = keepExistingText ? element[property] : "";
   const stringLength = s.length;
   const startTimestamp = Date.now();
 
-  let length = 0;
-
   const intervalId = setInterval(() => {
     const timeElapsed = Date.now() - startTimestamp;
+    const length = Math.floor(stringLength * (timeElapsed / duration));
 
     if (length <= stringLength) {
       const shownString = s.substring(0, length);
       // @ts-ignore
       element[property] = startingString + fillStringWithRandom(shownString, stringLength);
-      length = Math.ceil(stringLength * (timeElapsed / duration));
       onUpdate?.();
     } else {
+      // @ts-ignore
+      element[property] = startingString + s;
       onFinish?.();
       clearInterval(intervalId);
     }
-  }, 1);
+  }, 50);
+}
+
+export function fillElementWithRandomText(
+  element: Element,
+  property: string = "innerHTML",
+  length: number = 0,
+  onUpdate?: () => void
+) {
+  const intervalId = setInterval(() => {
+    // @ts-ignore
+    element[property] = getRandomStringOfLength(length);
+    onUpdate?.();
+  }, 50);
+
+  return () => {
+    clearInterval(intervalId);
+  };
 }
 
 export function fillStringWithRandom(shownString: string, desiredLength: number) {
