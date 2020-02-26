@@ -30,7 +30,7 @@ export default class AesKey {
       {
         name: "PBKDF2",
         salt: importSalt,
-        iterations: 100000,
+        iterations: 10000000,
         hash: "SHA-256",
       },
       importedSecret,
