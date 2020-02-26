@@ -281,12 +281,10 @@ function main() {
   }
 
   async function showDecryptedMessage(decryptedMessage: string) {
-    await delay(1000);
-
     animateAddTextTnElement(
       decryptedMessageTextarea,
       decryptedMessage,
-      1000,
+      1500,
       "value",
       () => {
         autosize.update(decryptedMessageTextarea);

@@ -260,12 +260,10 @@ function main() {
   }
 
   async function showEncryptedMessage(encryptedMessage: string) {
-    await delay(1000);
-
     animateAddTextTnElement(
       encryptedMessageTextarea,
       encryptedMessage,
-      1000,
+      1500,
       "value",
       () => {
         autosize.update(encryptedMessageTextarea);
