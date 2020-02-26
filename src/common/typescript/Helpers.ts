@@ -5,32 +5,46 @@ import { saveAs } from "file-saver";
 export function animateAddTextTnElement(
   element: Element,
   s: string,
-  speed: number = 500,
+  duration: number = 500,
   property: string = "innerHTML",
   onUpdate?: () => void,
   onFinish?: () => void
 ) {
+  // @ts-ignore
+  const startingString = element[property];
   const stringLength = s.length;
-  const textPerMil = Math.ceil(stringLength / speed);
+  const startTimestamp = Date.now();
 
-  let mil = 1;
   let length = 0;
 
-  if ((stringLength / textPerMil) * mil < speed) {
-    mil = Math.ceil(speed / (stringLength / textPerMil));
-  }
-
   const intervalId = setInterval(() => {
+    const timeElapsed = Date.now() - startTimestamp;
+
     if (length <= stringLength) {
+      const shownString = s.substring(0, length);
       // @ts-ignore
-      element[property] += s.substring(length, length + textPerMil);
-      length += textPerMil;
+      element[property] = startingString + fillStringWithRandom(shownString, stringLength);
+      length = Math.ceil(stringLength * (timeElapsed / duration));
       onUpdate?.();
     } else {
       onFinish?.();
       clearInterval(intervalId);
     }
-  }, mil);
+  }, 1);
+}
+
+export function fillStringWithRandom(shownString: string, desiredLength: number) {
+  return shownString + getRandomStringOfLength(desiredLength - shownString.length);
+}
+
+export function getRandomStringOfLength(length: number) {
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 export function getFileExtFromString(fileName: string) {
