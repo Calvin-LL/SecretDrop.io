@@ -205,6 +205,8 @@ function main() {
   });
 
   async function encryptFiles() {
+    if (dropzone.files.length <= 0) return;
+
     const encryptPromises = dropzone.files.map(file => {
       const startTime = Date.now();
       const plainFile = new PlainFile(file, publicKey);
@@ -242,6 +244,8 @@ function main() {
   }
 
   async function encryptMessage() {
+    if (messageTextarea.value.length <= 0) return;
+
     const plainMessage = new PlainMessage(messageTextarea.value, publicKey);
 
     encryptedMessageTextarea.value = "";

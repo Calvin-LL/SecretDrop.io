@@ -11,7 +11,6 @@ import {
 import Dropzone from "dropzone";
 import EncryptedFile from "../common/typescript/EncryptedFile";
 import EncryptedMessage from "../common/typescript/EncryptedMessage";
-import LZUTF8 from "lzutf8";
 import { MDCRipple } from "@material/ripple";
 import { MDCSnackbar } from "@material/snackbar";
 import PrivateKey from "../common/typescript/PrivateKey";
@@ -212,6 +211,8 @@ function main() {
   });
 
   async function decryptFiles() {
+    if (dropzone.files.length <= 0) return;
+
     const decryptPromises = dropzone.files.map(file => {
       const startTime = Date.now();
       const encryptedFile = new EncryptedFile(file, privateKey);
@@ -249,7 +250,7 @@ function main() {
   }
 
   async function decryptMessage() {
-    if (messageTextarea.value.length <= 0) return onInvalidMessage();
+    if (messageTextarea.value.length <= 0) return;
 
     const encryptedMessage = new EncryptedMessage(messageTextarea.value, privateKey);
 
