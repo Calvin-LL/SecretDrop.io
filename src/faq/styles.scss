@@ -36,8 +36,19 @@ body {
   align-items: center;
   flex-direction: column;
 
+  #diagram-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    #diagram {
+      width: 300px;
+    }
+  }
+
   div {
-    max-width: 600px;
+    max-width: 700px;
     padding-left: 8px;
     padding-right: 8px;
 

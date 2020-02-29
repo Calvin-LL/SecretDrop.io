@@ -97,10 +97,18 @@
 
       <div>
         <h2>"Can you explain how this works to me in more detail?"</h2>
+        <p id="diagram-container">
+          <a href="/images/diagram.svg" target="_blank" rel="noopener noreferrer">
+            <img id="diagram" src="/images/diagram.svg">
+          </a>
+          Here is a diagram
+        </p>
         <p>Elliptic-curve Diffie–Hellman (ECDH) is used for both sides to establish a shared secret. We chose Curve25519
           because it is considered the most secured curve. The shared secret is then pass through PBKDF2 with 3000000
-          iterations and 16 bits of random data as salt to derive a 256 bit AES key. The message or file is then
-          encrypted with AES-GCM.
+          iterations (3000000 iterations takes around 1 second on my phone and laptop) and 16 bits of random data as
+          salt to derive a 256 bit AES key. The message or file is then encrypted with AES-GCM. Other than the PBKDF2
+          key derivation operation, all other delays are artificially added. EC and RSA are actually really fast.
+          Besides PBKDF2, all other operations are done in less than a second (other than large files for RSA).
         </p>
         <p>Encryption links are of the form:<br>
           https://SecretDrop.io/encrypt/?key=[public key]</p>
