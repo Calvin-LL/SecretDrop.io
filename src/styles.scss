@@ -66,12 +66,11 @@ body {
 
   #text-loading {
     color: white;
-    font-weight: 300;
+    font-weight: 400;
     text-align: center;
     font-size: 2em;
 
     @media (max-width: 640px) {
-      font-weight: 400;
       font-size: 1.3em;
     }
   }
