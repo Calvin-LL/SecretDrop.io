@@ -55,42 +55,52 @@
   }
 
   #dropzone {
-    position: relative;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100000;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    width: 100%;
-    min-height: 100px;
+    opacity: 0;
+    border-color: transparent;
+    background-color: transparent;
 
-    border-radius: 16px;
-    border-style: dashed;
-    box-sizing: border-box;
-    border-color: rgba(#000, 0.2);
-
-    transition-property: background-color, border-color, border-style;
+    transition-property: opacity, border-color, background-color;
     transition-duration: 250ms;
     transition-timing-function: ease-in-out;
 
-    cursor: pointer;
-
-    @media (prefers-color-scheme: dark) {
-      border-color: rgba(#fff, 0.2);
+    &.gone {
+      display: none;
     }
 
-    &.dz-drag-hover {
-      border-style: solid;
+    &.visible {
+      opacity: 1;
 
-      background-color: rgba(#000, 0.1);
+      border-color: rgba(#fff, 0.5);
+      background-color: rgba(darken(#43a047, 30%), 0.7);
 
       @media (prefers-color-scheme: dark) {
-        background-color: rgba(#fff, 0.1);
+        border-color: rgba(#000, 0.5);
+      }
+
+      .dz-message {
+        opacity: 1;
       }
     }
 
     .dz-message {
+      opacity: 0;
+      pointer-events: none;
       text-align: center;
+      transition-property: opacity;
+      transition-duration: 50ms;
+      transition-timing-function: ease-in-out;
 
       button {
         padding: 16px;
@@ -98,9 +108,31 @@
         color: inherit;
         border: none;
         font: inherit;
-        cursor: pointer;
+        font-size: 3em;
         outline: inherit;
+        color: $primary-text-color-dark;
       }
+    }
+  }
+
+  #drop-file-button {
+    cursor: pointer;
+    min-height: 100px;
+    text-align: center;
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 16px;
+    border-style: dashed;
+    box-sizing: border-box;
+    border-color: rgba(#000, 0.2);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(#fff, 0.2);
     }
   }
 

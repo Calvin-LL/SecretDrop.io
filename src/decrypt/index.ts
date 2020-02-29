@@ -28,6 +28,7 @@ function main() {
 
   // --------- begin init key ---------
   let decryptType: "text" | "file" = "text";
+  let shouldAcceptFiles = false;
   const privateKeyString = window.location.search.replace("?key=", "");
   const errorOverlay = $("#error-overlay") as HTMLDivElement;
   const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
@@ -52,6 +53,8 @@ function main() {
 
     loadingText.classList.add("gone");
     loadingOverlay.classList.add("gone");
+
+    shouldAcceptFiles = true;
   }
 
   async function onInvalidKey() {
@@ -64,6 +67,8 @@ function main() {
     loadingOverlay.classList.add("gone");
     errorOverlay.classList.remove("gone");
     errorOverlayIcon.classList.add("swal2-icon-show");
+
+    shouldAcceptFiles = false;
   }
 
   async function onIncompatibleBrowser() {
@@ -94,6 +99,7 @@ function main() {
   const decryptedMessageTextarea = $("#decrypted-message-container > textarea") as HTMLTextAreaElement;
   const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
   const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
+  const dropzoneElement = $("#dropzone") as HTMLDivElement;
 
   // --------- begin textarea ---------
 
@@ -111,17 +117,37 @@ function main() {
 
   const dropzone = new Dropzone("#dropzone", {
     autoProcessQueue: false,
-    dictDefaultMessage: "Drop encrypted files here or click here to select encrypted files to decrypt",
+    dictDefaultMessage: "Drop files here to decrypt",
     previewsContainer: "#file-preview-container",
     previewTemplate: previewTemplate.innerHTML,
     thumbnailMethod: "contain",
     thumbnailWidth: 90,
     thumbnailHeight: 90,
+    clickable: "#drop-file-button",
     fallback: () => {
       orParagraph.remove();
       fileDropContainer.remove();
     },
   });
+
+  document.body.addEventListener("dragenter", async function(e) {
+    if (messageTextarea.value.length <= 0 && shouldAcceptFiles) {
+      dropzoneElement.classList.remove("gone");
+      await delay(10);
+      dropzoneElement.classList.add("visible");
+    }
+    e.preventDefault();
+  });
+
+  dropzone.on("addedfile", dragend);
+  dropzone.on("drag", dragend);
+  dropzone.on("dragend", dragend);
+  dropzone.on("dragleave", dragend);
+  async function dragend() {
+    dropzoneElement.classList.remove("visible");
+    await delay(250);
+    dropzoneElement.classList.add("gone");
+  }
 
   dropzone.on("addedfile", function(file) {
     onFileChange();
@@ -167,7 +193,7 @@ function main() {
     }
   });
 
-  async function onFileChange() {
+  function onFileChange() {
     decryptType = dropzone.files.length > 0 ? "file" : "text";
     toggleElement(messageTextareaContainer, dropzone.files.length > 0);
     toggleElement(orParagraph, dropzone.files.length > 0);
@@ -176,14 +202,14 @@ function main() {
 
   // hide dropzone when text is in the text box
   messageTextarea.addEventListener("input", onInput);
-  async function onInput() {
+  function onInput() {
     decryptType = messageTextarea.value.length > 0 ? "text" : "file";
     toggleElement(fileDropContainer, messageTextarea.value.length > 0);
     toggleElement(orParagraph, messageTextarea.value.length > 0);
     hideElement(decryptedMessageContainer);
   }
 
-  async function toggleElement(element: HTMLElement, hide: boolean) {
+  function toggleElement(element: HTMLElement, hide: boolean) {
     if (hide) hideElement(element);
     else showElement(element);
   }

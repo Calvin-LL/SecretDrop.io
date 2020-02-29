@@ -29,6 +29,7 @@ function main() {
 
   // --------- begin init key ---------
   let encryptType: "text" | "file" = "text";
+  let shouldAcceptFiles = false;
   const publicKeyString = window.location.search.replace("?key=", "");
   const errorOverlay = $("#error-overlay") as HTMLDivElement;
   const errorOverlayIcon = $("#error-overlay .swal2-icon") as HTMLDivElement;
@@ -53,6 +54,8 @@ function main() {
 
     loadingText.classList.add("gone");
     loadingOverlay.classList.add("gone");
+
+    shouldAcceptFiles = true;
   }
 
   async function onInvalidKey() {
@@ -64,6 +67,8 @@ function main() {
     loadingOverlay.classList.add("gone");
     errorOverlay.classList.remove("gone");
     errorOverlayIcon.classList.add("swal2-icon-show");
+
+    shouldAcceptFiles = false;
   }
 
   async function onIncompatibleBrowser() {
@@ -93,6 +98,7 @@ function main() {
   const encryptedMessageTextarea = $("#encrypted-message-container > textarea") as HTMLTextAreaElement;
   const successSnackbar = MDCSnackbar.attachTo($("#copy-success-snackbar") as HTMLDivElement);
   const failedSnackbar = MDCSnackbar.attachTo($("#copy-failed-snackbar") as HTMLDivElement);
+  const dropzoneElement = $("#dropzone") as HTMLDivElement;
 
   autosize(messageTextarea);
   autosize(encryptedMessageTextarea);
@@ -105,19 +111,38 @@ function main() {
   const filePreviewContainerWidth = filePreviewContainer.offsetWidth;
   const previewSize = calculatePreviewSize(filePreviewContainerWidth) + "px";
 
-  const dropzone = new Dropzone("#dropzone", {
+  const dropzone = new Dropzone(dropzoneElement, {
     autoProcessQueue: false,
-    dictDefaultMessage: "Drop files here or click here to select files to encrypt",
+    dictDefaultMessage: "Drop files here to encrypt",
     previewsContainer: "#file-preview-container",
     previewTemplate: previewTemplate.innerHTML,
     thumbnailMethod: "contain",
     thumbnailWidth: 90,
     thumbnailHeight: 90,
+    clickable: "#drop-file-button",
     fallback: () => {
       orParagraph.remove();
       fileDropContainer.remove();
     },
   });
+
+  document.body.addEventListener("dragenter", async function() {
+    if (messageTextarea.value.length <= 0 && shouldAcceptFiles) {
+      dropzoneElement.classList.remove("gone");
+      await delay(10);
+      dropzoneElement.classList.add("visible");
+    }
+  });
+
+  dropzone.on("addedfile", dragend);
+  dropzone.on("drag", dragend);
+  dropzone.on("dragend", dragend);
+  dropzone.on("dragleave", dragend);
+  async function dragend() {
+    dropzoneElement.classList.remove("visible");
+    await delay(250);
+    dropzoneElement.classList.add("gone");
+  }
 
   dropzone.on("addedfile", function(file) {
     onFileChange();
@@ -168,18 +193,20 @@ function main() {
     toggleElement(messageTextareaContainer, dropzone.files.length > 0);
     toggleElement(orParagraph, dropzone.files.length > 0);
     hideElement(encryptedMessageContainer);
+    await delay(250);
+    if (dropzone.files.length <= 0) messageTextarea.focus();
   }
 
   // hide dropzone when text is in the text box
   messageTextarea.addEventListener("input", onInput);
-  async function onInput() {
+  function onInput() {
     encryptType = messageTextarea.value.length > 0 ? "text" : "file";
     toggleElement(fileDropContainer, messageTextarea.value.length > 0);
     toggleElement(orParagraph, messageTextarea.value.length > 0);
     hideElement(encryptedMessageContainer);
   }
 
-  async function toggleElement(element: HTMLElement, hide: boolean) {
+  function toggleElement(element: HTMLElement, hide: boolean) {
     if (hide) hideElement(element);
     else showElement(element);
   }
