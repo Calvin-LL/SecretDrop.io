@@ -108,7 +108,8 @@
           iterations (3000000 iterations takes around 1 second on my phone and laptop) and 16 bits of random data as
           salt to derive a 256 bit AES key. The message or file is then encrypted with AES-GCM. Other than the PBKDF2
           key derivation operation, all other delays are artificially added. EC and RSA are actually really fast.
-          Besides PBKDF2, all other operations are done in less than a second (other than large files for RSA).
+          Besides PBKDF2, all other operations are done in less than a second (other than large files for RSA). When
+          multiple files are encrypted, each file will have its own EC key pair.
         </p>
         <p>Encryption links are of the form:<br>
           https://SecretDrop.io/encrypt/?key=[public key]</p>
