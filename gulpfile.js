@@ -41,6 +41,10 @@ function copyFileIcons() {
   return src("./node_modules/file-icon-vectors/dist/icons/vivid/*.svg").pipe(dest("./dist/icons/vivid"));
 }
 
+function copyIconDownloads() {
+  return src("./icon-download/**/*").pipe(dest("./dist/icon-download"));
+}
+
 function typescript(cb) {
   del(["./dist/**/*.js", "!./dist/webcomponents/**/*.js"]);
 
@@ -214,7 +218,7 @@ async function serve() {
   watch("./src/**/*.html", series(html, reload));
 }
 
-const copy = parallel(copyImages, copyTxts, copyFavicons, copyOpenGraphs, copyFileIcons);
+const copy = parallel(copyImages, copyTxts, copyFavicons, copyOpenGraphs, copyFileIcons, copyIconDownloads);
 const build = series(clean, parallel(copy, typescript, scss), html, serviceWorker);
 
 exports.watch = series(build, watchAll);
