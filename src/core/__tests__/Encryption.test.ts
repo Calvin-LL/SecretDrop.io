@@ -1,17 +1,14 @@
 import "./polyfills";
 
-import {
-  fileToArrayBuffer,
-  getRandomDataOfLength,
-} from "../common/typescript/Helpers";
+import { fileToArrayBuffer, getRandomDataOfLength } from "../Helpers";
 
-import EncryptedFile from "../common/typescript/EncryptedFile";
-import EncryptedMessage from "../common/typescript/EncryptedMessage";
-import KeyPair from "../common/typescript/KeyPair";
-import PlainFile from "../common/typescript/PlainFile";
-import PlainMessage from "../common/typescript/PlainMessage";
-import PrivateKey from "../common/typescript/PrivateKey";
-import PublicKey from "../common/typescript/PublicKey";
+import EncryptedFile from "../EncryptedFile";
+import EncryptedMessage from "../EncryptedMessage";
+import KeyPair from "../KeyPair";
+import PlainFile from "../PlainFile";
+import PlainMessage from "../PlainMessage";
+import PrivateKey from "../PrivateKey";
+import PublicKey from "../PublicKey";
 
 describe("PlainMessage to and from EncryptedMessage", () => {
   test("test string", async () => {
