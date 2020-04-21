@@ -1,0 +1,98 @@
+diff --git a/node_modules/node-webcrypto-ossl/index.d.ts b/node_modules/node-webcrypto-ossl/index.d.ts
+index e98e956..6935e47 100644
+--- a/node_modules/node-webcrypto-ossl/index.d.ts
++++ b/node_modules/node-webcrypto-ossl/index.d.ts
+@@ -86,12 +86,12 @@ declare namespace NodeWebcryptoOpenSSL {
+         public static digest(digestName: string, messgae: Buffer, callback: (err: Error, digest: Buffer) => void): void;
+     }
+ 
+-    interface CryptoKeyPair extends NativeCryptoKeyPair {
+-        privateKey: CryptoKey;
+-        publicKey: CryptoKey;
++    interface WCryptoKeyPair extends CryptoKeyPair {
++        privateKey: WCryptoKey;
++        publicKey: WCryptoKey;
+     }
+ 
+-    class CryptoKey implements NativeCryptoKey {
++    class WCryptoKey implements CryptoKey {
+         public type: KeyType;
+         public extractable: boolean;
+         public algorithm: Algorithm;
+@@ -101,7 +101,7 @@ declare namespace NodeWebcryptoOpenSSL {
+         constructor(key: AesKey | Key, alg: Algorithm, type: string, extractable: boolean, keyUsages: string[]);
+     }
+ 
+-    interface IKeyStorageItem extends NativeCryptoKey {
++    interface IKeyStorageItem extends WCryptoKey {
+         name: string;
+         keyJwk: any;
+         file?: string;
+@@ -115,10 +115,10 @@ declare namespace NodeWebcryptoOpenSSL {
+         };
+         constructor(directory: string);
+         public clear(): void;
+-        public getItem(key: string): CryptoKey | null;
++        public getItem(key: string): WCryptoKey | null;
+         public key(index: number): string;
+         public removeItem(key: string): void;
+-        public setItem(key: string, data: CryptoKey): void;
++        public setItem(key: string, data: WCryptoKey): void;
+         protected getItemById(id: string): IKeyStorageItem;
+         protected createDirectory(directory: string, flags?: any): void;
+         protected readFile(file: string): IKeyStorageItem | null;
+@@ -131,34 +131,34 @@ declare namespace NodeWebcryptoOpenSSL {
+         directory?: string;
+     }
+ 
+-    class SubtleCrypto extends WebcryptoCore.SubtleCrypto {
++    class WSubtleCrypto extends SubtleCrypto {
+         public digest(algorithm: AlgorithmIdentifier, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
+-        public generateKey(algorithm: string, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKeyPair | CryptoKey>;
+-        public generateKey(algorithm: RsaHashedKeyGenParams | EcKeyGenParams | DhKeyGenParams, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKeyPair>;
+-        public generateKey(algorithm: AesKeyGenParams | HmacKeyGenParams | Pbkdf2Params, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKey>;
+-        public sign(algorithm: string | RsaPssParams | EcdsaParams | AesCmacParams, key: CryptoKey, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
+-        public verify(algorithm: string | RsaPssParams | EcdsaParams | AesCmacParams, key: CryptoKey, signature: NodeBufferSource, data: NodeBufferSource): PromiseLike<boolean>;
+-        public encrypt(algorithm: string | RsaOaepParams | AesCtrParams | AesCbcParams | AesCmacParams | AesGcmParams | AesCfbParams, key: CryptoKey, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
+-        public decrypt(algorithm: string | RsaOaepParams | AesCtrParams | AesCbcParams | AesCmacParams | AesGcmParams | AesCfbParams, key: CryptoKey, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
+-        public wrapKey(format: string, key: CryptoKey, wrappingKey: CryptoKey, wrapAlgorithm: AlgorithmIdentifier): PromiseLike<ArrayBuffer>;
+-        public unwrapKey(format: string, wrappedKey: NodeBufferSource, unwrappingKey: CryptoKey, unwrapAlgorithm: AlgorithmIdentifier, unwrappedKeyAlgorithm: AlgorithmIdentifier, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKey>;
+-        public deriveKey(algorithm: string | EcdhKeyDeriveParams | DhKeyDeriveParams | ConcatParams | HkdfCtrParams | Pbkdf2Params, baseKey: CryptoKey, derivedKeyType: string | AesDerivedKeyParams | HmacImportParams | ConcatParams | HkdfCtrParams | Pbkdf2Params, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKey>;
+-        public deriveBits(algorithm: string | EcdhKeyDeriveParams | DhKeyDeriveParams | ConcatParams | HkdfCtrParams | Pbkdf2Params, baseKey: CryptoKey, length: number): PromiseLike<ArrayBuffer>;
+-        public exportKey(format: "jwk", key: CryptoKey): PromiseLike<JsonWebKey>;
+-        public exportKey(format: "raw" | "pkcs8" | "spki", key: CryptoKey): PromiseLike<ArrayBuffer>;
+-        public exportKey(format: string, key: CryptoKey): PromiseLike<JsonWebKey | ArrayBuffer>;
+-        public importKey(format: "jwk", keyData: JsonWebKey, algorithm: string | RsaHashedImportParams | EcKeyImportParams | HmacImportParams | DhImportKeyParams, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKey>;
+-        public importKey(format: "raw" | "pkcs8" | "spki", keyData: NodeBufferSource, algorithm: string | RsaHashedImportParams | EcKeyImportParams | HmacImportParams | DhImportKeyParams, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKey>;
+-        public importKey(format: string, keyData: JsonWebKey | NodeBufferSource, algorithm: string | RsaHashedImportParams | EcKeyImportParams | HmacImportParams | DhImportKeyParams, extractable: boolean, keyUsages: string[]): PromiseLike<CryptoKey>;
++        public generateKey(algorithm: string, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKeyPair | WCryptoKey>;
++        public generateKey(algorithm: RsaHashedKeyGenParams | EcKeyGenParams | DhKeyGenParams, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKeyPair>;
++        public generateKey(algorithm: AesKeyGenParams | HmacKeyGenParams | Pbkdf2Params, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKey>;
++        public sign(algorithm: string | RsaPssParams | EcdsaParams | AesCmacParams, key: WCryptoKey, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
++        public verify(algorithm: string | RsaPssParams | EcdsaParams | AesCmacParams, key: WCryptoKey, signature: NodeBufferSource, data: NodeBufferSource): PromiseLike<boolean>;
++        public encrypt(algorithm: string | RsaOaepParams | AesCtrParams | AesCbcParams | AesCmacParams | AesGcmParams | AesCfbParams, key: WCryptoKey, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
++        public decrypt(algorithm: string | RsaOaepParams | AesCtrParams | AesCbcParams | AesCmacParams | AesGcmParams | AesCfbParams, key: WCryptoKey, data: NodeBufferSource): PromiseLike<ArrayBuffer>;
++        public wrapKey(format: string, key: WCryptoKey, wrappingKey: WCryptoKey, wrapAlgorithm: AlgorithmIdentifier): PromiseLike<ArrayBuffer>;
++        public unwrapKey(format: string, wrappedKey: NodeBufferSource, unwrappingKey: WCryptoKey, unwrapAlgorithm: AlgorithmIdentifier, unwrappedKeyAlgorithm: AlgorithmIdentifier, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKey>;
++        public deriveKey(algorithm: string | EcdhKeyDeriveParams | DhKeyDeriveParams | ConcatParams | HkdfCtrParams | Pbkdf2Params, baseKey: WCryptoKey, derivedKeyType: string | AesDerivedKeyParams | HmacImportParams | ConcatParams | HkdfCtrParams | Pbkdf2Params, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKey>;
++        public deriveBits(algorithm: string | EcdhKeyDeriveParams | DhKeyDeriveParams | ConcatParams | HkdfCtrParams | Pbkdf2Params, baseKey: WCryptoKey, length: number): PromiseLike<ArrayBuffer>;
++        public exportKey(format: "jwk", key: WCryptoKey): PromiseLike<JsonWebKey>;
++        public exportKey(format: "raw" | "pkcs8" | "spki", key: WCryptoKey): PromiseLike<ArrayBuffer>;
++        public exportKey(format: string, key: WCryptoKey): PromiseLike<JsonWebKey | ArrayBuffer>;
++        public importKey(format: "jwk", keyData: JsonWebKey, algorithm: string | RsaHashedImportParams | EcKeyImportParams | HmacImportParams | DhImportKeyParams, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKey>;
++        public importKey(format: "raw" | "pkcs8" | "spki", keyData: NodeBufferSource, algorithm: string | RsaHashedImportParams | EcKeyImportParams | HmacImportParams | DhImportKeyParams, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKey>;
++        public importKey(format: string, keyData: JsonWebKey | NodeBufferSource, algorithm: string | RsaHashedImportParams | EcKeyImportParams | HmacImportParams | DhImportKeyParams, extractable: boolean, keyUsages: string[]): PromiseLike<WCryptoKey>;
+     }
+ 
+     /**
+      * OpenSSL with WebCrypto Interface
+      */
+-    export class WebCrypto implements NativeCrypto {
++    export class WebCrypto implements Crypto {
+ 
+         public keyStorage: KeyStorage;
+-        public subtle: SubtleCrypto;
++        public subtle: WSubtleCrypto;
+ 
+         /**
+          * Constructor
