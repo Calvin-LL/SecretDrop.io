@@ -1,8 +1,8 @@
 import "webcrypto-shim";
 
-import { concatUint8Arrays, getRandomDataOfLength } from "./Helpers";
-
 import LZUTF8 from "lzutf8";
+
+import { concatUint8Arrays, getRandomDataOfLength } from "./Helpers";
 
 export interface AesKeyConfig extends Partial<Omit<AesKeyGenParams, "name">> {}
 

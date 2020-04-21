@@ -1,7 +1,8 @@
-import AesKey from "./AesKey";
 import { ec as EC } from "elliptic";
-import EcKey from "./EcKey";
 import LZUTF8 from "lzutf8";
+
+import AesKey from "./AesKey";
+import EcKey from "./EcKey";
 import { arrayBufferToNumber } from "./Helpers";
 
 export default class PrivateKey extends EcKey {

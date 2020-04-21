@@ -1,9 +1,8 @@
 import "./polyfills";
 
-import { fileToArrayBuffer, getRandomDataOfLength } from "../Helpers";
-
 import EncryptedFile from "../EncryptedFile";
 import EncryptedMessage from "../EncryptedMessage";
+import { fileToArrayBuffer, getRandomDataOfLength } from "../Helpers";
 import KeyPair from "../KeyPair";
 import PlainFile from "../PlainFile";
 import PlainMessage from "../PlainMessage";

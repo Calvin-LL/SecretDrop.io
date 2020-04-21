@@ -1,6 +1,7 @@
-import PublicKey from "./PublicKey";
-import { fileToArrayBuffer } from "./Helpers";
 import { saveAs } from "file-saver";
+
+import { fileToArrayBuffer } from "./Helpers";
+import PublicKey from "./PublicKey";
 
 export default class PlainFile {
   private file: File;

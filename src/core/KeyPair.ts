@@ -1,4 +1,5 @@
 import { ec as EC } from "elliptic";
+
 import EcKey from "./EcKey";
 
 export default class KeyPair extends EcKey {

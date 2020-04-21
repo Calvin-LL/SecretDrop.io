@@ -10,7 +10,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "import-sort src/* --write && pretty-quick --staged"
+      "pre-commit": "import-sort --write 'src/**/!(*.d).{ts,js,vue}' && pretty-quick --staged"
     }
   },
   "repository": {

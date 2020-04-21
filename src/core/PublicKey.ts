@@ -1,13 +1,13 @@
+import { ec as EC } from "elliptic";
+import LZUTF8 from "lzutf8";
+
+import AesKey from "./AesKey";
+import EcKey from "./EcKey";
 import {
   concatUint8Arrays,
   getRandomDataOfLength,
   numberToArrayBuffer,
 } from "./Helpers";
-
-import AesKey from "./AesKey";
-import { ec as EC } from "elliptic";
-import EcKey from "./EcKey";
-import LZUTF8 from "lzutf8";
 
 export default class PublicKey extends EcKey {
   private theirKeyPair: EC.KeyPair;

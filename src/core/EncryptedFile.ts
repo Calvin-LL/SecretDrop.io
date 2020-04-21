@@ -1,6 +1,7 @@
-import PrivateKey from "./PrivateKey";
-import { fileToArrayBuffer } from "./Helpers";
 import { saveAs } from "file-saver";
+
+import { fileToArrayBuffer } from "./Helpers";
+import PrivateKey from "./PrivateKey";
 
 export default class EncryptedFile {
   private file: File;
