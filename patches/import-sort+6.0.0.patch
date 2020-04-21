@@ -1,0 +1,17 @@
+diff --git a/node_modules/import-sort/lib/index.js b/node_modules/import-sort/lib/index.js
+index 1059a59..573e564 100644
+--- a/node_modules/import-sort/lib/index.js
++++ b/node_modules/import-sort/lib/index.js
+@@ -119,10 +119,10 @@ function sortImports(code, parser, style, file, options) {
+         beforeChange = {
+             start: start - match.length,
+             end: start,
+-            code: eol + eol,
++            code: eol,
+             note: "before-collapse",
+         };
+-        return eol + eol;
++        return eol;
+     });
+     // Collapse all whitespace into a single new line
+     after = after.replace(/^\s+/, match => {
