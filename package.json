@@ -1,6 +1,6 @@
 {
   "name": "secretdrop.io",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Public key encryption for everyone at https://secretdrop.io",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/CoolCyberBrain/secretdrop.io#readme",
   "dependencies": {
     "core-js": "^3.6.4",
+    "detect-browser": "^5.0.0",
     "elliptic": "^6.5.2",
     "file-saver": "^2.0.2",
     "lzutf8": "^0.5.5",

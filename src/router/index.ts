@@ -1,24 +1,52 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
-import Home from "../views/Home.vue";
-
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+    meta: {
+      title: "SecretDrop.io - Generate New Key Pair",
+      metaTags: [
+        {
+          name: "robots",
+          content: "index, follow",
+        },
+      ],
+    },
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/decrypt",
+    name: "Decrypt",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "decrypt" */ "../views/Decrypt.vue"),
+    meta: {
+      title: "Decrypt",
+      metaTags: [
+        {
+          name: "robots",
+          content: "noindex",
+        },
+      ],
+    },
+  },
+  {
+    path: "/encrypt",
+    name: "Encrypt",
+    component: () =>
+      import(/* webpackChunkName: "encrypt" */ "../views/Encrypt.vue"),
+    meta: {
+      title: "Encrypt",
+      metaTags: [
+        {
+          name: "robots",
+          content: "noindex",
+        },
+      ],
+    },
   },
 ];
 
