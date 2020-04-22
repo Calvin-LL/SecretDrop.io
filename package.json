@@ -6,11 +6,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "jest",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "format": "import-sort --write 'src/**/!(*.d).{ts,js,vue}' && pretty-quick"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "import-sort --write 'src/**/!(*.d).{ts,js,vue}' && pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "repository": {
