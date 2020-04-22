@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts">
-// @ts-ignore
-import smoothscroll from "smoothscroll-polyfill";
-import TopBar from "@/components/TopBar.vue";
 import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
+import TopBar from "@/components/TopBar.vue";
+// @ts-ignore
+import smoothscroll from "smoothscroll-polyfill";
 
 smoothscroll.polyfill();
 
