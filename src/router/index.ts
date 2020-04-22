@@ -7,7 +7,8 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/GenerateKeyPair.vue"),
     meta: {
       title: "SecretDrop.io - Generate New Key Pair",
       metaTags: [
