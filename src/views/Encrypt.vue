@@ -1,11 +1,18 @@
 <template>
-  <div class="encrypt">
-    <h1>This is an about page</h1>
-  </div>
+  <div class="encrypt"></div>
 </template>
 
 <script lang="ts">
-export default {
-  name: "Encrypt",
-};
+import { Component, Vue } from "vue-property-decorator";
+
+@Component({
+  components: {},
+})
+export default class Encrypt extends Vue {}
 </script>
+
+<style scoped lang="scss">
+.encrypt {
+  flex: 1;
+}
+</style>

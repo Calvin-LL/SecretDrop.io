@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
+    name: "GenerateKeyPair",
     component: () =>
       import(/* webpackChunkName: "home" */ "../views/GenerateKeyPair.vue"),
     meta: {

@@ -1,5 +1,3 @@
-const removeClass = require("postcss-remove-classes").default;
-
 const production = process.env.NODE_ENV === "production";
 
 module.exports = {
@@ -50,20 +48,7 @@ module.exports = {
   css: {
     loaderOptions: {
       postcss: {
-        plugins: production
-          ? [
-              require("autoprefixer"),
-              removeClass([
-                "mdc-ripple-upgraded--background-focused",
-                ".mdc-button--raised:focus",
-              ]),
-            ]
-          : [
-              removeClass([
-                "mdc-ripple-upgraded--background-focused",
-                ".mdc-button--raised:focus",
-              ]),
-            ],
+        plugins: production ? [require("autoprefixer")] : [],
       },
       sass: {
         implementation: require("dart-sass"),
@@ -71,7 +56,6 @@ module.exports = {
         sassOptions: {
           includePaths: ["node_modules", "src"],
         },
-        prependData: '@import "assets/scss/global";',
       },
     },
   },

@@ -1,7 +1,13 @@
 <template>
-  <button
+  <a
     ref="button"
     class="mdc-button mdc-button--raised"
+    :class="{
+      'mdc-button--raised': type === 'raised',
+      'mdc-button--unelevated': type === 'unelevated',
+    }"
+    :target="newPage ? '_blank' : '_self'"
+    :href="href"
     @click="$emit('click', arguments)"
     v-if="href"
   >
@@ -10,10 +16,14 @@
       icon
     }}</i>
     <span class="mdc-button__label">{{ text }}</span>
-  </button>
-  <a
+  </a>
+  <button
     ref="button"
-    class="mdc-button mdc-button--raised"
+    class="mdc-button"
+    :class="{
+      'mdc-button--raised': type === 'raised',
+      'mdc-button--unelevated': type === 'unelevated',
+    }"
     @click="$emit('click', arguments)"
     v-else
   >
@@ -22,7 +32,7 @@
       icon
     }}</i>
     <span class="mdc-button__label">{{ text }}</span>
-  </a>
+  </button>
 </template>
 
 <script lang="ts">
@@ -31,8 +41,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class MDCButton extends Vue {
+  @Prop(String) readonly type: string | undefined;
   @Prop(String) readonly text: string | undefined;
   @Prop(String) readonly href: string | undefined;
+  @Prop(Boolean) readonly newPage: boolean | undefined;
   @Prop(String) readonly icon: string | undefined;
 
   $refs!: {
@@ -46,14 +58,13 @@ export default class MDCButton extends Vue {
 </script>
 
 <style lang="scss">
-// @import "@material/button";
+@use "@material/button";
 
-// @include button.core-styles;
+@include button.core-styles;
 
 .mdc-button {
-  // @include mdc-button-horizontal-padding(16px);
-  // @include mdc-button-shape-radius(50%);
-
-  text-align: center;
+  @include button.shape-radius(50%);
+  @include button.horizontal-padding(16px);
+  @include button.height(36px);
 }
 </style>
