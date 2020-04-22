@@ -1,18 +1,121 @@
 <template>
-  <div class="home"></div>
+  <div class="home">
+    <LinkCard
+      class="encryption-link-card"
+      title="Encryption Link"
+      subtitle="Files and messages encrypted with this link can only be decrypted with the link in the other box. Share this link."
+      :baseUrl="encryptLinkBaseUrl"
+      :keyString="publicKeyString"
+      @download="onEncryptLinkDownload"
+      @copy="onEncryptLinkCopy"
+    />
+    <LinkCard
+      class="decryption-link-card"
+      title="Decryption Link"
+      subtitle="This link can only decrypt files and messages encrypted with the link in the green box. <span class='warning'>Never share this link.</span>"
+      :baseUrl="decryptLinkBaseUrl"
+      :keyString="privatekeyString"
+      @download="onDecryptLinkDownload"
+      @copy="onDecryptLinkCopy"
+    />
+  </div>
 </template>
 
 <script lang="ts">
+import LinkCard from "@/components/LinkCard.vue";
+import KeyPair from "@/core/KeyPair";
+import { downloadAsTxt } from "@/UIHelpers";
+import copy from "copy-to-clipboard";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {},
+  components: { LinkCard },
 })
-export default class GenerateKeyPair extends Vue {}
+export default class GenerateKeyPair extends Vue {
+  encryptLinkBaseUrl = "https://secretdrop.io/encrypt?key=";
+  decryptLinkBaseUrl = "https://secretdrop.io/decrypt?key=";
+
+  publicKeyString = "";
+  privatekeyString = "";
+
+  get fullEncryptLink() {
+    return this.encryptLinkBaseUrl + this.publicKeyString;
+  }
+
+  get fullDecryptLink() {
+    return this.decryptLinkBaseUrl + this.privatekeyString;
+  }
+
+  created() {
+    const keyPair = new KeyPair();
+
+    if (process.env.NODE_ENV !== "production") {
+      this.encryptLinkBaseUrl = `http://${window.location.host}/encrypt?key=`;
+      this.decryptLinkBaseUrl = `http://${window.location.host}/decrypt?key=`;
+    }
+
+    this.publicKeyString = keyPair.getPublicKeyString();
+    this.privatekeyString = keyPair.getPrivateKeyString();
+  }
+
+  onEncryptLinkDownload() {
+    downloadAsTxt(this.fullEncryptLink, "encryption-link.txt");
+  }
+
+  onDecryptLinkDownload() {
+    downloadAsTxt(this.fullDecryptLink, "decryption-link.txt");
+  }
+
+  onEncryptLinkCopy() {
+    if (copy(this.fullEncryptLink))
+      this.$root.$emit("show-snackbar", "Copied to clipboard.");
+    else
+      this.$root.$emit(
+        "show-snackbar",
+        "Failed to copy to clipboard. Try copying the link manually."
+      );
+  }
+
+  onDecryptLinkCopy() {
+    if (copy(this.fullDecryptLink))
+      this.$root.$emit("show-snackbar", "Copied to clipboard.");
+    else
+      this.$root.$emit(
+        "show-snackbar",
+        "Failed to copy to clipboard. Try copying the link manually."
+      );
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .home {
   flex: 1;
+
+  padding-top: 32px;
+  padding-bottom: 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .encryption-link-card {
+    background-color: #f1f8e9;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #273a12;
+    }
+  }
+
+  .decryption-link-card {
+    margin-top: 48px;
+
+    background-color: #fff8e1;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #4b3900;
+    }
+  }
 }
 </style>

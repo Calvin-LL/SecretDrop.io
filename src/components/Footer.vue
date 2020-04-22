@@ -43,7 +43,6 @@ export default Vue.extend({
 @import "assets/scss/global";
 
 #footer {
-  margin-top: 48px;
   background-color: $dark-background;
   display: flex;
   justify-content: center;
