@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import AnimatedLogo from "@/components/AnimatedLogo.vue";
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: { AnimatedLogo },

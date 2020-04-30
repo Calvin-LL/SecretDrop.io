@@ -26,12 +26,12 @@
 </template>
 
 <script lang="ts">
+import FullScreenLoadingOverlay from "@/components/FullScreenLoadingOverlay.vue";
 import LinkCard from "@/components/LinkCard.vue";
 import KeyPair from "@/core/KeyPair";
 import { downloadAsTxt } from "@/UIHelpers";
 import copy from "copy-to-clipboard";
 import { Component, Vue } from "vue-property-decorator";
-import FullScreenLoadingOverlay from "@/components/FullScreenLoadingOverlay.vue";
 
 @Component({
   components: { LinkCard, FullScreenLoadingOverlay },
