@@ -23,7 +23,7 @@ export default class Card extends Vue {
 
 .card {
   min-height: 100px;
-  max-width: 500px;
+  max-width: 470px;
 
   padding: 16px;
   margin-left: 48px;
