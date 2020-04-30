@@ -26,10 +26,17 @@ export default class Card extends Vue {
   max-width: 500px;
 
   padding: 16px;
+  margin-left: 48px;
+  margin-right: 48px;
 
   border-radius: 32px;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   overflow: hidden;
+
+  @media (max-width: 640px) {
+    margin-left: 4%;
+    margin-right: 4%;
+  }
 
   .title-container {
     width: 100%;

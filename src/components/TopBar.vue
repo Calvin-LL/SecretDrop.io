@@ -6,12 +6,12 @@
         href="https://secretdrop.io"
         rel="noopener noreferrer"
       >
-        <div ref="logoContainer" class="logo-with-text">
-          <AnimatedLogo />
+        <div class="logo-with-text">
+          <AnimatedLogo class="animate-on-hover" />
           <span class="logo-text">SecretDrop.io</span>
         </div>
       </a>
-      <div ref="buttonContainer" class="button-container">
+      <div class="button-container">
         <MDCButton
           text="Generate new key pair"
           :type="generateSelected ? 'raised' : ''"
@@ -36,30 +36,11 @@ import { Component, Vue, Watch } from "vue-property-decorator";
   },
 })
 export default class TopBar extends Vue {
-  $refs!: {
-    logoContainer: HTMLDivElement;
-    buttonContainer: HTMLDivElement;
-  };
-
   headerWrapped = false;
   generateSelected = false;
 
   get currentRoute() {
     return this.$route.name;
-  }
-
-  mounted() {
-    window.addEventListener("resize", this.resizeHeader);
-    this.resizeHeader();
-  }
-
-  resizeHeader() {
-    const logoBottom =
-      (this.$refs.logoContainer.offsetTop ?? 0) +
-      (this.$refs.logoContainer.offsetHeight ?? 0);
-    const buttonTop = this.$refs.buttonContainer.offsetTop ?? 0;
-
-    this.headerWrapped = logoBottom <= buttonTop;
   }
 
   @Watch("currentRoute", { immediate: true })
@@ -87,26 +68,38 @@ export default class TopBar extends Vue {
   justify-content: center;
   align-items: center;
 
+  width: 100%;
+
+  margin-bottom: 48px;
+
   .content {
+    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-flow: wrap;
     padding: 48px;
     padding-bottom: 0px;
-    max-width: 1800px;
-    width: 1288px;
+    max-width: 1288px;
 
-    &.wrapped {
+    @media (max-width: 420px) {
+      padding: 4%;
+      padding-top: 36px;
+      padding-bottom: 0px;
+    }
+
+    @media (max-width: 740px) {
+      flex-direction: column;
       justify-content: center;
 
       .button-container {
         margin-top: 16px;
+
+        flex-direction: column;
       }
     }
 
     .logo-with-text-a {
-      margin-right: 32px;
       text-decoration: none;
       color: $primary-text-color;
 
@@ -136,7 +129,6 @@ export default class TopBar extends Vue {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-flow: wrap;
 
       &::v-deep .mdc-button {
         margin: 8px;

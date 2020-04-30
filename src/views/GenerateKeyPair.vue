@@ -92,9 +92,6 @@ export default class GenerateKeyPair extends Vue {
 .home {
   flex: 1;
 
-  padding-top: 32px;
-  padding-bottom: 32px;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

@@ -48,18 +48,20 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
 
+  margin-top: 48px;
+
   @media (prefers-color-scheme: dark) {
     background-color: $dark-background-dark;
   }
 
   .content {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: wrap;
     padding: 48px;
-    max-width: 1800px;
-    width: 1288px;
+    max-width: 1288px;
 
     @media (max-width: 680px) {
       flex-direction: column;
@@ -87,7 +89,7 @@ export default Vue.extend({
       }
 
       svg {
-        width: 2em;
+        width: 2rem;
         filter: grayscale(100%);
         transition-property: all;
         transition-duration: 500ms;
@@ -129,7 +131,7 @@ export default Vue.extend({
         }
 
         svg {
-          width: 1em;
+          width: 1rem;
           fill: $secondary-text-color;
 
           @media (prefers-color-scheme: dark) {
