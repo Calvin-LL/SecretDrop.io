@@ -223,6 +223,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+
 import Quote from "./Quote.vue";
 
 export default Vue.extend({
