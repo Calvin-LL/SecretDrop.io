@@ -42,9 +42,17 @@ export default class LinkCard extends Vue {
   urlToShow = "";
 
   mounted() {
-    animateAddTextTnElement(this.baseUrl, this.keyString, 3000, (s) => {
-      this.urlToShow = s;
-    });
+    animateAddTextTnElement(
+      this.baseUrl,
+      this.keyString,
+      3000,
+      (s) => {
+        this.urlToShow = s;
+      },
+      () => {
+        this.$emit("animationFinish");
+      }
+    );
   }
 }
 </script>

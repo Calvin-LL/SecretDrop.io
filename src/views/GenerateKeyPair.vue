@@ -8,6 +8,7 @@
       :keyString="publicKeyString"
       @download="onEncryptLinkDownload"
       @copy="onEncryptLinkCopy"
+      @animationFinish="onAnimationFinish"
     />
     <LinkCard
       class="decryption-link-card"
@@ -17,7 +18,10 @@
       :keyString="privatekeyString"
       @download="onDecryptLinkDownload"
       @copy="onDecryptLinkCopy"
+      @animationFinish="onAnimationFinish"
     />
+
+    <FullScreenLoadingOverlay :hide="hideLoadingOverlay" />
   </div>
 </template>
 
@@ -27,9 +31,10 @@ import KeyPair from "@/core/KeyPair";
 import { downloadAsTxt } from "@/UIHelpers";
 import copy from "copy-to-clipboard";
 import { Component, Vue } from "vue-property-decorator";
+import FullScreenLoadingOverlay from "@/components/FullScreenLoadingOverlay.vue";
 
 @Component({
-  components: { LinkCard },
+  components: { LinkCard, FullScreenLoadingOverlay },
 })
 export default class GenerateKeyPair extends Vue {
   encryptLinkBaseUrl = "https://secretdrop.io/encrypt?key=";
@@ -37,6 +42,9 @@ export default class GenerateKeyPair extends Vue {
 
   publicKeyString = "";
   privatekeyString = "";
+
+  animationFinishCount = 0;
+  hideLoadingOverlay = false;
 
   get fullEncryptLink() {
     return this.encryptLinkBaseUrl + this.publicKeyString;
@@ -56,6 +64,10 @@ export default class GenerateKeyPair extends Vue {
 
     this.publicKeyString = keyPair.getPublicKeyString();
     this.privatekeyString = keyPair.getPrivateKeyString();
+  }
+
+  onAnimationFinish() {
+    if (this.animationFinishCount++ === 1) this.hideLoadingOverlay = true;
   }
 
   onEncryptLinkDownload() {
