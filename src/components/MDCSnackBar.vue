@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import delay from "delay";
 import { MDCSnackbar } from "@material/snackbar";
 import { Component, Vue } from "vue-property-decorator";
 
@@ -25,10 +26,11 @@ export default class MDCSnackBar extends Vue {
 
     this.$root.$on("show-snackbar", (msg: string) => {
       if (snackbar.isOpen) {
-        const openSnackbar = () => {
+        const openSnackbar = async () => {
           snackbar.unlisten("MDCSnackbar:closed", openSnackbar);
           this.message = msg;
-          setTimeout(() => snackbar.open(), 100);
+          await delay(100);
+          snackbar.open();
         };
 
         snackbar.listen("MDCSnackbar:closed", openSnackbar);

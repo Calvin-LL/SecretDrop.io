@@ -22,6 +22,8 @@ export default class Card extends Vue {
 @import "assets/scss/global";
 
 .card {
+  position: relative;
+
   min-height: 100px;
   max-width: 470px;
 

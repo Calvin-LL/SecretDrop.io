@@ -32,7 +32,9 @@
     "@material/theme": "^6.0.0",
     "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.6.4",
+    "delay": "^4.3.0",
     "detect-browser": "^5.0.0",
+    "dropzone": "^5.7.0",
     "elliptic": "^6.5.2",
     "file-saver": "^2.0.2",
     "lzutf8": "^0.5.5",
@@ -45,6 +47,7 @@
     "webcrypto-shim": "^0.1.5"
   },
   "devDependencies": {
+    "@types/dropzone": "^5.5.2",
     "@types/elliptic": "^6.4.12",
     "@types/file-saver": "^2.0.1",
     "@types/jest": "^25.2.1",
@@ -63,7 +66,7 @@
     "import-sort-cli": "^6.0.0",
     "import-sort-parser-babel-vue": "^1.0.6",
     "import-sort-style-module": "^6.0.0",
-    "jest": "^25.5.2",
+    "jest": "^25.5.3",
     "jsdom": "^16.2.2",
     "node-webcrypto-ossl": "^2.0.7",
     "patch-package": "^6.2.2",
