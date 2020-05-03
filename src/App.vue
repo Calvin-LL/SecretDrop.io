@@ -33,24 +33,20 @@ export default {
 </script>
 
 <style lang="scss">
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 body {
+  @include global.primary-text-auto;
+  @include global.background-auto;
+
   display: flex;
   flex-direction: column;
   margin: 0;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
-  color: $primary-text-color;
-  background-color: $background;
   min-width: 260px;
   min-height: 100vh;
   overflow: overlay;
   overflow: auto;
-
-  @media (prefers-color-scheme: dark) {
-    color: $primary-text-color-dark;
-    background-color: $background-dark;
-  }
 }
 
 #app-main-container {

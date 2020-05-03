@@ -40,19 +40,16 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 #footer {
-  background-color: $dark-background;
+  @include global.dark-background-auto;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
   margin-top: 48px;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: $dark-background-dark;
-  }
 
   .content {
     flex: 1;
@@ -68,13 +65,10 @@ export default Vue.extend({
     }
 
     .copyright-notice {
+      @include global.secondary-text-auto;
+
       flex: 1;
       flex-shrink: 0;
-      color: $secondary-text-color;
-
-      @media (prefers-color-scheme: dark) {
-        color: $secondary-text-color-dark;
-      }
 
       @media (max-width: 680px) {
         order: 3;
@@ -114,14 +108,11 @@ export default Vue.extend({
       }
 
       a {
+        @include global.secondary-text-auto;
+
         text-align: center;
         flex-shrink: 0;
         margin: 16px;
-        color: $secondary-text-color;
-
-        @media (prefers-color-scheme: dark) {
-          color: $secondary-text-color-dark;
-        }
       }
 
       .github-link {
@@ -132,10 +123,10 @@ export default Vue.extend({
 
         svg {
           width: 1rem;
-          fill: $secondary-text-color;
+          fill: global.$secondary-text-color;
 
           @media (prefers-color-scheme: dark) {
-            fill: $secondary-text-color-dark;
+            fill: global.$secondary-text-color-dark;
           }
         }
       }

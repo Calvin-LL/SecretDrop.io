@@ -58,8 +58,6 @@ export default class LinkCard extends Vue {
 </script>
 
 <style lang="scss">
-@import "assets/scss/global";
-
 .link-card-url-container {
   padding-left: 8px;
   padding-right: 8px;

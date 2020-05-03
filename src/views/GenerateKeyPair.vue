@@ -100,7 +100,9 @@ export default class GenerateKeyPair extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@use "assets/scss/global";
+
 .home {
   flex: 1;
 
@@ -110,21 +112,13 @@ export default class GenerateKeyPair extends Vue {
   align-items: center;
 
   .encryption-link-card {
-    background-color: #f1f8e9;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #273a12;
-    }
+    @include global.encrypt-card-background-auto;
   }
 
   .decryption-link-card {
+    @include global.decrypt-card-background-auto;
+
     margin-top: 48px;
-
-    background-color: #fff8e1;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #4b3900;
-    }
   }
 }
 </style>

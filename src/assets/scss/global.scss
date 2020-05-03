@@ -2,14 +2,36 @@ $primary-text-color: rgba(#000000, 0.87);
 $secondary-text-color: rgba(#000000, 0.54);
 $background: #fafafa;
 $dark-background: #e0e0e0;
+$encrypt-card-background: #f1f8e9;
+$decrypt-card-background: #fff8e1;
 
 // dark
 $primary-text-color-dark: #fff;
 $secondary-text-color-dark: rgba(#fff, 0.7);
 $background-dark: #303030;
 $dark-background-dark: #212121;
+$encrypt-card-background-dark: #273a12;
+$decrypt-card-background-dark: #4b3900;
 
 $file-icon-css-path: "/icons";
+
+$theme-color: #43a047;
+
+@mixin encrypt-card-background-auto {
+  background-color: $encrypt-card-background;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $encrypt-card-background-dark;
+  }
+}
+
+@mixin decrypt-card-background-auto {
+  background-color: $decrypt-card-background;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $decrypt-card-background-dark;
+  }
+}
 
 @mixin background-auto {
   background-color: $background;

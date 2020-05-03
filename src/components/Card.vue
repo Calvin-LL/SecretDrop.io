@@ -19,7 +19,7 @@ export default class Card extends Vue {
 </script>
 
 <style lang="scss">
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 .card {
   position: relative;
@@ -55,7 +55,7 @@ export default class Card extends Vue {
     }
 
     .subtitle {
-      @include secondary-text-auto;
+      @include global.secondary-text-auto;
 
       .warning {
         color: #d50000;

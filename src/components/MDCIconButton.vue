@@ -33,12 +33,12 @@ export default class MDCIconButton extends Vue {
 
 <style lang="scss">
 @use "@material/icon-button";
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 @include icon-button.core-styles;
 
 .material-icons-outlined {
-  @include secondary-text-auto;
+  @include global.secondary-text-auto;
 
   transform: rotate(0.03deg);
 }

@@ -61,7 +61,7 @@ export default class TopBar extends Vue {
 <style scoped lang="scss">
 @use "@material/button";
 @use "@material/ripple";
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 #top-bar {
   display: flex;
@@ -100,12 +100,9 @@ export default class TopBar extends Vue {
     }
 
     .logo-with-text-a {
-      text-decoration: none;
-      color: $primary-text-color;
+      @include global.primary-text-auto;
 
-      @media (prefers-color-scheme: dark) {
-        color: $primary-text-color-dark;
-      }
+      text-decoration: none;
 
       .logo-with-text {
         display: flex;
@@ -134,15 +131,15 @@ export default class TopBar extends Vue {
         margin: 8px;
 
         &.mdc-button--raised {
-          @include button.container-fill-color(#43a047);
-          @include button.ink-color($primary-text-color-dark);
+          @include button.container-fill-color(global.$theme-color);
+          @include button.ink-color(global.$primary-text-color-dark);
         }
 
         &:not(.mdc-button--raised) {
-          @include button.ink-color(#43a047);
+          @include button.ink-color(global.$theme-color);
 
           & > .mdc-button__ripple {
-            @include ripple.states-base-color(#43a047);
+            @include ripple.states-base-color(global.$theme-color);
           }
         }
       }
