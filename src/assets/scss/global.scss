@@ -64,3 +64,18 @@ $theme-color: #43a047;
     color: $secondary-text-color-dark;
   }
 }
+
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

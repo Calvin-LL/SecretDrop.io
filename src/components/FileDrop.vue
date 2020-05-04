@@ -1,39 +1,43 @@
 <template>
-  <div ref="container" class="file-drop-or-text-container">
-    <p class="or-p">or</p>
-    <div class="file-drop-container">
-      <form
-        ref="dropzone"
-        action="/"
-        class="dropzone-full-screen-overlay"
-        :class="{ visible: dropzoneOverlayVisible, gone: dropzoneOverlayGone }"
+  <div
+    ref="container"
+    class="file-drop-or-text-container"
+    :class="{
+      invisible: containerInvisible,
+      gone: containerGone,
+    }"
+  >
+    <div class="file-drop-clickable-and-preview-container">
+      <div
+        class="loading-overlay"
+        :class="{
+          invisible: fileLoadingOverlayInvisible,
+          gone: fileLoadingOverlayGone,
+        }"
       >
-        <div class="drop-text">
-          {{ dropText }}
-        </div>
-      </form>
-      <div class="dropzone-container">
-        <div ref="dropFileClickable" class="drop-file-clickable">
-          {{ text }}
-        </div>
-        <div ref="filePreviewContainer" class="file-preview-container">
-          <div
-            ref="filePreviewTemplate"
-            class="preview-template"
-            style="display: none;"
-          >
-            <div class="file-preview">
-              <div class="dz-preview dz-file-preview">
-                <div class="dz-details">
-                  <MDCIconButton class="">close</MDCIconButton>
-                  <img data-dz-thumbnail />
-                  <div class="dz-filename"><span data-dz-name></span></div>
-                  <div class="dz-size" data-dz-size></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <MDCCircularProgress />
+      </div>
+
+      <label class="file-drop-clickable">
+        {{ text }}
+        <input type="file" @change="onFileInputChange" multiple />
+      </label>
+
+      <div class="file-preview-container"></div>
+    </div>
+
+    <div
+      class="file-drop-full-screen-overlay"
+      :class="{
+        invisible: fileDropOverlayInvisible,
+        gone: fileDropOverlayGone,
+      }"
+      @dragover.prevent="onDragOver"
+      @dragleave.prevent="onDragLeave"
+      @drop.prevent="onDrop"
+    >
+      <div class="drop-text">
+        {{ dropText }}
       </div>
     </div>
   </div>
@@ -41,72 +45,119 @@
 
 <script lang="ts">
 import delay from "delay";
-import Dropzone from "dropzone";
-import MDCIconButton from "./MDCIconButton.vue";
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { fromEvent } from "file-selector";
+import { Component, Prop, Vue, Watch, Model } from "vue-property-decorator";
 
-Dropzone.autoDiscover = false;
+import MDCCircularProgress from "./MDCCircularProgress.vue";
+import MDCIconButton from "./MDCIconButton.vue";
 
 @Component({
-  components: { MDCIconButton },
+  components: { MDCIconButton, MDCCircularProgress },
 })
 export default class FileDrop extends Vue {
-  @Prop(String) readonly text!: string;
-  @Prop(String) readonly dropText!: string;
-
   $refs!: {
     container: HTMLDivElement;
-    dropzone: HTMLFormElement;
-    dropFileClickable: HTMLDivElement;
-    filePreviewContainer: HTMLDivElement;
-    filePreviewTemplate: HTMLDivElement;
   };
 
-  dropzoneOverlayVisible = false;
-  dropzoneOverlayGone = true;
+  @Model("change", { type: Array }) readonly files!: typeof File[];
 
-  shouldAcceptFiles = true; // TODO: default to false
+  @Prop(String) readonly text!: string;
+  @Prop(String) readonly dropText!: string;
+  @Prop(Boolean) readonly hidden!: boolean;
+  @Prop(Boolean) readonly shouldAcceptFiles!: boolean;
+
+  containerInvisible = false;
+  containerGone = false;
+
+  fileDropOverlayInvisible = true;
+  fileDropOverlayGone = true;
+
+  fileLoadingOverlayInvisible = true;
+  fileLoadingOverlayGone = true;
 
   mounted() {
-    const dropzone = new Dropzone(this.$refs.dropzone, {
-      autoProcessQueue: false,
-      previewsContainer: this.$refs.filePreviewContainer,
-      previewTemplate: this.$refs.filePreviewTemplate.innerHTML,
-      thumbnailMethod: "contain",
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-      clickable: this.$refs.dropFileClickable,
-      fallback: () => {
-        this.$refs.container.remove();
-      },
-    });
-
     document.body.addEventListener("dragenter", this.onDragEnterPage);
-
-    dropzone.on("addedfile", this.onDragEnd);
-    dropzone.on("drag", this.onDragEnd);
-    dropzone.on("dragend", this.onDragEnd);
-    dropzone.on("dragleave", this.onDragEnd);
   }
 
-  async onDragEnterPage() {
-    if (this.shouldAcceptFiles) {
-      this.dropzoneOverlayGone = false;
+  @Watch("hidden")
+  onHiddenChange() {
+    this.toggleContainerVisibility(!this.hidden);
+  }
+
+  async onDrop(event: DragEvent) {
+    this.onDragLeave();
+
+    this.toggleFileLoading(true);
+
+    const files = await fromEvent(event);
+
+    console.log(files);
+    this.toggleFileLoading(false);
+  }
+
+  async onFileInputChange(event: InputEvent) {
+    this.toggleFileLoading(true);
+
+    const files = await fromEvent(event);
+
+    console.log(files);
+    this.toggleFileLoading(false);
+  }
+
+  onDragEnterPage() {
+    if (this.shouldAcceptFiles) this.toggleFileDropOverlay(true);
+  }
+
+  onDragOver() {}
+
+  onDragLeave() {
+    this.toggleFileDropOverlay(false);
+  }
+
+  async toggleContainerVisibility(visible: boolean) {
+    if (visible) {
+      this.containerGone = false;
       await delay(10);
-      this.dropzoneOverlayVisible = true;
+      this.containerInvisible = false;
+    } else {
+      this.$refs.container.style.maxHeight = `${this.$refs.container.clientHeight}px`;
+      await delay(10);
+      this.containerInvisible = true;
+      await delay(250);
+      this.containerGone = true;
     }
   }
 
-  async onDragEnd() {
-    this.dropzoneOverlayVisible = false;
-    await delay(250);
-    this.dropzoneOverlayGone = true;
+  async toggleFileLoading(loading: boolean) {
+    if (loading) {
+      this.fileLoadingOverlayGone = false;
+      await delay(10);
+      this.fileLoadingOverlayInvisible = false;
+    } else {
+      await delay(10);
+      this.fileLoadingOverlayInvisible = true;
+      await delay(250);
+      this.fileLoadingOverlayGone = true;
+    }
+  }
+
+  async toggleFileDropOverlay(loading: boolean) {
+    if (loading) {
+      this.fileDropOverlayGone = false;
+      await delay(10);
+      this.fileDropOverlayInvisible = false;
+    } else {
+      await delay(10);
+      this.fileDropOverlayInvisible = true;
+      await delay(250);
+      this.fileDropOverlayGone = true;
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 .file-drop-or-text-container {
   width: 100%;
@@ -116,170 +167,113 @@ export default class FileDrop extends Vue {
   box-sizing: border-box;
   overflow: hidden;
 
-  max-height: 100vh;
-  will-change: max-height;
   transition-property: max-height;
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
 
-  &.hide {
-    max-height: 0px;
+  &.invisible {
+    max-height: 0px !important;
   }
 
   &.gone {
     display: none;
   }
 
-  .or-p {
-    @include secondary-text-auto;
-    text-align: center;
-  }
+  .file-drop-clickable-and-preview-container {
+    position: relative;
 
-  .file-drop-container {
-    .dropzone-full-screen-overlay {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 100000;
+    background-color: rgba(#000, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    @media (prefers-color-scheme: dark) {
+      background-color: rgba(#fff, 0.1);
+    }
 
-      opacity: 0;
-      background-color: transparent;
+    .loading-overlay {
+      @include global.flex-center;
+      @include global.absolute-overlay;
 
-      transition-property: opacity, background-color;
+      transition-property: opacity;
       transition-duration: 250ms;
       transition-timing-function: ease-in-out;
+
+      opacity: 1;
+      background-color: rgba($color: #000000, $alpha: 0.1);
+
+      &.invisible {
+        opacity: 0;
+      }
 
       &.gone {
         display: none;
       }
+    }
 
-      &.visible {
-        opacity: 1;
-        background-color: rgba(darken(#43a047, 30%), 0.7);
+    .file-drop-clickable {
+      @include global.flex-center;
+
+      cursor: pointer;
+      text-align: center;
+
+      min-height: 100px;
+
+      border-radius: 16px;
+      border-style: dashed;
+      border-color: rgba(#000, 0.2);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: rgba(#fff, 0.2);
       }
 
-      .drop-text {
-        pointer-events: none;
-        font-size: 3rem;
-        color: $primary-text-color-dark;
+      input {
+        display: none;
       }
     }
 
-    .dropzone-container {
-      background-color: rgba(#000, 0.1);
-      border-radius: 16px;
-      box-sizing: border-box;
+    .file-preview-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
 
-      @media (prefers-color-scheme: dark) {
-        background-color: rgba(#fff, 0.1);
-      }
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  }
 
-      .drop-file-clickable {
-        cursor: pointer;
-        min-height: 100px;
-        text-align: center;
-        padding: 16px;
+  .file-drop-full-screen-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100000;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        border-radius: 16px;
-        border-style: dashed;
-        box-sizing: border-box;
-        border-color: rgba(#000, 0.2);
+    opacity: 1;
+    background-color: rgba(darken(#43a047, 30%), 0.7);
 
-        @media (prefers-color-scheme: dark) {
-          border-color: rgba(#fff, 0.2);
-        }
-      }
+    transition-property: opacity;
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
 
-      .file-preview-container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-wrap: wrap;
+    &.invisible {
+      opacity: 0;
+    }
 
-        padding-left: 4px;
-        padding-right: 4px;
+    &.gone {
+      display: none;
+    }
 
-        .dz-file-preview {
-          @include background-auto;
-
-          margin-top: 8px;
-          margin-bottom: 8px;
-          margin-left: 4px;
-          margin-right: 4px;
-          width: 100px;
-          height: 100px;
-          border-radius: 12px;
-
-          .dz-details {
-            position: relative;
-
-            height: 100%;
-            width: 100%;
-
-            padding: 6px;
-            box-sizing: border-box;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            button {
-              @include primary-text-auto;
-              // @include mdc-icon-button-size(16px);
-              // @include mdc-icon-button-icon-size(16px, 16px, 4px);
-
-              position: absolute;
-              top: 1px;
-              right: 1px;
-            }
-
-            img {
-              flex: 1;
-              display: block;
-              margin: 0 auto;
-              object-fit: contain;
-              background-size: contain;
-
-              min-height: 0px;
-              min-width: 0px;
-            }
-
-            span {
-              white-space: nowrap;
-              overflow: hidden;
-              display: block;
-              text-overflow: ellipsis;
-            }
-
-            .dz-filename {
-              @include primary-text-auto;
-
-              width: 100%;
-
-              margin-top: 2px;
-            }
-
-            .dz-size {
-              @include primary-text-auto;
-
-              width: 100%;
-            }
-          }
-        }
-      }
+    .drop-text {
+      pointer-events: none;
+      font-size: 3rem;
+      color: global.$primary-text-color-dark;
     }
   }
 }

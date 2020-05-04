@@ -233,6 +233,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+@use "assets/scss/global";
+
 #faq {
   display: flex;
   justify-content: flex-start;
@@ -275,10 +277,7 @@ export default Vue.extend({
     }
 
     .diagram-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      @include global.flex-center;
 
       a {
         width: 100%;

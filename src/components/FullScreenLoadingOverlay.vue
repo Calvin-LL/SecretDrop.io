@@ -6,22 +6,22 @@
 </template>
 
 <script lang="ts">
-import delay from "delay";
 import AnimatedLogo from "@/components/AnimatedLogo.vue";
+import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: { AnimatedLogo },
 })
 export default class FullScreenLoadingOverlay extends Vue {
-  @Prop(Boolean) readonly hide!: boolean;
+  @Prop(Boolean) readonly hidden!: boolean;
 
   invisible = false;
   gone = false;
 
-  @Watch("hide")
-  async onHideChange(hide: boolean) {
-    if (hide) {
+  @Watch("hidden")
+  async onHiddenChange(hidden: boolean) {
+    if (hidden) {
       await delay(250);
       this.invisible = true;
       await delay(250);
@@ -47,7 +47,7 @@ export default class FullScreenLoadingOverlay extends Vue {
 
   background-color: rgba($color: #000000, $alpha: 0.4);
 
-  transition-property: opacity, visibility;
+  transition-property: opacity;
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
 
@@ -55,7 +55,6 @@ export default class FullScreenLoadingOverlay extends Vue {
 
   &.invisible {
     opacity: 0;
-    visibility: hidden;
   }
 
   &.gone {

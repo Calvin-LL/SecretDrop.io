@@ -21,7 +21,7 @@
       @animationFinish="onAnimationFinish"
     />
 
-    <FullScreenLoadingOverlay :hide="hideLoadingOverlay" />
+    <FullScreenLoadingOverlay :hidden="hideLoadingOverlay" />
   </div>
 </template>
 

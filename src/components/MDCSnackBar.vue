@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-import delay from "delay";
 import { MDCSnackbar } from "@material/snackbar";
+import delay from "delay";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component

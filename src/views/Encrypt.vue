@@ -5,12 +5,29 @@
       title="Encrypt"
       subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
     >
-      <div class="textarea-container">
-        <textarea autofocus placeholder="Enter your message here"></textarea>
+      <div
+        ref="textareaContainer"
+        class="textarea-container"
+        :class="{
+          invisible: textareaContainerInvisible,
+          gone: textareaContainerGone,
+        }"
+      >
+        <textarea
+          autofocus
+          placeholder="Enter your message here"
+          v-model="message"
+        ></textarea>
       </div>
+      <p class="or-p" :class="{ invisible: orTextInvisible, gone: orTextGone }">
+        or
+      </p>
       <FileDrop
         text="Drop files here or click here to select files to encrypt"
         dropText="Drop to encrypt"
+        :hidden="hideFileDrop"
+        :shouldAcceptFiles="loadingKeyAnimationFinish"
+        v-model="files"
       />
     </Card>
   </div>
@@ -18,17 +35,78 @@
 
 <script lang="ts">
 import Card from "@/components/Card.vue";
+import delay from "delay";
 import FileDrop from "@/components/FileDrop.vue";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: { Card, FileDrop },
 })
-export default class Encrypt extends Vue {}
+export default class Encrypt extends Vue {
+  $refs!: {
+    textareaContainer: HTMLDivElement;
+  };
+
+  loadingKeyAnimationFinish = true;
+
+  textareaContainerInvisible = false;
+  textareaContainerGone = false;
+
+  orTextInvisible = false;
+  orTextGone = false;
+
+  hideFileDrop = false;
+
+  message: string = "";
+  files: typeof File[] = [];
+
+  @Watch("message")
+  onMessageChange() {
+    this.hideFileDrop = this.message.length > 0;
+    this.toggleOrTextVisibility(
+      this.message.length === 0 && this.files.length === 0
+    );
+  }
+
+  @Watch("files")
+  onFilesChange() {
+    this.toggleTextareaContainerVisibility(this.files.length > 0);
+    this.toggleOrTextVisibility(
+      this.message.length === 0 && this.files.length === 0
+    );
+  }
+
+  async toggleTextareaContainerVisibility(loading: boolean) {
+    if (loading) {
+      this.textareaContainerGone = false;
+      await delay(10);
+      this.textareaContainerInvisible = false;
+    } else {
+      this.$refs.textareaContainer.style.maxHeight = `${this.$refs.textareaContainer.clientHeight}px`;
+      await delay(10);
+      this.textareaContainerInvisible = true;
+      await delay(250);
+      this.textareaContainerGone = true;
+    }
+  }
+
+  async toggleOrTextVisibility(loading: boolean) {
+    if (loading) {
+      this.orTextGone = false;
+      await delay(10);
+      this.orTextInvisible = false;
+    } else {
+      await delay(10);
+      this.orTextInvisible = true;
+      await delay(250);
+      this.orTextGone = true;
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
-@import "assets/scss/global";
+@use "assets/scss/global";
 
 .encrypt {
   flex: 1;
@@ -39,28 +117,20 @@ export default class Encrypt extends Vue {}
   align-items: center;
 
   .encrypt-card {
-    background-color: #f1f8e9;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #273a12;
-    }
+    @include global.encrypt-card-background-auto;
 
     .textarea-container {
-      max-height: 100vh;
-
       padding-left: 8px;
       padding-right: 8px;
       padding-bottom: 8px;
 
-      will-change: max-height;
-
-      transition-property: all;
+      transition-property: max-height, padding-bottom;
       transition-duration: 250ms;
       transition-timing-function: ease-in-out;
 
-      &.hide {
-        max-height: 0px;
-        visibility: hidden;
+      &.invisible {
+        max-height: 0px !important;
+        padding-bottom: 0px;
       }
 
       &.gone {
@@ -68,7 +138,7 @@ export default class Encrypt extends Vue {}
       }
 
       textarea {
-        @include primary-text-auto;
+        @include global.primary-text-auto;
 
         width: 100%;
         height: 100px;
@@ -86,8 +156,33 @@ export default class Encrypt extends Vue {}
         font-family: Roboto Slab, serif;
 
         &::placeholder {
-          @include secondary-text-auto;
+          @include global.secondary-text-auto;
         }
+      }
+    }
+
+    .or-p {
+      @include global.secondary-text-auto;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      max-height: 2rem;
+
+      overflow: hidden;
+
+      transition-property: max-height, margin;
+      transition-duration: 250ms;
+      transition-timing-function: ease-in-out;
+
+      &.invisible {
+        max-height: 0px;
+        margin: 0px;
+      }
+
+      &.gone {
+        display: none;
       }
     }
   }
