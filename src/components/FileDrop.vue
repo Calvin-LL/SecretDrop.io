@@ -46,10 +46,10 @@
 <script lang="ts">
 import delay from "delay";
 import { fromEvent } from "file-selector";
-import { Component, Prop, Vue, Watch, Model } from "vue-property-decorator";
+import { Component, Model, Prop, Vue, Watch } from "vue-property-decorator";
 
-import MDCCircularProgress from "./MDCCircularProgress.vue";
-import MDCIconButton from "./MDCIconButton.vue";
+import MDCCircularProgress from "./MDC/MDCCircularProgress.vue";
+import MDCIconButton from "./MDC/MDCIconButton.vue";
 
 @Component({
   components: { MDCIconButton, MDCCircularProgress },
@@ -59,12 +59,12 @@ export default class FileDrop extends Vue {
     container: HTMLDivElement;
   };
 
-  @Model("change", { type: Array }) readonly files!: typeof File[];
-
   @Prop(String) readonly text!: string;
   @Prop(String) readonly dropText!: string;
   @Prop(Boolean) readonly hidden!: boolean;
   @Prop(Boolean) readonly shouldAcceptFiles!: boolean;
+
+  @Model("change", { type: Array }) readonly files!: typeof File[];
 
   containerInvisible = false;
   containerGone = false;
@@ -77,6 +77,10 @@ export default class FileDrop extends Vue {
 
   mounted() {
     document.body.addEventListener("dragenter", this.onDragEnterPage);
+  }
+
+  beforeDestroy() {
+    document.body.removeEventListener("dragenter", this.onDragEnterPage);
   }
 
   @Watch("hidden")
@@ -156,7 +160,7 @@ export default class FileDrop extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "assets/scss/global";
 
 .file-drop-or-text-container {

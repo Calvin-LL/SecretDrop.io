@@ -12,7 +12,7 @@ import delay from "delay";
 import Dropzone from "dropzone";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import MDCIconButton from "./MDCIconButton.vue";
+import MDCIconButton from "./MDC/MDCIconButton.vue";
 
 @Component({
   components: { MDCIconButton },

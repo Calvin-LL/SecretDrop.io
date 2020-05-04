@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import Card from "@/components/Card.vue";
-import MDCIconButton from "@/components/MDCIconButton.vue";
+import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
 import { animateAddTextTnElement } from "@/UIHelpers";
 import { Component, Prop, Vue } from "vue-property-decorator";
 

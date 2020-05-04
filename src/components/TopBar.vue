@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import AnimatedLogo from "@/components/AnimatedLogo.vue";
-import MDCButton from "@/components/MDCButton.vue";
+import MDCButton from "@/components/MDC/MDCButton.vue";
 import { scrollTo } from "@/UIHelpers";
 import { Component, Vue, Watch } from "vue-property-decorator";
 

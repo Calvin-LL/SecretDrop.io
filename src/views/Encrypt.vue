@@ -5,23 +5,8 @@
       title="Encrypt"
       subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
     >
-      <div
-        ref="textareaContainer"
-        class="textarea-container"
-        :class="{
-          invisible: textareaContainerInvisible,
-          gone: textareaContainerGone,
-        }"
-      >
-        <textarea
-          autofocus
-          placeholder="Enter your message here"
-          v-model="message"
-        ></textarea>
-      </div>
-      <p class="or-p" :class="{ invisible: orTextInvisible, gone: orTextGone }">
-        or
-      </p>
+      <MessageTextArea :hidden="hideMessageTextArea" v-model="message" />
+      <OrText :hidden="hideOrText" />
       <FileDrop
         text="Drop files here or click here to select files to encrypt"
         dropText="Drop to encrypt"
@@ -35,12 +20,14 @@
 
 <script lang="ts">
 import Card from "@/components/Card.vue";
-import delay from "delay";
 import FileDrop from "@/components/FileDrop.vue";
+import MessageTextArea from "@/components/MessageTextArea.vue";
+import OrText from "@/components/OrText.vue";
+import delay from "delay";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { Card, FileDrop },
+  components: { Card, MessageTextArea, OrText, FileDrop },
 })
 export default class Encrypt extends Vue {
   $refs!: {
@@ -49,12 +36,8 @@ export default class Encrypt extends Vue {
 
   loadingKeyAnimationFinish = true;
 
-  textareaContainerInvisible = false;
-  textareaContainerGone = false;
-
-  orTextInvisible = false;
-  orTextGone = false;
-
+  hideMessageTextArea = false;
+  hideOrText = false;
   hideFileDrop = false;
 
   message: string = "";
@@ -63,44 +46,13 @@ export default class Encrypt extends Vue {
   @Watch("message")
   onMessageChange() {
     this.hideFileDrop = this.message.length > 0;
-    this.toggleOrTextVisibility(
-      this.message.length === 0 && this.files.length === 0
-    );
+    this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
 
   @Watch("files")
   onFilesChange() {
-    this.toggleTextareaContainerVisibility(this.files.length > 0);
-    this.toggleOrTextVisibility(
-      this.message.length === 0 && this.files.length === 0
-    );
-  }
-
-  async toggleTextareaContainerVisibility(loading: boolean) {
-    if (loading) {
-      this.textareaContainerGone = false;
-      await delay(10);
-      this.textareaContainerInvisible = false;
-    } else {
-      this.$refs.textareaContainer.style.maxHeight = `${this.$refs.textareaContainer.clientHeight}px`;
-      await delay(10);
-      this.textareaContainerInvisible = true;
-      await delay(250);
-      this.textareaContainerGone = true;
-    }
-  }
-
-  async toggleOrTextVisibility(loading: boolean) {
-    if (loading) {
-      this.orTextGone = false;
-      await delay(10);
-      this.orTextInvisible = false;
-    } else {
-      await delay(10);
-      this.orTextInvisible = true;
-      await delay(250);
-      this.orTextGone = true;
-    }
+    this.hideMessageTextArea = this.files.length > 0;
+    this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
 }
 </script>

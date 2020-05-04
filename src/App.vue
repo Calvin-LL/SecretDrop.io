@@ -14,7 +14,7 @@
 <script lang="ts">
 import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
-import MDCSnackBar from "@/components/MDCSnackBar.vue";
+import MDCSnackBar from "@/components/MDC/MDCSnackBar.vue";
 import TopBar from "@/components/TopBar.vue";
 // @ts-ignore
 import smoothscroll from "smoothscroll-polyfill";
