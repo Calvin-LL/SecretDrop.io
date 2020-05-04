@@ -44,12 +44,11 @@
 </template>
 
 <script lang="ts">
+import MDCCircularProgress from "@/components/MDC/MDCCircularProgress.vue";
+import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
 import delay from "delay";
 import { fromEvent } from "file-selector";
 import { Component, Model, Prop, Vue, Watch } from "vue-property-decorator";
-
-import MDCCircularProgress from "./MDC/MDCCircularProgress.vue";
-import MDCIconButton from "./MDC/MDCIconButton.vue";
 
 @Component({
   components: { MDCIconButton, MDCCircularProgress },

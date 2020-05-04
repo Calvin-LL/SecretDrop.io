@@ -222,9 +222,8 @@
 </template>
 
 <script lang="ts">
+import Quote from "@/components/Quote.vue";
 import Vue from "vue";
-
-import Quote from "./Quote.vue";
 
 export default Vue.extend({
   name: "FAQ",

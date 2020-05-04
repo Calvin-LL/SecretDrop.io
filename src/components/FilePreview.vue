@@ -8,11 +8,10 @@
 </template>
 
 <script lang="ts">
+import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
 import delay from "delay";
 import Dropzone from "dropzone";
 import { Component, Prop, Vue } from "vue-property-decorator";
-
-import MDCIconButton from "./MDC/MDCIconButton.vue";
 
 @Component({
   components: { MDCIconButton },
