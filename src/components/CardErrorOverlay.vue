@@ -36,7 +36,6 @@ export default class CardErrorOverlay extends Vue {
   }
 
   onChange() {
-    console.log(this.title !== undefined || this.detail !== undefined);
     this.toggleOverlayVisibility(
       this.title !== undefined || this.detail !== undefined
     );

@@ -1,16 +1,12 @@
 <template>
   <div id="top-bar">
     <div class="content" :class="{ wrapped: headerWrapped }">
-      <a
-        class="logo-with-text-a"
-        href="https://secretdrop.io"
-        rel="noopener noreferrer"
-      >
+      <router-link class="logo-with-text-a" :to="{ path: '/' }" exact>
         <div class="logo-with-text">
           <AnimatedLogo class="animate-on-hover" />
           <span class="logo-text">SecretDrop.io</span>
         </div>
-      </a>
+      </router-link>
       <div class="button-container">
         <MDCButton
           text="Generate new key pair"

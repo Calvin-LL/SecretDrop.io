@@ -1,12 +1,12 @@
 <template>
-  <ErrorBoundary @errorCaptured="onError">
-    <div class="encrypt">
-      <Card
-        class="encrypt-card"
-        title="Encrypt"
-        subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
-      >
-        <CardErrorOverlay :title="error.title" :detail="error.message" />
+  <div class="encrypt">
+    <Card
+      class="encrypt-card"
+      title="Encrypt"
+      subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
+    >
+      <CardErrorOverlay :title="error.title" :detail="error.message" />
+      <ErrorBoundary @errorCaptured="onError">
         <MessageTextArea :hidden="hideMessageTextArea" v-model="message" />
         <OrText :hidden="hideOrText" />
         <FileDrop
@@ -16,9 +16,9 @@
           :shouldAcceptFiles="loadingKeyAnimationFinish"
           v-model="files"
         />
-      </Card>
-    </div>
-  </ErrorBoundary>
+      </ErrorBoundary>
+    </Card>
+  </div>
 </template>
 
 <script lang="ts">

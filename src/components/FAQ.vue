@@ -240,6 +240,10 @@ export default Vue.extend({
   align-items: center;
   flex-direction: column;
 
+  margin-top: 100px;
+  margin-left: 16px;
+  margin-right: 16px;
+
   h1 {
     width: 100%;
     max-width: 700px;
@@ -255,7 +259,7 @@ export default Vue.extend({
       margin-top: 48px;
 
       @media (max-width: 640px) {
-        padding-top: 24px;
+        margin-top: 24px;
       }
     }
 

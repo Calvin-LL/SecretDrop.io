@@ -23,7 +23,11 @@
         <input type="file" @change="onFileInputChange" multiple />
       </label>
 
-      <div ref="filePreviewContainer" class="file-preview-container">
+      <div
+        ref="filePreviewContainer"
+        class="file-preview-container"
+        :class="{ 'show-bottom': files.length > 0 }"
+      >
         <FilePreview
           v-for="file in files"
           :key="file.id"
@@ -105,13 +109,19 @@ export default class FileDrop extends Vue {
   mounted() {
     document.body.addEventListener("dragenter", this.onDragEnterPage);
 
-    let resizeObserver = new ResizeObserver((entries) => {
-      this.previewSize = this.calculatePreviewSize(
-        entries[0].contentRect.width
-      );
-    });
+    if (window.ResizeObserver !== undefined) {
+      this.resizeObserver = new ResizeObserver((entries) => {
+        this.previewSize = this.calculatePreviewSize(
+          entries[0].contentRect.width
+        );
+      });
 
-    resizeObserver.observe(this.$refs.filePreviewContainer);
+      this.resizeObserver.observe(this.$refs.filePreviewContainer);
+    } else if (window.getComputedStyle !== undefined) {
+      this.previewSize = this.calculatePreviewSize(
+        Number.parseInt(getComputedStyle(this.$refs.filePreviewContainer).width)
+      );
+    }
   }
 
   beforeDestroy() {
@@ -130,7 +140,7 @@ export default class FileDrop extends Vue {
     this.toggleFileLoading(true);
 
     const files = await this.getFilesFromEvent(event);
-    console.log(files);
+
     await this.addFiles(files);
 
     this.toggleFileLoading(false);
@@ -140,9 +150,9 @@ export default class FileDrop extends Vue {
     this.toggleFileLoading(true);
 
     const files = await this.getFilesFromEvent(event);
-
+    console.log(files);
     await this.addFiles(files);
-
+    console.log(this.files);
     this.toggleFileLoading(false);
   }
 
@@ -237,6 +247,7 @@ export default class FileDrop extends Vue {
       this.containerInvisible = true;
       await delay(250);
       this.containerGone = true;
+      this.$refs.container.style.maxHeight = "";
     }
   }
 
@@ -269,7 +280,7 @@ export default class FileDrop extends Vue {
   calculatePreviewSize(parentWidth: number) {
     const bestSoFar = { remainder: Number.MAX_VALUE, width: 100 };
 
-    for (let i = 90; i <= 120; i++) {
+    for (let i = 90; i <= 150; i++) {
       const totalWidth = i + 20;
       if (parentWidth % totalWidth <= bestSoFar.remainder) {
         bestSoFar.remainder = parentWidth % totalWidth;
@@ -365,7 +376,10 @@ export default class FileDrop extends Vue {
 
       padding-left: 5px;
       padding-right: 5px;
-      padding-bottom: 9px;
+
+      &.show-bottom {
+        padding-bottom: 9px;
+      }
     }
   }
 
