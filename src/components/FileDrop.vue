@@ -23,8 +23,14 @@
         <input type="file" @change="onFileInputChange" multiple />
       </label>
 
-      <div class="file-preview-container">
-        <FilePreview v-for="file in files" :key="file.name" />
+      <div ref="filePreviewContainer" class="file-preview-container">
+        <FilePreview
+          v-for="file in files"
+          :key="file.id"
+          :file="file"
+          :style="{ width: `${previewSize}px`, height: `${previewSize}px` }"
+          @remove="onRemove"
+        />
       </div>
     </div>
 
@@ -61,6 +67,7 @@ import CardError from "../error/CardError";
 export interface FileContainer {
   id: string;
   name: string;
+  extension?: string;
   type?: string;
   size?: number;
   file: File;
@@ -72,6 +79,7 @@ export interface FileContainer {
 export default class FileDrop extends Vue {
   $refs!: {
     container: HTMLDivElement;
+    filePreviewContainer: HTMLDivElement;
   };
 
   @Prop(String) readonly text!: string;
@@ -90,12 +98,25 @@ export default class FileDrop extends Vue {
   fileLoadingOverlayInvisible = true;
   fileLoadingOverlayGone = true;
 
+  previewSize = 100;
+
+  resizeObserver: ResizeObserver | undefined;
+
   mounted() {
     document.body.addEventListener("dragenter", this.onDragEnterPage);
+
+    let resizeObserver = new ResizeObserver((entries) => {
+      this.previewSize = this.calculatePreviewSize(
+        entries[0].contentRect.width
+      );
+    });
+
+    resizeObserver.observe(this.$refs.filePreviewContainer);
   }
 
   beforeDestroy() {
     document.body.removeEventListener("dragenter", this.onDragEnterPage);
+    this.resizeObserver?.disconnect();
   }
 
   @Watch("hidden")
@@ -109,7 +130,7 @@ export default class FileDrop extends Vue {
     this.toggleFileLoading(true);
 
     const files = await this.getFilesFromEvent(event);
-
+    console.log(files);
     await this.addFiles(files);
 
     this.toggleFileLoading(false);
@@ -146,6 +167,7 @@ export default class FileDrop extends Vue {
       const fileContainerToAdd: FileContainer = {
         id: uuid(),
         name: file.name,
+        extension: undefined,
         // @ts-ignore
         type: file.type,
         // @ts-ignore
@@ -157,10 +179,23 @@ export default class FileDrop extends Vue {
         const fileTypeResult = await FileType.fromBlob(file);
 
         if (fileTypeResult) {
+          fileContainerToAdd.extension = fileTypeResult.ext;
           fileContainerToAdd.type = fileTypeResult.mime;
 
           if (!fileContainerToAdd.name)
             fileContainerToAdd.name = `file.${fileTypeResult.ext}`;
+        }
+      }
+
+      if (!fileContainerToAdd.extension) {
+        const afterDot = fileContainerToAdd.name.split(".").pop();
+        if (afterDot) fileContainerToAdd.extension = afterDot;
+      }
+
+      if (!fileContainerToAdd.extension) {
+        if (fileContainerToAdd.type) {
+          const extension = mime.getExtension(fileContainerToAdd.type);
+          if (extension) fileContainerToAdd.extension = extension;
         }
       }
 
@@ -174,6 +209,11 @@ export default class FileDrop extends Vue {
 
       this.files.push(fileContainerToAdd);
     }
+  }
+
+  onRemove(fileToRemove: FileContainer) {
+    const newFiles = this.files.filter((item) => item.id !== fileToRemove.id);
+    this.$emit("change", newFiles);
   }
 
   onDragEnterPage() {
@@ -224,6 +264,20 @@ export default class FileDrop extends Vue {
       await delay(250);
       this.fileDropOverlayGone = true;
     }
+  }
+
+  calculatePreviewSize(parentWidth: number) {
+    const bestSoFar = { remainder: Number.MAX_VALUE, width: 100 };
+
+    for (let i = 90; i <= 120; i++) {
+      const totalWidth = i + 20;
+      if (parentWidth % totalWidth <= bestSoFar.remainder) {
+        bestSoFar.remainder = parentWidth % totalWidth;
+        bestSoFar.width = i;
+      }
+    }
+
+    return bestSoFar.width;
   }
 }
 </script>
@@ -309,8 +363,9 @@ export default class FileDrop extends Vue {
       align-items: center;
       flex-wrap: wrap;
 
-      padding-left: 4px;
-      padding-right: 4px;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-bottom: 9px;
     }
   }
 

@@ -1,3 +1,6 @@
+const webpack = require("webpack");
+const packageLock = require("./package-lock.json");
+
 const production = process.env.NODE_ENV === "production";
 
 module.exports = {
@@ -64,5 +67,14 @@ module.exports = {
       .rule("vue")
       .use("vue-svg-inline-loader")
       .loader("vue-svg-inline-loader");
+  },
+  configureWebpack: {
+    plugins: [
+      new webpack.DefinePlugin({
+        FILE_ICON_VECTORS_VERSION: JSON.stringify(
+          packageLock.dependencies["file-icon-vectors"].version
+        ),
+      }),
+    ],
   },
 };

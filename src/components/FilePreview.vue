@@ -1,85 +1,79 @@
 <template>
-  <div class="file-preview">
-    <MDCIconButton class="">close</MDCIconButton>
-    <img data-dz-thumbnail />
-    <div class="dz-filename"><span data-dz-name></span></div>
-    <div class="dz-size" data-dz-size></div>
+  <div ref="container" class="file-preview">
+    <MDCIconButton class="close-button" @click="onRemoveClick"
+      >close</MDCIconButton
+    >
+    <span
+      class="file-icon fiv-viv fiv-size-lg"
+      :class="`fiv-icon-${fileExt}`"
+      v-if="!previewImgSrc"
+    ></span>
+    <img class="thumbnail" :src="previewImgSrc" v-if="previewImgSrc" />
+    <div class="text filename">{{ file.name }}</div>
+    <div class="text size" v-if="fileSize">{{ fileSize }}</div>
   </div>
 </template>
 
 <script lang="ts">
+import { FileContainer } from "@/components/FileDrop.vue";
 import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
-import delay from "delay";
-import Dropzone from "dropzone";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import availabelIcons from "file-icon-vectors/dist/icons/vivid/catalog.json";
+// @ts-ignore
+import FileUploadThumbnail from "file-upload-thumbnail";
+import getFileSizeString from "filesize.js";
+import Vue from "vue";
 
-@Component({
+export default Vue.extend({
+  name: "FilePreview",
   components: { MDCIconButton },
-})
-export default class FileDrop extends Vue {
-  @Prop(String) readonly text!: string;
-  @Prop(String) readonly dropText!: string;
-  @Prop(Boolean) readonly shouldAcceptFiles!: boolean;
-
-  $refs!: {
-    container: HTMLDivElement;
-    dropzone: HTMLFormElement;
-    dropFileClickable: HTMLDivElement;
-    filePreviewContainer: HTMLDivElement;
-    filePreviewTemplate: HTMLDivElement;
-  };
-
-  dropzoneOverlayVisible = false;
-  dropzoneOverlayGone = true;
-
-  mounted() {
-    const dropzone = new Dropzone(this.$refs.dropzone, {
-      autoProcessQueue: false,
-      previewsContainer: this.$refs.filePreviewContainer,
-      previewTemplate: this.$refs.filePreviewTemplate.innerHTML,
-      thumbnailMethod: "contain",
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-      clickable: this.$refs.dropFileClickable,
-      fallback: () => {
-        this.$refs.container.remove();
-      },
-    });
-
-    document.body.addEventListener("dragenter", this.onDragEnterPage);
-
-    dropzone.on("addedfile", this.onDragEnd);
-    dropzone.on("drag", this.onDragEnd);
-    dropzone.on("dragend", this.onDragEnd);
-    dropzone.on("dragleave", this.onDragEnd);
-  }
-
-  async onDragEnterPage() {
-    if (this.shouldAcceptFiles) {
-      this.dropzoneOverlayGone = false;
-      await delay(10);
-      this.dropzoneOverlayVisible = true;
-    }
-  }
-
-  async onDragEnd() {
-    this.dropzoneOverlayVisible = false;
-    await delay(250);
-    this.dropzoneOverlayGone = true;
-  }
-}
+  props: {
+    file: Object,
+  },
+  computed: {
+    fileExt() {
+      if (this.file.extension && availabelIcons.includes(this.file.extension))
+        return this.file.extension;
+      else return "blank";
+    },
+    fileSize() {
+      if (this.file.size)
+        return getFileSizeString(this.file.size, 0, "si").toUpperCase();
+      else return undefined;
+    },
+  },
+  asyncComputed: {
+    previewImgSrc() {
+      return new Promise((resolve) => {
+        new FileUploadThumbnail({
+          maxWidth: 120,
+          maxHeight: 120,
+          file: this.file.file,
+          onSuccess: function (src: string) {
+            if (src && src.length > 0) resolve(src);
+            else resolve(undefined);
+          },
+        }).createThumbnail();
+      });
+    },
+  },
+  methods: {
+    onRemoveClick() {
+      this.$emit("remove", this.file);
+    },
+  },
+});
 </script>
 
 <style scoped lang="scss">
+@use "@material/icon-button";
 @use "assets/scss/global";
 
-.dz-file-preview {
+.file-preview {
   @include global.background-auto;
 
   position: relative;
 
   margin-top: 8px;
-  margin-bottom: 8px;
   margin-left: 4px;
   margin-right: 4px;
 
@@ -97,12 +91,17 @@ export default class FileDrop extends Vue {
 
   .close-button {
     @include global.primary-text-auto;
-    // @include mdc-icon-button-size(16px);
-    // @include mdc-icon-button-icon-size(16px, 16px, 4px);
+    @include icon-button.size(16px);
+    @include icon-button.icon-size(16px, 16px, 4px);
 
     position: absolute;
     top: 1px;
     right: 1px;
+  }
+
+  .file-icon {
+    flex: 1;
+    overflow: hidden;
   }
 
   .thumbnail {
@@ -111,30 +110,27 @@ export default class FileDrop extends Vue {
     margin: 0 auto;
     object-fit: contain;
     background-size: contain;
-
-    min-height: 0px;
-    min-width: 0px;
+    min-height: 0;
+    min-width: 0;
+    max-width: 100%;
   }
 
-  span {
+  .text {
+    @include global.primary-text-auto;
+
+    width: 100%;
+
     white-space: nowrap;
     overflow: hidden;
     display: block;
     text-overflow: ellipsis;
-  }
 
-  .filename {
-    @include global.primary-text-auto;
+    &.filename {
+      margin-top: 2px;
+    }
 
-    width: 100%;
-
-    margin-top: 2px;
-  }
-
-  .file-size {
-    @include global.primary-text-auto;
-
-    width: 100%;
+    &.file-size {
+    }
   }
 }
 </style>
