@@ -23,7 +23,9 @@
         <input type="file" @change="onFileInputChange" multiple />
       </label>
 
-      <div class="file-preview-container"></div>
+      <div class="file-preview-container">
+        <FilePreview v-for="file in files" :key="file.name" />
+      </div>
     </div>
 
     <div
@@ -44,14 +46,28 @@
 </template>
 
 <script lang="ts">
+import FilePreview from "@/components/FilePreview.vue";
 import MDCCircularProgress from "@/components/MDC/MDCCircularProgress.vue";
 import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
 import delay from "delay";
 import { fromEvent } from "file-selector";
+import FileType from "file-type/browser";
+import mime from "mime";
+import uuid from "uuid-random";
 import { Component, Model, Prop, Vue, Watch } from "vue-property-decorator";
 
+import CardError from "../error/CardError";
+
+export interface FileContainer {
+  id: string;
+  name: string;
+  type?: string;
+  size?: number;
+  file: File;
+}
+
 @Component({
-  components: { MDCIconButton, MDCCircularProgress },
+  components: { MDCIconButton, MDCCircularProgress, FilePreview },
 })
 export default class FileDrop extends Vue {
   $refs!: {
@@ -63,7 +79,7 @@ export default class FileDrop extends Vue {
   @Prop(Boolean) readonly hidden!: boolean;
   @Prop(Boolean) readonly shouldAcceptFiles!: boolean;
 
-  @Model("change", { type: Array }) readonly files!: typeof File[];
+  @Model("change", { type: Array }) readonly files!: FileContainer[];
 
   containerInvisible = false;
   containerGone = false;
@@ -92,19 +108,72 @@ export default class FileDrop extends Vue {
 
     this.toggleFileLoading(true);
 
-    const files = await fromEvent(event);
+    const files = await this.getFilesFromEvent(event);
 
-    console.log(files);
+    await this.addFiles(files);
+
     this.toggleFileLoading(false);
   }
 
   async onFileInputChange(event: InputEvent) {
     this.toggleFileLoading(true);
 
-    const files = await fromEvent(event);
+    const files = await this.getFilesFromEvent(event);
 
-    console.log(files);
+    await this.addFiles(files);
+
     this.toggleFileLoading(false);
+  }
+
+  async getFilesFromEvent(event: Event): Promise<File[]> {
+    const result = await fromEvent(event);
+
+    // @ts-ignore
+    if ((result[0] as DataTransferItem)?.getAsFile)
+      return (result as DataTransferItem[]).map((item) =>
+        item.getAsFile()
+      ) as File[];
+
+    // @ts-ignore
+    if ((result[0] as DataTransferItem)?.webkitGetAsEntry)
+      throw new CardError("File format not supported", "Refresh to try again");
+
+    return result as File[];
+  }
+
+  async addFiles(filesToAdd: File[]) {
+    for (const file of filesToAdd) {
+      const fileContainerToAdd: FileContainer = {
+        id: uuid(),
+        name: file.name,
+        // @ts-ignore
+        type: file.type,
+        // @ts-ignore
+        size: file.size,
+        file,
+      };
+
+      if (!fileContainerToAdd.type) {
+        const fileTypeResult = await FileType.fromBlob(file);
+
+        if (fileTypeResult) {
+          fileContainerToAdd.type = fileTypeResult.mime;
+
+          if (!fileContainerToAdd.name)
+            fileContainerToAdd.name = `file.${fileTypeResult.ext}`;
+        }
+      }
+
+      if (!fileContainerToAdd.name) {
+        if (fileContainerToAdd.type)
+          fileContainerToAdd.name = `file.${mime.getExtension(
+            fileContainerToAdd.type
+          )}`;
+        else fileContainerToAdd.name = "file";
+      }
+
+      this.files.push(fileContainerToAdd);
+    }
   }
 
   onDragEnterPage() {

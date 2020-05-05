@@ -100,7 +100,6 @@ export default class MessageTextArea extends Vue {
 
     background-color: transparent;
 
-    font-size: 1.2rem;
     font-family: Roboto Slab, serif;
 
     &::placeholder {

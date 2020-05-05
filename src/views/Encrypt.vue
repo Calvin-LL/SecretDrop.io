@@ -1,33 +1,47 @@
 <template>
-  <div class="encrypt">
-    <Card
-      class="encrypt-card"
-      title="Encrypt"
-      subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
-    >
-      <MessageTextArea :hidden="hideMessageTextArea" v-model="message" />
-      <OrText :hidden="hideOrText" />
-      <FileDrop
-        text="Drop files here or click here to select files to encrypt"
-        dropText="Drop to encrypt"
-        :hidden="hideFileDrop"
-        :shouldAcceptFiles="loadingKeyAnimationFinish"
-        v-model="files"
-      />
-    </Card>
-  </div>
+  <ErrorBoundary @errorCaptured="onError">
+    <div class="encrypt">
+      <Card
+        class="encrypt-card"
+        title="Encrypt"
+        subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
+      >
+        <CardErrorOverlay :title="error.title" :detail="error.message" />
+        <MessageTextArea :hidden="hideMessageTextArea" v-model="message" />
+        <OrText :hidden="hideOrText" />
+        <FileDrop
+          text="Drop files here or click here to select files to encrypt"
+          dropText="Drop to encrypt"
+          :hidden="hideFileDrop"
+          :shouldAcceptFiles="loadingKeyAnimationFinish"
+          v-model="files"
+        />
+      </Card>
+    </div>
+  </ErrorBoundary>
 </template>
 
 <script lang="ts">
 import Card from "@/components/Card.vue";
-import FileDrop from "@/components/FileDrop.vue";
+import CardErrorOverlay from "@/components/CardErrorOverlay.vue";
+import FileDrop, { FileContainer } from "@/components/FileDrop.vue";
 import MessageTextArea from "@/components/MessageTextArea.vue";
 import OrText from "@/components/OrText.vue";
+import CardError from "@/error/CardError";
 import delay from "delay";
+// @ts-ignore
+import { ErrorBoundary } from "vue-error-boundary";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { Card, MessageTextArea, OrText, FileDrop },
+  components: {
+    Card,
+    MessageTextArea,
+    OrText,
+    FileDrop,
+    ErrorBoundary,
+    CardErrorOverlay,
+  },
 })
 export default class Encrypt extends Vue {
   $refs!: {
@@ -36,12 +50,15 @@ export default class Encrypt extends Vue {
 
   loadingKeyAnimationFinish = true;
 
+  // @ts-ignore
+  error: CardError = new CardError(undefined, undefined);
+
   hideMessageTextArea = false;
   hideOrText = false;
   hideFileDrop = false;
 
   message: string = "";
-  files: typeof File[] = [];
+  files: FileContainer[] = [];
 
   @Watch("message")
   onMessageChange() {
@@ -54,10 +71,15 @@ export default class Encrypt extends Vue {
     this.hideMessageTextArea = this.files.length > 0;
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
+
+  onError(error: Error) {
+    if (error.name === "CardError") this.error = error as CardError;
+    else this.error = new CardError("Error", error.message);
+  }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "assets/scss/global";
 
 .encrypt {
@@ -71,70 +93,15 @@ export default class Encrypt extends Vue {
   .encrypt-card {
     @include global.encrypt-card-background-auto;
 
-    .textarea-container {
-      padding-left: 8px;
-      padding-right: 8px;
-      padding-bottom: 8px;
+    position: relative;
 
-      transition-property: max-height, padding-bottom;
-      transition-duration: 250ms;
-      transition-timing-function: ease-in-out;
-
-      &.invisible {
-        max-height: 0px !important;
-        padding-bottom: 0px;
-      }
-
-      &.gone {
-        display: none;
-      }
-
-      textarea {
-        @include global.primary-text-auto;
-
-        width: 100%;
-        height: 100px;
-
-        resize: none;
-        border: none;
-        outline: none;
-        overflow-y: hidden;
-
-        padding: 0px;
-
-        background-color: transparent;
-
-        font-size: 1.2rem;
-        font-family: Roboto Slab, serif;
-
-        &::placeholder {
-          @include global.secondary-text-auto;
-        }
-      }
+    .error-overlay {
+      @include global.encrypt-card-background-auto;
     }
 
-    .or-p {
-      @include global.secondary-text-auto;
-      text-align: center;
-      font-size: 1rem;
-      line-height: 1rem;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      max-height: 2rem;
-
-      overflow: hidden;
-
-      transition-property: max-height, margin;
-      transition-duration: 250ms;
-      transition-timing-function: ease-in-out;
-
-      &.invisible {
-        max-height: 0px;
-        margin: 0px;
-      }
-
-      &.gone {
-        display: none;
+    .textarea-container {
+      textarea {
+        font-size: 1.2rem;
       }
     }
   }

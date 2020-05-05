@@ -9,7 +9,7 @@ import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
-export default class Encrypt extends Vue {
+export default class OrText extends Vue {
   @Prop(Boolean) readonly hidden!: boolean;
 
   orTextInvisible = false;
