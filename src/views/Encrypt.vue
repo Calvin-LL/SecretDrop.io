@@ -16,6 +16,15 @@
           :shouldAcceptFiles="loadingKeyAnimationFinish"
           v-model="files"
         />
+        <div class="encrypt-button-container">
+          <MDCButton
+            class="encrypt-button"
+            text="Encrypt"
+            icon="lock"
+            type="unelevated"
+            @click="onEncryptClick"
+          />
+        </div>
       </ErrorBoundary>
     </Card>
   </div>
@@ -25,6 +34,7 @@
 import Card from "@/components/Card.vue";
 import CardErrorOverlay from "@/components/CardErrorOverlay.vue";
 import FileDrop, { FileContainer } from "@/components/FileDrop.vue";
+import MDCButton from "@/components/MDC/MDCButton.vue";
 import MessageTextArea from "@/components/MessageTextArea.vue";
 import OrText from "@/components/OrText.vue";
 import CardError from "@/error/CardError";
@@ -39,6 +49,7 @@ import { Component, Vue, Watch } from "vue-property-decorator";
     MessageTextArea,
     OrText,
     FileDrop,
+    MDCButton,
     ErrorBoundary,
     CardErrorOverlay,
   },
@@ -72,6 +83,8 @@ export default class Encrypt extends Vue {
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
 
+  onEncryptClick() {}
+
   onError(error: Error) {
     if (error.name === "CardError") this.error = error as CardError;
     else this.error = new CardError("Error", error.message);
@@ -80,6 +93,7 @@ export default class Encrypt extends Vue {
 </script>
 
 <style lang="scss">
+@use "@material/button";
 @use "assets/scss/global";
 
 .encrypt {
@@ -102,6 +116,27 @@ export default class Encrypt extends Vue {
     .textarea-container {
       textarea {
         font-size: 1.2rem;
+      }
+    }
+
+    .encrypt-button-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+
+      .encrypt-button {
+        @include button.container-fill-color(global.$theme-color);
+        @include button.ink-color(global.$primary-text-color-dark);
+        @include button.icon-color(global.$primary-text-color-dark);
+
+        @include button.disabled-container-fill-color(
+          rgba(global.$theme-color, 0.3)
+        );
+        @include button.disabled-ink-color(global.$disabled-text-color-dark);
+        @include button.disabled-icon-color(global.$disabled-text-color-dark);
+
+        margin: 8px;
       }
     }
   }

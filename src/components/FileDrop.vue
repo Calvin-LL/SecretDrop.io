@@ -150,9 +150,9 @@ export default class FileDrop extends Vue {
     this.toggleFileLoading(true);
 
     const files = await this.getFilesFromEvent(event);
-    console.log(files);
+
     await this.addFiles(files);
-    console.log(this.files);
+
     this.toggleFileLoading(false);
   }
 
