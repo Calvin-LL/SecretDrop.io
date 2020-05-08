@@ -1,44 +1,33 @@
 <template>
   <div
-    class="error-overlay"
+    class="loading-overlay"
     :class="{
       invisible: overlayInvisible,
       gone: overlayGone,
     }"
   >
-    <ErrorIcon :show="!(overlayInvisible && overlayGone)" />
-    <h2>{{ title }}</h2>
-    <div class="detail">{{ detail }}</div>
+    <AnimatedLogo class="animate" />
+    <h2>
+      <slot></slot>
+    </h2>
   </div>
 </template>
 
 <script lang="ts">
-import ErrorIcon from "@/components/ErrorIcon.vue";
+import AnimatedLogo from "@/components/AnimatedLogo.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-@Component({ components: { ErrorIcon } })
-export default class CardErrorOverlay extends Vue {
-  @Prop(String) readonly title: string | undefined;
-  @Prop(String) readonly detail: string | undefined;
+@Component({ components: { AnimatedLogo } })
+export default class CardLoadingOverlay extends Vue {
+  @Prop(Boolean) readonly hidden!: boolean;
 
   overlayInvisible = true;
   overlayGone = true;
 
-  @Watch("title")
-  onTitleChange() {
-    this.onChange();
-  }
-
-  @Watch("detail")
-  onDetailChange() {
-    this.onChange();
-  }
-
-  onChange() {
-    this.toggleOverlayVisibility(
-      this.title !== undefined || this.detail !== undefined
-    );
+  @Watch("hidden", { immediate: true })
+  onHiddenChange() {
+    this.toggleOverlayVisibility(!this.hidden);
   }
 
   async toggleOverlayVisibility(visible: boolean) {
@@ -59,15 +48,17 @@ export default class CardErrorOverlay extends Vue {
 <style lang="scss">
 @use "assets/scss/global";
 
-.error-overlay {
+.loading-overlay {
   @include global.absolute-overlay;
   @include global.flex-center;
 
-  z-index: 20;
+  z-index: 10;
 
   transition-property: opacity;
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
+
+  background-color: global.$overlay-color;
 
   &.invisible {
     opacity: 0;
@@ -77,17 +68,14 @@ export default class CardErrorOverlay extends Vue {
     display: none;
   }
 
-  h2 {
-    @include global.primary-text-auto;
-
-    font-size: 2rem;
-    font-weight: 400;
-
-    margin-top: 0px;
+  .animated-logo {
+    width: 21%;
   }
 
-  .detail {
-    margin-bottom: 0.83em;
+  h2 {
+    color: global.$primary-text-color-dark;
+    font-size: 1.5rem;
+    font-weight: 400;
   }
 }
 </style>

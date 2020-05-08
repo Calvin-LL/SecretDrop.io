@@ -32,6 +32,8 @@ export default class FullScreenLoadingOverlay extends Vue {
 </script>
 
 <style lang="scss">
+@use "assets/scss/global";
+
 #full-screen-loading-overlay {
   position: fixed;
   top: 0;
@@ -45,7 +47,7 @@ export default class FullScreenLoadingOverlay extends Vue {
   justify-content: center;
   align-items: center;
 
-  background-color: rgba($color: #000000, $alpha: 0.4);
+  background-color: global.$overlay-color;
 
   transition-property: opacity;
   transition-duration: 250ms;

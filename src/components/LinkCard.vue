@@ -27,7 +27,7 @@
 <script lang="ts">
 import Card from "@/components/Card.vue";
 import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
-import { animateAddTextTnElement } from "@/UIHelpers";
+import { animateAddTextInElement } from "@/UIHelpers";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
@@ -42,7 +42,7 @@ export default class LinkCard extends Vue {
   urlToShow = "";
 
   mounted() {
-    animateAddTextTnElement(
+    animateAddTextInElement(
       this.baseUrl,
       this.keyString,
       3000,

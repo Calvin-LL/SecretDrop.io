@@ -7,13 +7,20 @@
     >
       <CardErrorOverlay :title="error.title" :detail="error.message" />
       <ErrorBoundary @errorCaptured="onError">
-        <MessageTextArea :hidden="hideMessageTextArea" v-model="message" />
+        <CardLoadingOverlay :hidden="!loadingAnimationVisible">{{
+          loadingAnimationText
+        }}</CardLoadingOverlay>
+        <MessageTextArea
+          :hidden="hideMessageTextArea"
+          :shouldAcceptText="!loadingAnimationVisible"
+          v-model="message"
+        />
         <OrText :hidden="hideOrText" />
         <FileDrop
           text="Drop files here or click here to select files to encrypt"
           dropText="Drop to encrypt"
           :hidden="hideFileDrop"
-          :shouldAcceptFiles="loadingKeyAnimationFinish"
+          :shouldAcceptFiles="!loadingAnimationVisible"
           v-model="files"
         />
         <div class="encrypt-button-container">
@@ -33,10 +40,13 @@
 <script lang="ts">
 import Card from "@/components/Card.vue";
 import CardErrorOverlay from "@/components/CardErrorOverlay.vue";
+import CardLoadingOverlay from "@/components/CardLoadingOverlay.vue";
 import FileDrop, { FileContainer } from "@/components/FileDrop.vue";
 import MDCButton from "@/components/MDC/MDCButton.vue";
 import MessageTextArea from "@/components/MessageTextArea.vue";
 import OrText from "@/components/OrText.vue";
+import isCryptoUseable from "@/core/CryptoCheck";
+import PublicKey from "@/core/PublicKey";
 import CardError from "@/error/CardError";
 import delay from "delay";
 // @ts-ignore
@@ -52,6 +62,7 @@ import { Component, Vue, Watch } from "vue-property-decorator";
     MDCButton,
     ErrorBoundary,
     CardErrorOverlay,
+    CardLoadingOverlay,
   },
 })
 export default class Encrypt extends Vue {
@@ -59,7 +70,8 @@ export default class Encrypt extends Vue {
     textareaContainer: HTMLDivElement;
   };
 
-  loadingKeyAnimationFinish = true;
+  loadingAnimationVisible = true;
+  loadingAnimationText = "Loading Key";
 
   // @ts-ignore
   error: CardError = new CardError(undefined, undefined);
@@ -70,6 +82,34 @@ export default class Encrypt extends Vue {
 
   message: string = "";
   files: FileContainer[] = [];
+
+  publicKeyString: string | undefined;
+  publicKey: PublicKey | undefined;
+
+  created() {
+    this.publicKeyString = this.$route.query.key as string;
+  }
+
+  async mounted() {
+    if (!isCryptoUseable()) {
+      this.error = new CardError("Browser not supported", "");
+      return;
+    }
+
+    if (
+      !this.publicKeyString ||
+      this.publicKeyString.length <= 0 ||
+      this.publicKeyString.match(/[^a-z0-9]/g) !== null
+    ) {
+      this.error = new CardError("Invalid Link", "");
+      return;
+    }
+
+    this.publicKey = new PublicKey(this.publicKeyString);
+
+    await delay(3000);
+    this.loadingAnimationVisible = false;
+  }
 
   @Watch("message")
   onMessageChange() {
@@ -83,7 +123,14 @@ export default class Encrypt extends Vue {
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
 
-  onEncryptClick() {}
+  async onEncryptClick() {
+    this.loadingAnimationText = "Encrypting";
+    this.loadingAnimationVisible = true;
+
+    //
+
+    this.loadingAnimationVisible = false;
+  }
 
   onError(error: Error) {
     if (error.name === "CardError") this.error = error as CardError;

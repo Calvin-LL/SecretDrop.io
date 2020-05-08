@@ -19,6 +19,8 @@ $file-icon-css-path: "/icons";
 
 $theme-color: #43a047;
 
+$overlay-color: rgba(#000000, 0.4);
+
 @mixin encrypt-card-background-auto {
   background-color: $encrypt-card-background;
 

@@ -8,9 +8,10 @@
     }"
   >
     <textarea
-      autofocus
+      ref="textarea"
       placeholder="Enter your message here"
       :value="message"
+      :disabled="!shouldAcceptText"
       @input="onInput"
     ></textarea>
   </div>
@@ -24,8 +25,10 @@ import { Component, Model, Prop, Vue, Watch } from "vue-property-decorator";
 export default class MessageTextArea extends Vue {
   $refs!: {
     textareaContainer: HTMLDivElement;
+    textarea: HTMLTextAreaElement;
   };
 
+  @Prop(Boolean) readonly shouldAcceptText!: boolean;
   @Prop(Boolean) readonly hidden!: boolean;
 
   @Model("input", { type: String }) readonly message!: string;
@@ -33,13 +36,25 @@ export default class MessageTextArea extends Vue {
   textareaContainerInvisible = false;
   textareaContainerGone = false;
 
-  onInput(event: InputEvent) {
-    const textarea = event!.target as HTMLTextAreaElement;
+  created() {
+    const unWatchShouldAcceptText = this.$watch(
+      "shouldAcceptText",
+      async () => {
+        if (this.shouldAcceptText) {
+          unWatchShouldAcceptText();
+          await this.$nextTick();
+          this.$refs.textarea.focus();
+        }
+      }
+    );
+  }
 
-    this.$emit("input", textarea.value);
+  onInput() {
+    this.$emit("input", this.$refs.textarea.value);
 
-    textarea.style.height = "auto";
-    textarea.style.height = Math.max(textarea.scrollHeight, 100) + "px";
+    this.$refs.textarea.style.height = "auto";
+    this.$refs.textarea.style.height =
+      Math.max(this.$refs.textarea.scrollHeight, 100) + "px";
   }
 
   @Watch("hidden")
