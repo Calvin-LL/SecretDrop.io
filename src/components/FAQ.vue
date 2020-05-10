@@ -1,5 +1,5 @@
 <template>
-  <div id="faq">
+  <div ref="container" id="faq">
     <h1>FAQ</h1>
     <div>
       <h2>"Can you explain how this works to me simply?"</h2>
@@ -218,16 +218,45 @@
         >.
       </p>
     </div>
+    <div class="fab-container">
+      <MDCFAB
+        :class="{ 'mdc-fab--exited': hideScrollToTopButton }"
+        @click="onScrollTopClick"
+        >keyboard_arrow_up</MDCFAB
+      >
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import MDCFAB from "@/components/MDC/MDCFAB.vue";
 import Quote from "@/components/Quote.vue";
+import { scrollTo } from "@/UIHelpers";
 import Vue from "vue";
 
 export default Vue.extend({
   name: "FAQ",
-  components: { Quote },
+  components: { Quote, MDCFAB },
+  data() {
+    return { hideScrollToTopButton: true };
+  },
+  methods: {
+    onScrollTopClick() {
+      scrollTo("#top-bar");
+    },
+    onWindowScroll() {
+      const element = this.$refs.container as HTMLDivElement;
+      const position = element.getBoundingClientRect();
+
+      this.hideScrollToTopButton = position.top >= window.innerHeight / 2;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.onWindowScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onWindowScroll);
+  },
 });
 </script>
 
@@ -235,10 +264,12 @@ export default Vue.extend({
 @use "assets/scss/global";
 
 #faq {
+  position: relative;
+
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  flex-direction: column;
 
   margin-top: 100px;
   margin-left: 16px;
@@ -249,7 +280,7 @@ export default Vue.extend({
     max-width: 700px;
   }
 
-  & > div {
+  & > div:not(.fab-container) {
     width: 100%;
     max-width: 700px;
     padding-left: 8px;
@@ -285,6 +316,21 @@ export default Vue.extend({
       a {
         width: 100%;
       }
+    }
+  }
+
+  & > .fab-container {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media (min-width: 1024px) {
+      bottom: 1.5rem;
+      right: 1.5rem;
     }
   }
 }

@@ -12,15 +12,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import delay from "delay";
 import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
 import MDCSnackBar from "@/components/MDC/MDCSnackBar.vue";
 import TopBar from "@/components/TopBar.vue";
 import { scrollTo } from "@/UIHelpers";
+import delay from "delay";
 // @ts-ignore
 import smoothscroll from "smoothscroll-polyfill";
+import Vue from "vue";
 
 smoothscroll.polyfill();
 
