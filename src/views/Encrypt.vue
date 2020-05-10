@@ -147,9 +147,9 @@ export default class Encrypt extends Vue {
   flex: 1;
 
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 
   .encrypt-card {
     @include global.encrypt-card-background-auto;

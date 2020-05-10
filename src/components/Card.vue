@@ -13,8 +13,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Card extends Vue {
-  @Prop(String) readonly title: string | undefined;
-  @Prop(String) readonly subtitle: string | undefined;
+  @Prop(String) readonly title!: string;
+  @Prop(String) readonly subtitle!: string;
 }
 </script>
 
@@ -24,6 +24,7 @@ export default class Card extends Vue {
 .card {
   position: relative;
 
+  flex-basis: 470px;
   min-height: 100px;
   max-width: 470px;
 
@@ -40,7 +41,7 @@ export default class Card extends Vue {
     margin-right: 4%;
   }
 
-  .title-container {
+  & > .title-container {
     width: 100%;
     box-sizing: border-box;
     margin-top: 8px;
@@ -48,16 +49,16 @@ export default class Card extends Vue {
     padding-left: 8px;
     padding-right: 8px;
 
-    .title {
+    & > .title {
       font-weight: 500;
       margin: 0px;
       margin-bottom: 4px;
     }
 
-    .subtitle {
+    & > .subtitle {
       @include global.secondary-text-auto;
 
-      .warning {
+      & > .warning {
         color: #d50000;
 
         @media (prefers-color-scheme: dark) {

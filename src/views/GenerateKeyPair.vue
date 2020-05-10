@@ -1,25 +1,29 @@
 <template>
   <div class="home">
-    <LinkCard
-      class="encryption-link-card"
-      title="Encryption Link"
-      subtitle="Files and messages encrypted with this link can only be decrypted with the link in the other box. Share this link."
-      :baseUrl="encryptLinkBaseUrl"
-      :keyString="publicKeyString"
-      @download="onEncryptLinkDownload"
-      @copy="onEncryptLinkCopy"
-      @animationFinish="onAnimationFinish"
-    />
-    <LinkCard
-      class="decryption-link-card"
-      title="Decryption Link"
-      subtitle="This link can only decrypt files and messages encrypted with the link in the green box. <span class='warning'>Never share this link.</span>"
-      :baseUrl="decryptLinkBaseUrl"
-      :keyString="privatekeyString"
-      @download="onDecryptLinkDownload"
-      @copy="onDecryptLinkCopy"
-      @animationFinish="onAnimationFinish"
-    />
+    <div class="card-container">
+      <LinkCard
+        class="encryption-link-card"
+        title="Encryption Link"
+        subtitle="Files and messages encrypted with this link can only be decrypted with the link in the other box. Share this link."
+        :baseUrl="encryptLinkBaseUrl"
+        :keyString="publicKeyString"
+        @download="onEncryptLinkDownload"
+        @copy="onEncryptLinkCopy"
+        @animationFinish="onAnimationFinish"
+      />
+    </div>
+    <div class="card-container">
+      <LinkCard
+        class="decryption-link-card"
+        title="Decryption Link"
+        subtitle="This link can only decrypt files and messages encrypted with the link in the green box. <span class='warning'>Never share this link.</span>"
+        :baseUrl="decryptLinkBaseUrl"
+        :keyString="privatekeyString"
+        @download="onDecryptLinkDownload"
+        @copy="onDecryptLinkCopy"
+        @animationFinish="onAnimationFinish"
+      />
+    </div>
 
     <FullScreenLoadingOverlay :hidden="hideLoadingOverlay" />
   </div>
@@ -111,14 +115,23 @@ export default class GenerateKeyPair extends Vue {
   justify-content: flex-start;
   align-items: center;
 
-  .encryption-link-card {
-    @include global.encrypt-card-background-auto;
-  }
+  & > .card-container {
+    width: 100%;
 
-  .decryption-link-card {
-    @include global.decrypt-card-background-auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
-    margin-top: 48px;
+    & > .encryption-link-card {
+      @include global.encrypt-card-background-auto;
+    }
+
+    & > .decryption-link-card {
+      @include global.decrypt-card-background-auto;
+
+      margin-top: 48px;
+    }
   }
 }
 </style>

@@ -11,9 +11,9 @@
         <MDCButton
           text="Generate new key pair"
           :type="generateSelected ? 'raised' : ''"
-          @click="onGenerateKeyPairClick"
+          :to="{ path: '/' }"
         />
-        <MDCButton text="FAQ" @click="onFAQClick" />
+        <MDCButton text="FAQ" :to="{ hash: 'faq' }" @click="onFAQClick" />
       </div>
     </div>
   </div>
@@ -42,10 +42,6 @@ export default class TopBar extends Vue {
   @Watch("currentRoute", { immediate: true })
   onCurrentRouteChange(val: string) {
     this.generateSelected = val === "GenerateKeyPair";
-  }
-
-  onGenerateKeyPairClick() {
-    if (this.$route.path !== "/") this.$router.push("/");
   }
 
   onFAQClick() {

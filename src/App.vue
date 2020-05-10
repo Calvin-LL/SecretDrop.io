@@ -12,16 +12,19 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+import delay from "delay";
 import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
 import MDCSnackBar from "@/components/MDC/MDCSnackBar.vue";
 import TopBar from "@/components/TopBar.vue";
+import { scrollTo } from "@/UIHelpers";
 // @ts-ignore
 import smoothscroll from "smoothscroll-polyfill";
 
 smoothscroll.polyfill();
 
-export default {
+export default Vue.extend({
   name: "App",
   components: {
     TopBar,
@@ -29,7 +32,19 @@ export default {
     FAQ,
     MDCSnackBar,
   },
-};
+  async mounted() {
+    await delay(100);
+
+    const anchor = window.location.hash;
+    if (anchor) {
+      scrollTo(anchor);
+      await delay(500);
+      if (window.scrollY === 0) scrollTo(anchor);
+      await delay(500);
+      if (window.scrollY === 0) scrollTo(anchor);
+    }
+  },
+});
 </script>
 
 <style lang="scss">
