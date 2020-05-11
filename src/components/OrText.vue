@@ -29,7 +29,7 @@ export default class OrText extends Vue {
       await delay(10);
       this.orTextInvisible = true;
       await delay(250);
-      this.orTextGone = true;
+      if (this.orTextInvisible) this.orTextGone = true;
     }
   }
 }

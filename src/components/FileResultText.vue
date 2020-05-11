@@ -41,15 +41,14 @@ export default class FileResultText extends Vue {
       await delay(10);
       this.fileResultTextInvisible = false;
       await delay(250);
-      this.$refs.fileResultText.style.maxHeight = "";
+      if (!this.fileResultTextInvisible)
+        this.$refs.fileResultText.style.maxHeight = "";
     } else {
-      const maxHeight = `${this.$refs.fileResultText.clientHeight}px`;
-      this.$refs.fileResultText.style.maxHeight = maxHeight;
+      this.$refs.fileResultText.style.maxHeight = `${this.$refs.fileResultText.clientHeight}px`;
       await delay(10);
       this.fileResultTextInvisible = true;
       await delay(250);
-      this.fileResultTextGone = true;
-      this.$refs.fileResultText.style.maxHeight = maxHeight;
+      if (this.fileResultTextInvisible) this.fileResultTextGone = true;
     }
   }
 }

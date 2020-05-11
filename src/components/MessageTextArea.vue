@@ -68,15 +68,14 @@ export default class MessageTextArea extends Vue {
       await delay(10);
       this.textareaContainerInvisible = false;
       await delay(250);
-      this.$refs.textareaContainer.style.maxHeight = "";
+      if (!this.textareaContainerInvisible)
+        this.$refs.textareaContainer.style.maxHeight = "";
     } else {
-      const maxHeight = `${this.$refs.textareaContainer.clientHeight}px`;
-      this.$refs.textareaContainer.style.maxHeight = maxHeight;
+      this.$refs.textareaContainer.style.maxHeight = `${this.$refs.textareaContainer.clientHeight}px`;
       await delay(10);
       this.textareaContainerInvisible = true;
       await delay(250);
-      this.textareaContainerGone = true;
-      this.$refs.textareaContainer.style.maxHeight = maxHeight;
+      if (this.textareaContainerInvisible) this.textareaContainerGone = true;
     }
   }
 }
