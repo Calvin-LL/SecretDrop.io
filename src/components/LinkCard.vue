@@ -11,27 +11,21 @@
         {{ urlToShow }}
       </a>
     </div>
-    <div class="bottom-bar-container">
-      <div class="bottom-bar">
-        <MDCIconButton @click="$emit('download', arguments)">
-          save_alt
-        </MDCIconButton>
-        <MDCIconButton @click="$emit('copy', arguments)">
-          file_copy
-        </MDCIconButton>
-      </div>
-    </div>
+    <CardButtonBar
+      @download="$emit('download', $event)"
+      @copy="$emit('copy', $event)"
+    />
   </Card>
 </template>
 
 <script lang="ts">
+import CardButtonBar from "@/components/CardButtonBar.vue";
 import Card from "@/components/Card.vue";
-import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
 import { animateAddTextInElement } from "@/UIHelpers";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
-  components: { Card, MDCIconButton },
+  components: { Card, CardButtonBar },
 })
 export default class LinkCard extends Vue {
   @Prop(String) readonly title: string | undefined;
