@@ -4,12 +4,14 @@
       class="encrypt-card"
       title="Encrypt"
       subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
+      :class="{ error: error.title || error.message }"
     >
       <CardErrorOverlay :title="error.title" :detail="error.message" />
       <ErrorBoundary @errorCaptured="onError">
         <CardLoadingOverlay :hidden="!loadingAnimationVisible">{{
           loadingAnimationText
         }}</CardLoadingOverlay>
+
         <MessageTextArea
           :hidden="hideMessageTextArea"
           :shouldAcceptText="!loadingAnimationVisible"
@@ -32,6 +34,14 @@
             @click="onEncryptClick"
           />
         </div>
+        <ResultsArea
+          title="Encrypted Message"
+          subtitle="You may post or send this anywhere. Only the person who has the decryption link can decrypt your message."
+          :text="resultText"
+          :random-text-length="randomTextLength"
+          @animationFinish="onAnimationFinish"
+        />
+        <FileResultText :hidden="hideFileResultText" />
       </ErrorBoundary>
     </Card>
   </div>
@@ -42,10 +52,13 @@ import Card from "@/components/Card.vue";
 import CardErrorOverlay from "@/components/CardErrorOverlay.vue";
 import CardLoadingOverlay from "@/components/CardLoadingOverlay.vue";
 import FileDrop, { FileContainer } from "@/components/FileDrop.vue";
+import FileResultText from "@/components/FileResultText.vue";
 import MDCButton from "@/components/MDC/MDCButton.vue";
 import MessageTextArea from "@/components/MessageTextArea.vue";
 import OrText from "@/components/OrText.vue";
+import ResultsArea from "@/components/ResultsArea.vue";
 import isCryptoUseable from "@/core/CryptoCheck";
+import PlainMessage from "@/core/PlainMessage";
 import PublicKey from "@/core/PublicKey";
 import CardError from "@/error/CardError";
 import delay from "delay";
@@ -60,6 +73,8 @@ import { Component, Vue, Watch } from "vue-property-decorator";
     OrText,
     FileDrop,
     MDCButton,
+    ResultsArea,
+    FileResultText,
     ErrorBoundary,
     CardErrorOverlay,
     CardLoadingOverlay,
@@ -74,17 +89,21 @@ export default class Encrypt extends Vue {
   loadingAnimationText = "Loading Key";
 
   // @ts-ignore
-  error: CardError = new CardError(undefined, undefined);
+  error: CardError = {};
 
   hideMessageTextArea = false;
   hideOrText = false;
   hideFileDrop = false;
+  hideFileResultText = true;
 
-  message: string = "";
+  message = "";
   files: FileContainer[] = [];
 
   publicKeyString: string | undefined;
   publicKey: PublicKey | undefined;
+
+  resultText = "";
+  randomTextLength = 0;
 
   created() {
     this.publicKeyString = this.$route.query.key as string;
@@ -124,15 +143,26 @@ export default class Encrypt extends Vue {
   }
 
   async onEncryptClick() {
+    if (this.message.length <= 0 || !this.publicKey) return;
+
     this.loadingAnimationText = "Encrypting";
     this.loadingAnimationVisible = true;
 
-    //
+    this.resultText = "";
+    this.randomTextLength = 100;
 
+    const plainMessage = new PlainMessage(this.message, this.publicKey);
+
+    this.resultText = await plainMessage.encrypt();
+    this.randomTextLength = 0;
+  }
+
+  onAnimationFinish() {
     this.loadingAnimationVisible = false;
   }
 
   onError(error: Error) {
+    console.error(error);
     if (error.name === "CardError") this.error = error as CardError;
     else this.error = new CardError("Error", error.message);
   }
@@ -155,6 +185,12 @@ export default class Encrypt extends Vue {
     @include global.encrypt-card-background-auto;
 
     position: relative;
+
+    &.error {
+      & > *:not(.error-overlay) {
+        display: none;
+      }
+    }
 
     .error-overlay {
       @include global.encrypt-card-background-auto;
@@ -185,6 +221,10 @@ export default class Encrypt extends Vue {
 
         margin: 8px;
       }
+    }
+
+    .result-textarea-container textarea {
+      font-size: 1rem;
     }
   }
 }

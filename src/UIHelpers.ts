@@ -1,12 +1,12 @@
 import { saveAs } from "file-saver";
 
 export function scrollTo(selector: string) {
-  (document.querySelector(selector) as HTMLDivElement).scrollIntoView({
+  (document.querySelector(selector) as HTMLDivElement)?.scrollIntoView({
     behavior: "smooth",
   });
 }
 
-export function animateAddTextTnElement(
+export function animateAddTextInElement(
   startingString: string,
   addedString: string,
   duration: number = 500,
@@ -16,7 +16,7 @@ export function animateAddTextTnElement(
   const stringLength = addedString.length;
   const startTimestamp = Date.now();
 
-  onUpdate?.(startingString);
+  if (startingString && startingString.length > 0) onUpdate?.(startingString);
 
   const intervalId = setInterval(() => {
     const timeElapsed = Date.now() - startTimestamp;
@@ -37,15 +37,11 @@ export function animateAddTextTnElement(
 }
 
 export function fillElementWithRandomText(
-  element: Element,
-  property: string = "innerHTML",
   length: number = 0,
-  onUpdate?: () => void
+  onUpdate?: (newString: string) => void
 ) {
   const intervalId = setInterval(() => {
-    // @ts-ignore
-    element[property] = getRandomStringOfLength(length);
-    onUpdate?.();
+    onUpdate?.(getRandomStringOfLength(length));
   }, 50);
 
   return () => {

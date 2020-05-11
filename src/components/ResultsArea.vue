@@ -1,0 +1,110 @@
+<template>
+  <div
+    ref="container"
+    class="result-container"
+    :class="{ invisible: containerInvisible, gone: containerGone }"
+  >
+    <div class="title-container">
+      <h2 class="title">{{ title }}</h2>
+      <div class="subtitle">{{ subtitle }}</div>
+    </div>
+    <ResultTextArea
+      :text="text"
+      :random-text-length="randomTextLength"
+      @animationFinish="$emit('animationFinish')"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import ResultTextArea from "@/components/ResultTextArea.vue";
+import delay from "delay";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+
+@Component({ components: { ResultTextArea } })
+export default class ResultsArea extends Vue {
+  $refs!: {
+    container: HTMLDivElement;
+  };
+
+  @Prop(String) readonly title!: string;
+  @Prop(String) readonly subtitle!: string;
+
+  @Prop(String) readonly text!: string;
+  @Prop(Number) readonly randomTextLength!: number;
+
+  containerInvisible = false;
+  containerGone = false;
+
+  get hidden() {
+    return (this.text.length === 0 && this.randomTextLength === 0) == true;
+  }
+
+  mounted() {
+    this.$refs.container.style.maxHeight = `${this.$refs.container.clientHeight}px`;
+    this.containerInvisible = true;
+    this.containerGone = true;
+  }
+
+  @Watch("hidden")
+  onHiddenChange() {
+    console.log(this.hidden);
+    this.toggleContainerVisibility(!this.hidden);
+  }
+
+  async toggleContainerVisibility(visible: boolean) {
+    if (visible) {
+      this.containerGone = false;
+      await delay(10);
+      this.containerInvisible = false;
+      this.$refs.container.style.maxHeight = "";
+    } else {
+      this.$refs.container.style.maxHeight = `${this.$refs.container.clientHeight}px`;
+      await delay(10);
+      this.containerInvisible = true;
+      await delay(250);
+      this.containerGone = true;
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+@use "assets/scss/global";
+
+.result-container {
+  overflow: hidden;
+
+  transition-property: max-height, margin;
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out;
+
+  &.invisible {
+    max-height: 0px;
+    margin: 0px;
+  }
+
+  &.gone {
+    display: none;
+  }
+
+  & > .title-container {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+    & > .title {
+      font-weight: 500;
+      margin: 0px;
+      margin-bottom: 4px;
+    }
+
+    & > .subtitle {
+      @include global.secondary-text-auto;
+    }
+  }
+}
+</style>

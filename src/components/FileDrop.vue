@@ -241,13 +241,13 @@ export default class FileDrop extends Vue {
       this.containerGone = false;
       await delay(10);
       this.containerInvisible = false;
+      this.$refs.container.style.maxHeight = "";
     } else {
       this.$refs.container.style.maxHeight = `${this.$refs.container.clientHeight}px`;
       await delay(10);
       this.containerInvisible = true;
       await delay(250);
       this.containerGone = true;
-      this.$refs.container.style.maxHeight = "";
     }
   }
 

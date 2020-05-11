@@ -7,7 +7,7 @@
     }"
   >
     <ErrorIcon :show="!(overlayInvisible && overlayGone)" />
-    <h2>{{ title }}</h2>
+    <h2>{{ title || "Error" }}</h2>
     <div class="detail">{{ detail }}</div>
   </div>
 </template>
@@ -25,19 +25,20 @@ export default class CardErrorOverlay extends Vue {
   overlayInvisible = true;
   overlayGone = true;
 
-  @Watch("title")
+  @Watch("title", { immediate: true })
   onTitleChange() {
     this.onChange();
   }
 
-  @Watch("detail")
+  @Watch("detail", { immediate: true })
   onDetailChange() {
     this.onChange();
   }
 
   onChange() {
     this.toggleOverlayVisibility(
-      this.title !== undefined || this.detail !== undefined
+      (typeof this.title === "string" && this.title.length > 0) ||
+        (typeof this.detail === "string" && this.detail.length > 0)
     );
   }
 
@@ -60,10 +61,10 @@ export default class CardErrorOverlay extends Vue {
 @use "assets/scss/global";
 
 .error-overlay {
-  @include global.absolute-overlay;
   @include global.flex-center;
 
-  z-index: 20;
+  height: 100%;
+  width: 100%;
 
   transition-property: opacity;
   transition-duration: 250ms;
