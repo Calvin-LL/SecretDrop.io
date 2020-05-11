@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts">
-import CardButtonBar from "@/components/CardButtonBar.vue";
 import Card from "@/components/Card.vue";
+import CardButtonBar from "@/components/CardButtonBar.vue";
 import { animateAddTextInElement } from "@/UIHelpers";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
