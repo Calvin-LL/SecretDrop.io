@@ -40,13 +40,16 @@ export default class FileResultText extends Vue {
       this.fileResultTextGone = false;
       await delay(10);
       this.fileResultTextInvisible = false;
+      await delay(250);
       this.$refs.fileResultText.style.maxHeight = "";
     } else {
-      this.$refs.fileResultText.style.maxHeight = `${this.$refs.fileResultText.clientHeight}px`;
+      const maxHeight = `${this.$refs.fileResultText.clientHeight}px`;
+      this.$refs.fileResultText.style.maxHeight = maxHeight;
       await delay(10);
       this.fileResultTextInvisible = true;
       await delay(250);
       this.fileResultTextGone = true;
+      this.$refs.fileResultText.style.maxHeight = maxHeight;
     }
   }
 }
@@ -66,7 +69,7 @@ export default class FileResultText extends Vue {
   transition-timing-function: ease-in-out;
 
   &.invisible {
-    max-height: 0px;
+    max-height: 0px !important;
     margin: 0px;
   }
 
