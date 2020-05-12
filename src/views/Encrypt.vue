@@ -14,7 +14,7 @@
 
         <MessageTextArea
           :hidden="hideMessageTextArea"
-          :shouldAcceptText="!loadingAnimationVisible"
+          :shouldAcceptText="!loadingAnimationVisible && !hideMessageTextArea"
           v-model="message"
         />
         <OrText :hidden="hideOrText" />
@@ -22,7 +22,7 @@
           text="Drop files here or click here to select files to encrypt"
           dropText="Drop to encrypt"
           :hidden="hideFileDrop"
-          :shouldAcceptFiles="!loadingAnimationVisible"
+          :shouldAcceptFiles="!loadingAnimationVisible && !hideFileDrop"
           v-model="files"
         />
         <div class="encrypt-button-container">
@@ -40,6 +40,8 @@
           :text="resultText"
           :random-text-length="randomTextLength"
           @animationFinish="onAnimationFinish"
+          @download="onDownloadClick"
+          @copy="onCopyClick"
         />
         <FileResultText :hidden="hideFileResultText" />
       </ErrorBoundary>
@@ -48,19 +50,21 @@
 </template>
 
 <script lang="ts">
-import Card from "@/components/Card.vue";
-import CardErrorOverlay from "@/components/CardErrorOverlay.vue";
-import CardLoadingOverlay from "@/components/CardLoadingOverlay.vue";
-import FileDrop, { FileContainer } from "@/components/FileDrop.vue";
-import FileResultText from "@/components/FileResultText.vue";
+import FileResultText from "@/components/Encrypt/FileResultText.vue";
+import ResultsArea from "@/components/Encrypt/ResultsArea.vue";
 import MDCButton from "@/components/MDC/MDCButton.vue";
-import MessageTextArea from "@/components/MessageTextArea.vue";
-import OrText from "@/components/OrText.vue";
-import ResultsArea from "@/components/ResultsArea.vue";
+import Card from "@/components/shared/Card.vue";
+import CardErrorOverlay from "@/components/shared/CardErrorOverlay.vue";
+import CardLoadingOverlay from "@/components/shared/CardLoadingOverlay.vue";
+import FileDrop, { FileContainer } from "@/components/shared/FileDrop.vue";
+import MessageTextArea from "@/components/shared/MessageTextArea.vue";
+import OrText from "@/components/shared/OrText.vue";
 import isCryptoUseable from "@/core/CryptoCheck";
 import PlainMessage from "@/core/PlainMessage";
 import PublicKey from "@/core/PublicKey";
 import CardError from "@/error/CardError";
+import { downloadAsTxt } from "@/UIHelpers";
+import copy from "copy-to-clipboard";
 import delay from "delay";
 // @ts-ignore
 import { ErrorBoundary } from "vue-error-boundary";
@@ -132,18 +136,25 @@ export default class Encrypt extends Vue {
 
   @Watch("message")
   onMessageChange() {
+    if (this.message.length === 0) this.resultText = "";
     this.hideFileDrop = this.message.length > 0;
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
 
   @Watch("files")
   onFilesChange() {
+    this.hideFileResultText = this.files.length === 0;
     this.hideMessageTextArea = this.files.length > 0;
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
   }
 
   async onEncryptClick() {
-    if (this.message.length <= 0 || !this.publicKey) return;
+    if (
+      this.message.length <= 0 ||
+      !this.publicKey ||
+      this.loadingAnimationVisible
+    )
+      return;
 
     this.loadingAnimationText = "Encrypting";
     this.loadingAnimationVisible = true;
@@ -157,8 +168,28 @@ export default class Encrypt extends Vue {
     this.randomTextLength = 0;
   }
 
-  onAnimationFinish() {
+  onAnimationFinish(textarea: HTMLTextAreaElement) {
     this.loadingAnimationVisible = false;
+    textarea.focus();
+    textarea.select();
+  }
+
+  onDownloadClick() {
+    if (this.resultText.length <= 0 || this.loadingAnimationVisible) return;
+
+    downloadAsTxt(this.resultText, "encrypted-message.txt");
+  }
+
+  onCopyClick() {
+    if (this.resultText.length <= 0 || this.loadingAnimationVisible) return;
+
+    if (copy(this.resultText))
+      this.$root.$emit("show-snackbar", "Copied to clipboard.");
+    else
+      this.$root.$emit(
+        "show-snackbar",
+        "Failed to copy to clipboard. Try copying the link manually."
+      );
   }
 
   onError(error: Error) {
