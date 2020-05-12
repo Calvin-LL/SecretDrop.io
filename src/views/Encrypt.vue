@@ -64,6 +64,7 @@ import PlainMessage from "@/core/PlainMessage";
 import PublicKey from "@/core/PublicKey";
 import CardError from "@/error/CardError";
 import { downloadAsTxt } from "@/UIHelpers";
+import { getPredictedLengthOfEncryptedString } from "@/UIHelpers";
 import copy from "copy-to-clipboard";
 import delay from "delay";
 // @ts-ignore
@@ -160,7 +161,9 @@ export default class Encrypt extends Vue {
     this.loadingAnimationVisible = true;
 
     this.resultText = "";
-    this.randomTextLength = 100;
+    this.randomTextLength = getPredictedLengthOfEncryptedString(
+      this.message.length
+    );
 
     const plainMessage = new PlainMessage(this.message, this.publicKey);
 

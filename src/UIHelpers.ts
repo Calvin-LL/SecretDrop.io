@@ -116,3 +116,11 @@ export function downloadAsTxt(s: string, filename: string) {
   const blob = new Blob([s], { type: "text/plain;charset=utf-8" });
   saveAs(blob, filename);
 }
+
+export function getPredictedLengthOfEncryptedString(messageLength: number) {
+  const privateKeyStringLength = 64;
+  const base64Length = Math.max(4 * (messageLength + 44 / 3), 10);
+  const totalLength = Math.ceil(privateKeyStringLength + base64Length + 1);
+
+  return totalLength;
+}
