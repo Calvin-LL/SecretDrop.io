@@ -72,6 +72,7 @@ export default Vue.extend({
   @include global.background-auto;
 
   position: relative;
+  contain: content;
 
   margin-top: 8px;
   margin-left: 4px;

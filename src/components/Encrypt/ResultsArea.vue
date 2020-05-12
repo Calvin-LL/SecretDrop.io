@@ -78,6 +78,7 @@ export default class ResultsArea extends Vue {
 
 .result-container {
   overflow: hidden;
+  contain: content;
 
   transition-property: max-height;
   transition-duration: 250ms;

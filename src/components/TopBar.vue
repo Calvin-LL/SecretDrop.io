@@ -56,6 +56,8 @@ export default class TopBar extends Vue {
 @use "assets/scss/global";
 
 #top-bar {
+  contain: content;
+
   display: flex;
   justify-content: center;
   align-items: center;

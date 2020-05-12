@@ -62,6 +62,8 @@ export default class CardLoadingOverlay extends Vue {
 
   pointer-events: all;
 
+  contain: content;
+
   &.invisible {
     opacity: 0;
   }

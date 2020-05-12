@@ -93,6 +93,8 @@ export default class MessageTextArea extends Vue {
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
 
+  contain: content;
+
   &.invisible {
     max-height: 0px !important;
     padding-bottom: 0px;

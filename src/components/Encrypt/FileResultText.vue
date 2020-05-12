@@ -62,6 +62,7 @@ export default class FileResultText extends Vue {
   font-size: 1rem;
 
   overflow: hidden;
+  contain: content;
 
   transition-property: max-height, margin;
   transition-duration: 250ms;

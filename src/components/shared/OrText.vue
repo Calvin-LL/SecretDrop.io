@@ -48,6 +48,7 @@ export default class OrText extends Vue {
   max-height: 2rem;
 
   overflow: hidden;
+  contain: content;
 
   transition-property: max-height, margin;
   transition-duration: 250ms;

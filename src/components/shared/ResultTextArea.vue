@@ -79,6 +79,8 @@ export default class ResultTextArea extends Vue {
   padding-right: 8px;
   padding-bottom: 8px;
 
+  contain: content;
+
   textarea {
     @include global.primary-text-auto;
 

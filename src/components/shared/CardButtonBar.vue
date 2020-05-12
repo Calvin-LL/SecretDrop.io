@@ -27,6 +27,7 @@ export default Vue.extend({
 <style lang="scss">
 .bottom-bar-container {
   width: 100%;
+  contain: content;
 
   .bottom-bar {
     display: flex;

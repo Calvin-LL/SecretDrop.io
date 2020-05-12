@@ -45,6 +45,8 @@ export default Vue.extend({
 #footer {
   @include global.dark-background-auto;
 
+  contain: content;
+
   display: flex;
   justify-content: center;
   align-items: center;

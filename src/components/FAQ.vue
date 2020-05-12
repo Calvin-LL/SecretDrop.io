@@ -278,6 +278,7 @@ export default Vue.extend({
   h1 {
     width: 100%;
     max-width: 700px;
+    contain: content;
   }
 
   & > div:not(.fab-container) {
@@ -285,6 +286,7 @@ export default Vue.extend({
     max-width: 700px;
     padding-left: 8px;
     padding-right: 8px;
+    contain: content;
 
     h2 {
       margin-top: 48px;

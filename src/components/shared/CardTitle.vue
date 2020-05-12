@@ -27,6 +27,7 @@ export default Vue.extend({
   margin-bottom: 16px;
   padding-left: 8px;
   padding-right: 8px;
+  contain: content;
 
   & > .title {
     font-weight: 500;

@@ -14,6 +14,8 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .quote {
+  contain: content;
+
   border-radius: 4px;
 
   padding: 8px;
