@@ -1,21 +1,22 @@
 <template>
   <div class="card">
-    <div class="title-container">
-      <h2 class="title">{{ title }}</h2>
-      <div class="subtitle"><span v-html="subtitle"></span></div>
-    </div>
+    <CardTitle :title="title" :subtitle="subtitle" />
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import CardTitle from "@/components/shared/CardTitle.vue";
+import Vue from "vue";
 
-@Component
-export default class Card extends Vue {
-  @Prop(String) readonly title!: string;
-  @Prop(String) readonly subtitle!: string;
-}
+export default Vue.extend({
+  name: "Card",
+  components: { CardTitle },
+  props: {
+    title: String,
+    subtitle: String,
+  },
+});
 </script>
 
 <style lang="scss">
@@ -39,33 +40,6 @@ export default class Card extends Vue {
   @media (max-width: 640px) {
     margin-left: 4%;
     margin-right: 4%;
-  }
-
-  & > .title-container {
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 8px;
-    margin-bottom: 16px;
-    padding-left: 8px;
-    padding-right: 8px;
-
-    & > .title {
-      font-weight: 500;
-      margin: 0px;
-      margin-bottom: 4px;
-    }
-
-    & > .subtitle {
-      @include global.secondary-text-auto;
-
-      & > .warning {
-        color: #d50000;
-
-        @media (prefers-color-scheme: dark) {
-          color: #ff7070;
-        }
-      }
-    }
   }
 }
 </style>

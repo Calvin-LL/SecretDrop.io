@@ -4,10 +4,7 @@
     class="result-container"
     :class="{ invisible: containerInvisible, gone: containerGone }"
   >
-    <div class="title-container">
-      <h2 class="title">{{ title }}</h2>
-      <div class="subtitle">{{ subtitle }}</div>
-    </div>
+    <CardTitle :title="title" :subtitle="subtitle" />
     <ResultTextArea
       :text="text"
       :random-text-length="randomTextLength"
@@ -24,10 +21,11 @@
 <script lang="ts">
 import ResultTextArea from "@/components/Encrypt/ResultTextArea.vue";
 import CardButtonBar from "@/components/shared/CardButtonBar.vue";
+import CardTitle from "@/components/shared/CardTitle.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-@Component({ components: { ResultTextArea, CardButtonBar } })
+@Component({ components: { CardTitle, ResultTextArea, CardButtonBar } })
 export default class ResultsArea extends Vue {
   $refs!: {
     container: HTMLDivElement;
