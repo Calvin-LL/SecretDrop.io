@@ -36,6 +36,39 @@ export function animateAddTextInElement(
   }, 50);
 }
 
+export function animateTextTransition(
+  startingString: string,
+  finalString: string,
+  duration: number = 500,
+  onUpdate?: (newString: string) => void,
+  onFinish?: () => void
+) {
+  let stringLength = startingString.length;
+  const targetLength = finalString.length;
+  const startTimestamp = Date.now();
+
+  onUpdate?.(startingString);
+
+  const intervalId = setInterval(() => {
+    if (stringLength < targetLength) stringLength++;
+    else if (stringLength > targetLength) stringLength--;
+
+    const timeElapsed = Date.now() - startTimestamp;
+    const length = Math.floor(stringLength * (timeElapsed / duration));
+
+    if (length <= stringLength || targetLength != stringLength) {
+      const shownString = finalString.substring(0, length);
+      const newString = fillStringWithRandom(shownString, stringLength);
+
+      onUpdate?.(newString);
+    } else {
+      onUpdate?.(finalString);
+      onFinish?.();
+      clearInterval(intervalId);
+    }
+  }, 50);
+}
+
 export function fillElementWithRandomText(
   length: number = 0,
   onUpdate?: (newString: string) => void
