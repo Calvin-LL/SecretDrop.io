@@ -60,6 +60,7 @@ import FileDrop, { FileContainer } from "@/components/shared/FileDrop.vue";
 import MessageTextArea from "@/components/shared/MessageTextArea.vue";
 import OrText from "@/components/shared/OrText.vue";
 import isCryptoUseable from "@/core/CryptoCheck";
+import PlainFile from "@/core/PlainFile";
 import PlainMessage from "@/core/PlainMessage";
 import PublicKey from "@/core/PublicKey";
 import CardError from "@/error/CardError";
@@ -137,38 +138,51 @@ export default class Encrypt extends Vue {
 
   @Watch("message")
   onMessageChange() {
-    if (this.message.length === 0) this.resultText = "";
-    this.hideFileDrop = this.message.length > 0;
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
+    this.hideFileDrop = this.message.length > 0;
+    if (this.message.length === 0) this.resultText = "";
+    if (this.files.length === 0) this.hideFileResultText = true;
   }
 
   @Watch("files")
   onFilesChange() {
-    this.hideFileResultText = this.files.length === 0;
     this.hideMessageTextArea = this.files.length > 0;
     this.hideOrText = this.message.length > 0 || this.files.length > 0;
+    if (this.message.length === 0) this.resultText = "";
+    if (this.files.length === 0) this.hideFileResultText = true;
   }
 
   async onEncryptClick() {
-    if (
-      this.message.length <= 0 ||
-      !this.publicKey ||
-      this.loadingAnimationVisible
-    )
-      return;
+    if (!this.publicKey || this.loadingAnimationVisible) return;
 
     this.loadingAnimationText = "Encrypting";
     this.loadingAnimationVisible = true;
 
-    this.resultText = "";
-    this.randomTextLength = getPredictedLengthOfEncryptedString(
-      this.message.length
-    );
+    if (this.message.length > 0) {
+      this.resultText = "";
+      this.randomTextLength = getPredictedLengthOfEncryptedString(
+        this.message.length
+      );
 
-    const plainMessage = new PlainMessage(this.message, this.publicKey);
+      const plainMessage = new PlainMessage(this.message, this.publicKey);
 
-    this.resultText = await plainMessage.encrypt();
-    this.randomTextLength = 0;
+      this.resultText = await plainMessage.encrypt();
+      this.randomTextLength = 0;
+    } else if (this.files.length > 0) {
+      for (const file of this.files) {
+        const startTime = Date.now();
+        const plainFile = new PlainFile(file.file, this.publicKey);
+
+        await plainFile.encrypt();
+
+        if (Date.now() - startTime < 5000) await delay(3000);
+
+        plainFile.download();
+      }
+
+      this.hideFileResultText = false;
+      this.loadingAnimationVisible = false;
+    }
   }
 
   onAnimationFinish(textarea: HTMLTextAreaElement) {

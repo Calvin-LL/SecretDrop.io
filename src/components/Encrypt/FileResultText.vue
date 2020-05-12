@@ -67,9 +67,15 @@ export default class FileResultText extends Vue {
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
 
+  margin-top: 16px;
+  margin-bottom: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+
   &.invisible {
     max-height: 0px !important;
-    margin: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 
   &.gone {
