@@ -170,8 +170,6 @@ export default class Encrypt extends Vue {
 
   onAnimationFinish(textarea: HTMLTextAreaElement) {
     this.loadingAnimationVisible = false;
-    textarea.focus();
-    textarea.select();
   }
 
   onDownloadClick() {

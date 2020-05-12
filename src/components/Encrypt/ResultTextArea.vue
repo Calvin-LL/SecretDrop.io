@@ -1,100 +1,27 @@
 <template>
-  <div class="result-textarea-container">
-    <textarea ref="textarea" readonly :value="processedText"></textarea>
-  </div>
+  <ResultTextArea
+    v-bind="$attrs"
+    @focus="onFocus"
+    @animationFinish="onAnimationFinish"
+  />
 </template>
 
 <script lang="ts">
-import { animateTextTransition, fillElementWithRandomText } from "@/UIHelpers";
-import delay from "delay";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import ResultTextArea from "@/components/shared/ResultTextArea.vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component
-export default class ResultTextArea extends Vue {
-  $refs!: {
-    textarea: HTMLTextAreaElement;
-  };
+@Component({ components: { ResultTextArea } })
+export default class EncryptResultTextArea extends Vue {
+  onFocus(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
 
-  @Prop(String) readonly text: string | undefined;
-  @Prop(Number) readonly randomTextLength: number | undefined;
-
-  processedText = "";
-  stopFillElementWithRandomText: (() => void) | undefined;
-
-  @Watch("text")
-  onTextChange() {
-    this.onChange();
+    textarea.select();
   }
 
-  @Watch("randomTextLength")
-  onRandomTextLengthChange() {
-    this.onChange();
-  }
+  onAnimationFinish(textarea: HTMLTextAreaElement) {
+    textarea.focus();
 
-  onChange() {
-    this.stopFillElementWithRandomText?.();
-
-    if (this.text) {
-      animateTextTransition(
-        this.processedText,
-        this.text,
-        3000,
-        (s) => {
-          this.processedText = s;
-          this.updateTextAreaHeight();
-        },
-        () => {
-          this.$emit("animationFinish", this.$refs.textarea);
-        }
-      );
-    } else if (this.randomTextLength) {
-      this.stopFillElementWithRandomText = fillElementWithRandomText(
-        this.randomTextLength,
-        (s) => {
-          this.processedText = s;
-          this.updateTextAreaHeight();
-        }
-      );
-    }
-  }
-
-  updateTextAreaHeight() {
-    this.$refs.textarea.style.height = "auto";
-    this.$refs.textarea.style.height =
-      Math.max(this.$refs.textarea.scrollHeight, 100) + "px";
+    this.$emit("animationFinish", textarea);
   }
 }
 </script>
-
-<style lang="scss">
-@use "assets/scss/global";
-
-.result-textarea-container {
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-bottom: 8px;
-
-  textarea {
-    @include global.primary-text-auto;
-
-    width: 100%;
-    height: 100px;
-
-    resize: none;
-    border: none;
-    outline: none;
-    overflow-y: hidden;
-
-    padding: 0px;
-    margin: 0px;
-
-    background-color: transparent;
-
-    font-family: Roboto Slab, serif;
-
-    &::placeholder {
-      @include global.secondary-text-auto;
-    }
-  }
-}
-</style>
