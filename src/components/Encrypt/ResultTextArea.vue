@@ -5,10 +5,7 @@
 </template>
 
 <script lang="ts">
-import {
-  animateAddTextInElement,
-  fillElementWithRandomText,
-} from "@/UIHelpers";
+import { animateTextTransition, fillElementWithRandomText } from "@/UIHelpers";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
@@ -38,17 +35,16 @@ export default class ResultTextArea extends Vue {
     this.stopFillElementWithRandomText?.();
 
     if (this.text) {
-      animateAddTextInElement(
-        "",
+      animateTextTransition(
+        this.processedText,
         this.text,
         3000,
         (s) => {
-          console.log(s);
           this.processedText = s;
           this.updateTextAreaHeight();
         },
         () => {
-          this.$emit("animationFinish");
+          this.$emit("animationFinish", this.$refs.textarea);
         }
       );
     } else if (this.randomTextLength) {

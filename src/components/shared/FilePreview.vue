@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import { FileContainer } from "@/components/FileDrop.vue";
 import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
+import { FileContainer } from "@/components/shared/FileDrop.vue";
 import availabelIcons from "file-icon-vectors/dist/icons/vivid/catalog.json";
 // @ts-ignore
 import FileUploadThumbnail from "file-upload-thumbnail";

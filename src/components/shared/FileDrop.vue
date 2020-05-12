@@ -1,7 +1,7 @@
 <template>
   <div
     ref="container"
-    class="file-drop-or-text-container"
+    class="file-drop-container"
     :class="{
       invisible: containerInvisible,
       gone: containerGone,
@@ -56,17 +56,16 @@
 </template>
 
 <script lang="ts">
-import FilePreview from "@/components/FilePreview.vue";
 import MDCCircularProgress from "@/components/MDC/MDCCircularProgress.vue";
 import MDCIconButton from "@/components/MDC/MDCIconButton.vue";
+import FilePreview from "@/components/shared/FilePreview.vue";
+import CardError from "@/error/CardError";
 import delay from "delay";
 import { fromEvent } from "file-selector";
 import FileType from "file-type/browser";
 import mime from "mime";
 import uuid from "uuid-random";
 import { Component, Model, Prop, Vue, Watch } from "vue-property-decorator";
-
-import CardError from "../error/CardError";
 
 export interface FileContainer {
   id: string;
@@ -261,12 +260,12 @@ export default class FileDrop extends Vue {
       await delay(10);
       this.fileLoadingOverlayInvisible = true;
       await delay(250);
-      this.fileLoadingOverlayGone = true;
+      if (this.fileLoadingOverlayInvisible) this.fileLoadingOverlayGone = true;
     }
   }
 
-  async toggleFileDropOverlay(loading: boolean) {
-    if (loading) {
+  async toggleFileDropOverlay(visible: boolean) {
+    if (visible) {
       this.fileDropOverlayGone = false;
       await delay(10);
       this.fileDropOverlayInvisible = false;
@@ -274,7 +273,7 @@ export default class FileDrop extends Vue {
       await delay(10);
       this.fileDropOverlayInvisible = true;
       await delay(250);
-      this.fileDropOverlayGone = true;
+      if (this.fileDropOverlayInvisible) this.fileDropOverlayGone = true;
     }
   }
 
@@ -297,7 +296,7 @@ export default class FileDrop extends Vue {
 <style lang="scss">
 @use "assets/scss/global";
 
-.file-drop-or-text-container {
+.file-drop-container {
   width: 100%;
   padding-left: 8px;
   padding-right: 8px;

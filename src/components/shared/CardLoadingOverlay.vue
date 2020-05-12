@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import AnimatedLogo from "@/components/AnimatedLogo.vue";
+import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
@@ -59,6 +59,8 @@ export default class CardLoadingOverlay extends Vue {
   transition-timing-function: ease-in-out;
 
   background-color: global.$overlay-color;
+
+  pointer-events: all;
 
   &.invisible {
     opacity: 0;

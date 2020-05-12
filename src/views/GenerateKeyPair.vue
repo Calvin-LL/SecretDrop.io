@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts">
-import FullScreenLoadingOverlay from "@/components/FullScreenLoadingOverlay.vue";
-import LinkCard from "@/components/LinkCard.vue";
+import FullScreenLoadingOverlay from "@/components/GenerateKeyPair/FullScreenLoadingOverlay.vue";
+import LinkCard from "@/components/GenerateKeyPair/LinkCard.vue";
 import KeyPair from "@/core/KeyPair";
 import { downloadAsTxt } from "@/UIHelpers";
 import copy from "copy-to-clipboard";

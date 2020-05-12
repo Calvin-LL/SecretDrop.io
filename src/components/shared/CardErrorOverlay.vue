@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import ErrorIcon from "@/components/ErrorIcon.vue";
+import ErrorIcon from "@/components/shared/ErrorIcon.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
@@ -69,6 +69,8 @@ export default class CardErrorOverlay extends Vue {
   transition-property: opacity;
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
+
+  pointer-events: all;
 
   &.invisible {
     opacity: 0;

@@ -229,8 +229,8 @@
 </template>
 
 <script lang="ts">
+import Quote from "@/components/FAQ/Quote.vue";
 import MDCFAB from "@/components/MDC/MDCFAB.vue";
-import Quote from "@/components/Quote.vue";
 import { scrollTo } from "@/UIHelpers";
 import Vue from "vue";
 

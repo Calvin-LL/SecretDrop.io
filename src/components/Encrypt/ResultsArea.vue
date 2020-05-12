@@ -11,17 +11,23 @@
     <ResultTextArea
       :text="text"
       :random-text-length="randomTextLength"
-      @animationFinish="$emit('animationFinish')"
+      @animationFinish="$emit('animationFinish', $event)"
+    />
+    <CardButtonBar
+      :visibility="!containerGone"
+      @download="$emit('download', $event)"
+      @copy="$emit('copy', $event)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import ResultTextArea from "@/components/ResultTextArea.vue";
+import ResultTextArea from "@/components/Encrypt/ResultTextArea.vue";
+import CardButtonBar from "@/components/shared/CardButtonBar.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-@Component({ components: { ResultTextArea } })
+@Component({ components: { ResultTextArea, CardButtonBar } })
 export default class ResultsArea extends Vue {
   $refs!: {
     container: HTMLDivElement;
@@ -48,7 +54,6 @@ export default class ResultsArea extends Vue {
 
   @Watch("hidden")
   onHiddenChange() {
-    console.log(this.hidden);
     this.toggleContainerVisibility(!this.hidden);
   }
 
@@ -57,13 +62,14 @@ export default class ResultsArea extends Vue {
       this.containerGone = false;
       await delay(10);
       this.containerInvisible = false;
-      this.$refs.container.style.maxHeight = "";
+      await delay(250);
+      if (!this.containerInvisible) this.$refs.container.style.maxHeight = "";
     } else {
       this.$refs.container.style.maxHeight = `${this.$refs.container.clientHeight}px`;
       await delay(10);
       this.containerInvisible = true;
       await delay(250);
-      this.containerGone = true;
+      if (this.containerInvisible) this.containerGone = true;
     }
   }
 }
@@ -80,7 +86,7 @@ export default class ResultsArea extends Vue {
   transition-timing-function: ease-in-out;
 
   &.invisible {
-    max-height: 0px;
+    max-height: 0px !important;
     margin: 0px;
   }
 

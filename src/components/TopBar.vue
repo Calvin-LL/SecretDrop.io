@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts">
-import AnimatedLogo from "@/components/AnimatedLogo.vue";
 import MDCButton from "@/components/MDC/MDCButton.vue";
+import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
 import { scrollTo } from "@/UIHelpers";
 import { Component, Vue, Watch } from "vue-property-decorator";
 

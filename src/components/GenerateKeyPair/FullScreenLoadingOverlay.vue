@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import AnimatedLogo from "@/components/AnimatedLogo.vue";
+import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
