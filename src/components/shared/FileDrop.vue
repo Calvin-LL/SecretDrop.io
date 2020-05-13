@@ -350,6 +350,9 @@ export default class FileDrop extends Vue {
     & > .file-drop-clickable {
       @include global.flex-center;
 
+      padding: 16px;
+      box-sizing: border-box;
+
       cursor: pointer;
       text-align: center;
 
@@ -397,7 +400,6 @@ export default class FileDrop extends Vue {
     align-items: center;
 
     opacity: 1;
-    background-color: rgba(darken(#43a047, 30%), 0.7);
 
     transition-property: opacity;
     transition-duration: 250ms;

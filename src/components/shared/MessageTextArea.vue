@@ -9,7 +9,7 @@
   >
     <textarea
       ref="textarea"
-      placeholder="Enter your message here"
+      :placeholder="placeholder"
       :value="message"
       :disabled="!shouldAcceptText"
       @input="onInput"
@@ -28,6 +28,7 @@ export default class MessageTextArea extends Vue {
     textarea: HTMLTextAreaElement;
   };
 
+  @Prop(String) readonly placeholder!: string;
   @Prop(Boolean) readonly shouldAcceptText!: boolean;
   @Prop(Boolean) readonly hidden!: boolean;
 

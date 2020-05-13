@@ -13,6 +13,7 @@
         }}</CardLoadingOverlay>
 
         <MessageTextArea
+          placeholder="Enter your message here"
           :hidden="hideMessageTextArea"
           :shouldAcceptText="!loadingAnimationVisible && !hideMessageTextArea"
           v-model="message"
@@ -35,7 +36,7 @@
             @click="onEncryptClick"
           />
         </div>
-        <ResultsArea
+        <EncryptResultsArea
           title="Encrypted Message"
           subtitle="You may post or send this anywhere. Only the person who has the decryption link can decrypt your message."
           :text="resultText"
@@ -44,15 +45,15 @@
           @download="onDownloadClick"
           @copy="onCopyClick"
         />
-        <FileResultText :hidden="hideFileResultText" />
+        <EncryptFileResultText :hidden="hideFileResultText" />
       </ErrorBoundary>
     </Card>
   </div>
 </template>
 
 <script lang="ts">
-import FileResultText from "@/components/Encrypt/FileResultText.vue";
-import ResultsArea from "@/components/Encrypt/ResultsArea.vue";
+import EncryptFileResultText from "@/components/Encrypt/EncryptFileResultText.vue";
+import EncryptResultsArea from "@/components/Encrypt/EncryptResultsArea.vue";
 import MDCButton from "@/components/MDC/MDCButton.vue";
 import Card from "@/components/shared/Card.vue";
 import CardErrorOverlay from "@/components/shared/CardErrorOverlay.vue";
@@ -80,8 +81,8 @@ import { Component, Vue, Watch } from "vue-property-decorator";
     OrText,
     FileDrop,
     MDCButton,
-    ResultsArea,
-    FileResultText,
+    EncryptResultsArea,
+    EncryptFileResultText,
     ErrorBoundary,
     CardErrorOverlay,
     CardLoadingOverlay,
@@ -120,9 +121,7 @@ export default class Encrypt extends Vue {
     if (!isCryptoUseable()) {
       this.error = new CardError("Browser not supported", "");
       return;
-    }
-
-    if (
+    } else if (
       !this.publicKeyString ||
       this.publicKeyString.length <= 0 ||
       this.publicKeyString.match(/[^a-z0-9]/g) !== null
@@ -249,10 +248,12 @@ export default class Encrypt extends Vue {
       @include global.encrypt-card-background-auto;
     }
 
-    .textarea-container {
-      textarea {
-        font-size: 1.2rem;
-      }
+    .textarea-container > textarea {
+      font-size: 1.2rem;
+    }
+
+    .file-drop-container > .file-drop-full-screen-overlay {
+      background-color: rgba(darken(global.$encrypt-color, 30%), 0.7);
     }
 
     .button-container {
@@ -285,7 +286,7 @@ export default class Encrypt extends Vue {
       }
     }
 
-    .result-textarea-container textarea {
+    .result-textarea-container > textarea {
       font-size: 1rem;
     }
   }

@@ -124,3 +124,14 @@ export function getPredictedLengthOfEncryptedString(messageLength: number) {
 
   return totalLength;
 }
+
+export function getPredictedLengthOfDecryptedString(stringLength: number) {
+  const privateKeyStringLength = 64;
+  const base64Length = Math.max(
+    3 * ((stringLength - privateKeyStringLength) / 4) - 44,
+    10
+  );
+  const totalLength = Math.ceil(base64Length);
+
+  return totalLength;
+}

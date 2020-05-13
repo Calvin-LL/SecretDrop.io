@@ -5,11 +5,7 @@
     :class="{ invisible: containerInvisible, gone: containerGone }"
   >
     <CardTitle :title="title" :subtitle="subtitle" />
-    <ResultTextArea
-      :text="text"
-      :random-text-length="randomTextLength"
-      @animationFinish="$emit('animationFinish', $event)"
-    />
+    <slot></slot>
     <CardButtonBar
       :visibility="!containerGone"
       @download="$emit('download', $event)"
@@ -19,13 +15,12 @@
 </template>
 
 <script lang="ts">
-import ResultTextArea from "@/components/Encrypt/ResultTextArea.vue";
 import CardButtonBar from "@/components/shared/CardButtonBar.vue";
 import CardTitle from "@/components/shared/CardTitle.vue";
 import delay from "delay";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-@Component({ components: { CardTitle, ResultTextArea, CardButtonBar } })
+@Component({ components: { CardTitle, CardButtonBar } })
 export default class ResultsArea extends Vue {
   $refs!: {
     container: HTMLDivElement;
@@ -33,16 +28,10 @@ export default class ResultsArea extends Vue {
 
   @Prop(String) readonly title!: string;
   @Prop(String) readonly subtitle!: string;
-
-  @Prop(String) readonly text!: string;
-  @Prop(Number) readonly randomTextLength!: number;
+  @Prop(Boolean) readonly hidden!: boolean;
 
   containerInvisible = false;
   containerGone = false;
-
-  get hidden() {
-    return (this.text.length === 0 && this.randomTextLength === 0) == true;
-  }
 
   mounted() {
     this.$refs.container.style.maxHeight = `${this.$refs.container.clientHeight}px`;

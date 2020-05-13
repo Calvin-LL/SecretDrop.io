@@ -9,6 +9,9 @@
     <ErrorIcon :show="!(overlayInvisible && overlayGone)" />
     <h2>{{ title || "Error" }}</h2>
     <div class="detail">{{ detail }}</div>
+    <div class="refresh">
+      <a href="" @click.prevent="onRefreshClick">Refresh to try again</a>
+    </div>
   </div>
 </template>
 
@@ -42,6 +45,10 @@ export default class CardErrorOverlay extends Vue {
     );
   }
 
+  onRefreshClick() {
+    window.location.reload();
+  }
+
   async toggleOverlayVisibility(visible: boolean) {
     if (visible) {
       this.overlayGone = false;
@@ -66,6 +73,8 @@ export default class CardErrorOverlay extends Vue {
   height: 100%;
   width: 100%;
 
+  padding-bottom: 16px;
+
   transition-property: opacity;
   transition-duration: 250ms;
   transition-timing-function: ease-in-out;
@@ -89,10 +98,21 @@ export default class CardErrorOverlay extends Vue {
     font-weight: 400;
 
     margin-top: 0px;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   & > .detail {
+    text-align: center;
     margin-bottom: 0.83em;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  & > .refresh > a {
+    overflow-wrap: break-word;
+    word-break: break-all;
+    color: #1976d2;
   }
 }
 </style>
