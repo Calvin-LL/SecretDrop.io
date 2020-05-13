@@ -25,7 +25,8 @@
           :shouldAcceptFiles="!loadingAnimationVisible && !hideFileDrop"
           v-model="files"
         />
-        <div class="encrypt-button-container">
+        <div class="button-container">
+          <MDCButton class="clear-button" text="clear" @click="onClearClick" />
           <MDCButton
             class="encrypt-button"
             text="Encrypt"
@@ -152,6 +153,11 @@ export default class Encrypt extends Vue {
     if (this.files.length === 0) this.hideFileResultText = true;
   }
 
+  onClearClick() {
+    this.message = "";
+    this.files = [];
+  }
+
   async onEncryptClick() {
     if (!this.publicKey || this.loadingAnimationVisible) return;
 
@@ -217,6 +223,7 @@ export default class Encrypt extends Vue {
 
 <style lang="scss">
 @use "@material/button";
+@use "@material/ripple";
 @use "assets/scss/global";
 
 .encrypt {
@@ -233,7 +240,7 @@ export default class Encrypt extends Vue {
     position: relative;
 
     &.error {
-      & > *:not(.error-overlay) {
+      *:not(.error-overlay) {
         display: none;
       }
     }
@@ -248,9 +255,10 @@ export default class Encrypt extends Vue {
       }
     }
 
-    .encrypt-button-container {
+    .button-container {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       justify-content: flex-end;
       align-items: center;
 
@@ -266,6 +274,14 @@ export default class Encrypt extends Vue {
         @include button.disabled-icon-color(global.$disabled-text-color-dark);
 
         margin: 8px;
+      }
+
+      .clear-button {
+        @include button.ink-color(global.$theme-color);
+
+        & > .mdc-button__ripple {
+          @include ripple.states-base-color(global.$theme-color);
+        }
       }
     }
 
