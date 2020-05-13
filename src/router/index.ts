@@ -60,7 +60,7 @@ const router = new VueRouter({
     //   return {
     //     selector: to.hash,
     //   };
-    // } else
+    // } else if (savedPosition) {
     if (savedPosition && !to.hash) {
       return savedPosition;
     } else {
