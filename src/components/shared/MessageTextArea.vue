@@ -42,8 +42,11 @@ export default class MessageTextArea extends Vue {
       async () => {
         if (this.shouldAcceptText) {
           unWatchShouldAcceptText();
-          await this.$nextTick();
-          this.$refs.textarea.focus();
+          // check if textarea is visible
+          if (this.$refs.textarea.getBoundingClientRect().top >= 0) {
+            await this.$nextTick();
+            this.$refs.textarea.focus();
+          }
         }
       }
     );

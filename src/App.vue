@@ -16,7 +16,6 @@ import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
 import MDCSnackBar from "@/components/MDC/MDCSnackBar.vue";
 import TopBar from "@/components/TopBar.vue";
-import { scrollTo } from "@/UIHelpers";
 import delay from "delay";
 // @ts-ignore
 import smoothscroll from "smoothscroll-polyfill";
@@ -32,17 +31,22 @@ export default Vue.extend({
     FAQ,
     MDCSnackBar,
   },
-  async mounted() {
-    await delay(100);
+  watch: {
+    $route: {
+      immediate: true,
+      async handler() {
+        const anchor = window.location.hash;
+        if (anchor) {
+          const anchorElement = document.querySelector(anchor);
 
-    const anchor = window.location.hash;
-    if (anchor) {
-      scrollTo(anchor);
-      await delay(500);
-      if (window.scrollY === 0) scrollTo(anchor);
-      await delay(500);
-      if (window.scrollY === 0) scrollTo(anchor);
-    }
+          if (anchorElement) {
+            await delay(0);
+            if (anchorElement.getBoundingClientRect().top !== 0)
+              anchorElement.scrollIntoView();
+          }
+        }
+      },
+    },
   },
 });
 </script>

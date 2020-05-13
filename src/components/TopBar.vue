@@ -13,7 +13,11 @@
           :type="generateSelected ? 'raised' : ''"
           :to="{ path: '/' }"
         />
-        <MDCButton text="FAQ" :to="{ hash: 'faq' }" @click="onFAQClick" />
+        <MDCButton
+          text="FAQ"
+          :to="{ hash: 'faq', query: $route.query }"
+          @click="onFAQClick"
+        />
       </div>
     </div>
   </div>
