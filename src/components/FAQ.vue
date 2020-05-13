@@ -275,7 +275,7 @@ export default Vue.extend({
   margin-left: 16px;
   margin-right: 16px;
 
-  h1 {
+  & > h1 {
     width: 100%;
     max-width: 700px;
     contain: content;
@@ -288,7 +288,7 @@ export default Vue.extend({
     padding-right: 8px;
     contain: content;
 
-    h2 {
+    & > h2 {
       margin-top: 48px;
 
       @media (max-width: 640px) {
@@ -312,11 +312,15 @@ export default Vue.extend({
       max-width: 60px;
     }
 
-    .diagram-container {
+    & > .diagram-container {
       @include global.flex-center;
 
-      a {
+      & > a {
         width: 100%;
+
+        & > img {
+          background-color: white;
+        }
       }
     }
   }
