@@ -296,7 +296,7 @@ export default class Decrypt extends Vue {
     }
 
     .result-textarea-container > textarea {
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
   }
 }
