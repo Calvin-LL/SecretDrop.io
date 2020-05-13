@@ -72,11 +72,11 @@ export default class CardLoadingOverlay extends Vue {
     display: none;
   }
 
-  .animated-logo {
+  & > .animated-logo {
     width: 21%;
   }
 
-  h2 {
+  & > h2 {
     color: global.$primary-text-color-dark;
     font-size: 1.5rem;
     font-weight: 400;

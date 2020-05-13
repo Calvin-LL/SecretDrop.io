@@ -57,7 +57,7 @@ export default class LinkCard extends Vue {
   padding-right: 8px;
   margin-bottom: 16px;
 
-  a {
+  & > a {
     overflow-wrap: break-word;
     word-break: break-all;
     color: #1976d2;
@@ -65,15 +65,6 @@ export default class LinkCard extends Vue {
     &:visited {
       color: #512da8;
     }
-  }
-}
-
-.bottom-bar-container {
-  width: 100%;
-
-  .bottom-bar {
-    display: flex;
-    justify-content: flex-end;
   }
 }
 </style>

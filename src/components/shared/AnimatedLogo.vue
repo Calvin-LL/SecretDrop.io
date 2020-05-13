@@ -31,12 +31,12 @@ export default Vue.extend({
     }
   }
 
-  .parachute-svg {
+  & > .parachute-svg {
     -webkit-backface-visibility: hidden;
     width: 100%;
   }
 
-  .safe-svg {
+  & > .safe-svg {
     -webkit-backface-visibility: hidden;
     width: 44%;
     margin-top: -10%;

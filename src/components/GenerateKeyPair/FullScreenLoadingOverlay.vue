@@ -60,7 +60,12 @@ export default class FullScreenLoadingOverlay extends Vue {
     display: none;
   }
 
-  .loading-text {
+  & > .animated-logo {
+    width: 170px;
+    width: min(170px, 30%);
+  }
+
+  & > .loading-text {
     color: white;
     font-weight: 400;
     text-align: center;
@@ -69,11 +74,6 @@ export default class FullScreenLoadingOverlay extends Vue {
     @media (max-width: 640px) {
       font-size: 1.3em;
     }
-  }
-
-  .animated-logo {
-    width: 170px;
-    width: min(170px, 30%);
   }
 }
 </style>

@@ -50,14 +50,12 @@ export default class TopBar extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "@material/button";
 @use "@material/ripple";
 @use "assets/scss/global";
 
 #top-bar {
-  contain: content;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +64,7 @@ export default class TopBar extends Vue {
 
   margin-bottom: 48px;
 
-  .content {
+  & > .content {
     flex: 1;
     display: flex;
     justify-content: space-between;
@@ -93,22 +91,22 @@ export default class TopBar extends Vue {
       }
     }
 
-    .logo-with-text-a {
+    & > .logo-with-text-a {
       @include global.primary-text-auto;
 
       text-decoration: none;
 
-      .logo-with-text {
+      & > .logo-with-text {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        &::v-deep .animated-logo {
+        & > .animated-logo {
           width: 70px;
           transform: rotate(-5deg);
         }
 
-        .logo-text {
+        & > .logo-text {
           font-size: 2rem;
           font-weight: 300;
           margin-left: 16px;
@@ -116,12 +114,14 @@ export default class TopBar extends Vue {
       }
     }
 
-    .button-container {
+    & > .button-container {
+      contain: content;
+
       display: flex;
       justify-content: center;
       align-items: center;
 
-      &::v-deep .mdc-button {
+      & > .mdc-button {
         margin: 8px;
 
         &.mdc-button--raised {

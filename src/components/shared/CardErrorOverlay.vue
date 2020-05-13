@@ -51,7 +51,7 @@ export default class CardErrorOverlay extends Vue {
       await delay(10);
       this.overlayInvisible = true;
       await delay(250);
-      this.overlayGone = true;
+      if (this.overlayInvisible) this.overlayGone = true;
     }
   }
 }
@@ -82,7 +82,7 @@ export default class CardErrorOverlay extends Vue {
     display: none;
   }
 
-  h2 {
+  & > h2 {
     @include global.primary-text-auto;
 
     font-size: 2rem;
@@ -91,7 +91,7 @@ export default class CardErrorOverlay extends Vue {
     margin-top: 0px;
   }
 
-  .detail {
+  & > .detail {
     margin-bottom: 0.83em;
   }
 }

@@ -234,18 +234,18 @@ export default class Encrypt extends Vue {
   justify-content: center;
   align-items: flex-start;
 
-  .encrypt-card {
+  & > .encrypt-card {
     @include global.encrypt-card-background-auto;
 
     position: relative;
 
     &.error {
-      *:not(.error-overlay) {
+      & > *:not(.error-overlay) {
         display: none;
       }
     }
 
-    .error-overlay {
+    & > .error-overlay {
       @include global.encrypt-card-background-auto;
     }
 
@@ -262,7 +262,7 @@ export default class Encrypt extends Vue {
       justify-content: flex-end;
       align-items: center;
 
-      .encrypt-button {
+      & > .encrypt-button {
         @include button.container-fill-color(global.$theme-color);
         @include button.ink-color(global.$primary-text-color-dark);
         @include button.icon-color(global.$primary-text-color-dark);
@@ -276,7 +276,7 @@ export default class Encrypt extends Vue {
         margin: 8px;
       }
 
-      .clear-button {
+      & > .clear-button {
         @include button.ink-color(global.$theme-color);
 
         & > .mdc-button__ripple {

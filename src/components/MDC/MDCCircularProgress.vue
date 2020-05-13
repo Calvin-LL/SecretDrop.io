@@ -58,7 +58,7 @@ export default class CircularLoadingIndicator extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "@material/circular-progress";
 @use "@material/circular-progress/mdc-circular-progress";
 @use "assets/scss/global";

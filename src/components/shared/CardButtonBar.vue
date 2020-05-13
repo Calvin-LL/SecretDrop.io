@@ -29,7 +29,7 @@ export default Vue.extend({
   width: 100%;
   contain: content;
 
-  .bottom-bar {
+  & > .bottom-bar {
     display: flex;
     justify-content: flex-end;
   }

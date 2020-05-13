@@ -64,7 +64,7 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "@material/icon-button";
 @use "assets/scss/global";
 
@@ -90,7 +90,7 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
 
-  .close-button {
+  & > .close-button {
     @include global.primary-text-auto;
     @include icon-button.size(16px);
     @include icon-button.icon-size(16px, 16px, 4px);
@@ -100,12 +100,12 @@ export default Vue.extend({
     right: 1px;
   }
 
-  .file-icon {
+  & > .file-icon {
     flex: 1;
     overflow: hidden;
   }
 
-  .thumbnail {
+  & > .thumbnail {
     flex: 1;
     display: block;
     margin: 0 auto;
@@ -116,7 +116,7 @@ export default Vue.extend({
     max-width: 100%;
   }
 
-  .text {
+  & > .text {
     @include global.primary-text-auto;
 
     width: 100%;

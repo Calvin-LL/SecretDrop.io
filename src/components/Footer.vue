@@ -39,13 +39,11 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "assets/scss/global";
 
 #footer {
   @include global.dark-background-auto;
-
-  contain: content;
 
   display: flex;
   justify-content: center;
@@ -53,7 +51,7 @@ export default Vue.extend({
 
   margin-top: 48px;
 
-  .content {
+  & > .content {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -66,7 +64,7 @@ export default Vue.extend({
       flex-direction: column;
     }
 
-    .copyright-notice {
+    & > .copyright-notice {
       @include global.secondary-text-auto;
 
       flex: 1;
@@ -79,12 +77,12 @@ export default Vue.extend({
       }
     }
 
-    .personal-logo-link {
+    & > .personal-logo-link {
       @media (max-width: 680px) {
         order: 1;
       }
 
-      svg {
+      & > svg {
         width: 2rem;
         filter: grayscale(100%);
         transition-property: all;
@@ -97,7 +95,7 @@ export default Vue.extend({
       }
     }
 
-    .links {
+    & > .links {
       flex: 1;
       flex-shrink: 0;
       display: flex;
@@ -109,7 +107,7 @@ export default Vue.extend({
         justify-content: center;
       }
 
-      a {
+      & > a {
         @include global.secondary-text-auto;
 
         text-align: center;
@@ -117,13 +115,13 @@ export default Vue.extend({
         margin: 16px;
       }
 
-      .github-link {
+      & > .github-link {
         @media (max-width: 369px) {
           margin-top: 0px;
           margin-bottom: 34px;
         }
 
-        svg {
+        & > svg {
           width: 1rem;
           fill: global.$secondary-text-color;
 

@@ -316,7 +316,7 @@ export default class FileDrop extends Vue {
     display: none;
   }
 
-  .file-drop-clickable-and-preview-container {
+  & > .file-drop-clickable-and-preview-container {
     position: relative;
 
     background-color: rgba(#000, 0.1);
@@ -327,7 +327,7 @@ export default class FileDrop extends Vue {
       background-color: rgba(#fff, 0.1);
     }
 
-    .loading-overlay {
+    & > .loading-overlay {
       @include global.flex-center;
       @include global.absolute-overlay;
 
@@ -347,7 +347,7 @@ export default class FileDrop extends Vue {
       }
     }
 
-    .file-drop-clickable {
+    & > .file-drop-clickable {
       @include global.flex-center;
 
       cursor: pointer;
@@ -368,7 +368,7 @@ export default class FileDrop extends Vue {
       }
     }
 
-    .file-preview-container {
+    & > .file-preview-container {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -383,7 +383,7 @@ export default class FileDrop extends Vue {
     }
   }
 
-  .file-drop-full-screen-overlay {
+  & > .file-drop-full-screen-overlay {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -411,7 +411,7 @@ export default class FileDrop extends Vue {
       display: none;
     }
 
-    .drop-text {
+    & > .drop-text {
       pointer-events: none;
       font-size: 3rem;
       color: global.$primary-text-color-dark;
