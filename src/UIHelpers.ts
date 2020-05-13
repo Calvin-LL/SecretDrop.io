@@ -1,7 +1,11 @@
 import { saveAs } from "file-saver";
 
 export function scrollTo(selector: string) {
-  (document.querySelector(selector) as HTMLDivElement)?.scrollIntoView({
+  scrollToElement(document.querySelector(selector) as Element);
+}
+
+export function scrollToElement(element: Element | undefined) {
+  element?.scrollIntoView({
     behavior: "smooth",
   });
 }

@@ -16,6 +16,7 @@ import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
 import MDCSnackBar from "@/components/MDC/MDCSnackBar.vue";
 import TopBar from "@/components/TopBar.vue";
+import { scrollToElement } from "@/UIHelpers";
 import delay from "delay";
 // @ts-ignore
 import smoothscroll from "smoothscroll-polyfill";
@@ -42,7 +43,7 @@ export default Vue.extend({
           if (anchorElement) {
             await delay(0);
             if (anchorElement.getBoundingClientRect().top !== 0)
-              anchorElement.scrollIntoView();
+              scrollToElement(anchorElement);
           }
         }
       },

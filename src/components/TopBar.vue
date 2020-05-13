@@ -13,11 +13,7 @@
           :type="generateSelected ? 'raised' : ''"
           :to="{ path: '/' }"
         />
-        <MDCButton
-          text="FAQ"
-          :to="{ hash: 'faq', query: $route.query }"
-          @click="onFAQClick"
-        />
+        <MDCButton text="FAQ" :to="{ hash: '#faq', query: $route.query }" />
       </div>
     </div>
   </div>
@@ -26,7 +22,6 @@
 <script lang="ts">
 import MDCButton from "@/components/MDC/MDCButton.vue";
 import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
-import { scrollTo } from "@/UIHelpers";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
@@ -46,10 +41,6 @@ export default class TopBar extends Vue {
   @Watch("currentRoute", { immediate: true })
   onCurrentRouteChange(val: string) {
     this.generateSelected = val === "GenerateKeyPair";
-  }
-
-  onFAQClick() {
-    scrollTo("#faq");
   }
 }
 </script>
