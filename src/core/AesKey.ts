@@ -38,7 +38,7 @@ export default class AesKey {
         hash: "SHA-256",
       },
       importedSecret,
-      { name: "AES-GCM", length: 256, ...this.config },
+      { name: "AES-GCM", ...this.config },
       false,
       this.encryptOnly ? ["encrypt"] : ["decrypt"]
     );
