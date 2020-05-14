@@ -5,7 +5,7 @@
         ref="url"
         class="url"
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener noreferrer nofollow"
         :href="baseUrl + keyString"
       >
         {{ urlToShow }}

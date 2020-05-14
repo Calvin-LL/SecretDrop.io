@@ -4,6 +4,14 @@ export function scrollTo(selector: string) {
   scrollToElement(document.querySelector(selector) as Element);
 }
 
+export function scrollToY(y: number) {
+  window.scrollTo({
+    top: y,
+    left: 0,
+    behavior: "smooth",
+  });
+}
+
 export function scrollToElement(element: Element | undefined) {
   element?.scrollIntoView({
     behavior: "smooth",

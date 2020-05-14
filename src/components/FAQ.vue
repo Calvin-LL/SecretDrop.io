@@ -231,7 +231,7 @@
 <script lang="ts">
 import Quote from "@/components/FAQ/Quote.vue";
 import MDCFAB from "@/components/MDC/MDCFAB.vue";
-import { scrollTo } from "@/UIHelpers";
+import { scrollTo, scrollToY } from "@/UIHelpers";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -242,7 +242,7 @@ export default Vue.extend({
   },
   methods: {
     onScrollTopClick() {
-      scrollTo("#top-bar");
+      scrollToY(0);
     },
     onWindowScroll() {
       const element = this.$refs.container as HTMLDivElement;

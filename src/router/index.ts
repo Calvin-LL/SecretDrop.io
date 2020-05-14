@@ -1,6 +1,10 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -56,12 +60,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {
-    // if (to.hash) {
-    //   return {
-    //     selector: to.hash,
-    //   };
-    // } else if (savedPosition) {
-    if (savedPosition && !to.hash) {
+    if (to.hash) {
+      return {
+        selector: to.hash,
+      };
+    } else if (savedPosition) {
       return savedPosition;
     } else {
       return { x: 0, y: 0 };
