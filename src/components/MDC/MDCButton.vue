@@ -7,7 +7,7 @@
       'mdc-button--unelevated': type === 'unelevated',
     }"
     :to="to"
-    @click.native="$emit('click', arguments)"
+    @click.native="$emit('click', $event)"
     exact
     v-if="to"
   >
@@ -27,7 +27,7 @@
       'mdc-button--raised': type === 'raised',
       'mdc-button--unelevated': type === 'unelevated',
     }"
-    @click="$emit('click', arguments)"
+    @click="$emit('click', $event)"
     v-else
   >
     <div class="mdc-button__ripple"></div>

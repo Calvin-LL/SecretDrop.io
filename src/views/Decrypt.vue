@@ -149,8 +149,9 @@ export default class Decrypt extends Vue {
     this.files = [];
   }
 
-  async onDecryptClick() {
+  async onDecryptClick(e: Event) {
     if (!this.privateKey || this.loadingAnimationVisible) return;
+    (e.target as HTMLButtonElement)?.blur();
 
     this.loadingAnimationText = "Decrypting";
     this.loadingAnimationVisible = true;

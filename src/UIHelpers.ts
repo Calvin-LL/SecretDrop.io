@@ -55,21 +55,24 @@ export function animateTextTransition(
   onUpdate?: (newString: string) => void,
   onFinish?: () => void
 ) {
-  let stringLength = startingString.length;
+  const initialLength = startingString.length;
   const targetLength = finalString.length;
+  const lengthDifference = finalString.length - startingString.length;
   const startTimestamp = Date.now();
 
   onUpdate?.(startingString);
-
   const intervalId = setInterval(() => {
-    if (stringLength < targetLength) stringLength++;
-    else if (stringLength > targetLength) stringLength--;
-
     const timeElapsed = Date.now() - startTimestamp;
-    const length = Math.floor(stringLength * (timeElapsed / duration));
+    const timeElapsedRatio = Math.min(timeElapsed / duration, 1);
+    const stringLengthΔ = Math.floor(lengthDifference * timeElapsedRatio);
+    const stringLength = initialLength + stringLengthΔ;
+    const finalStringShownlength = Math.floor(stringLength * timeElapsedRatio);
 
-    if (length <= stringLength || targetLength != stringLength) {
-      const shownString = finalString.substring(0, length);
+    if (
+      finalStringShownlength != targetLength ||
+      stringLength != targetLength
+    ) {
+      const shownString = finalString.substring(0, finalStringShownlength);
       const newString = fillStringWithRandom(shownString, stringLength);
 
       onUpdate?.(newString);
@@ -79,6 +82,10 @@ export function animateTextTransition(
       clearInterval(intervalId);
     }
   }, 50);
+
+  return () => {
+    clearInterval(intervalId);
+  };
 }
 
 export function fillElementWithRandomText(
@@ -130,17 +137,17 @@ export function downloadAsTxt(s: string, filename: string) {
 }
 
 export function getPredictedLengthOfEncryptedString(messageLength: number) {
-  const privateKeyStringLength = 64;
+  const publicKeyStringLength = 64;
   const base64Length = Math.max(4 * (messageLength + 44 / 3), 10);
-  const totalLength = Math.ceil(privateKeyStringLength + base64Length + 1);
+  const totalLength = Math.ceil(publicKeyStringLength + base64Length + 1);
 
   return totalLength;
 }
 
 export function getPredictedLengthOfDecryptedString(stringLength: number) {
-  const privateKeyStringLength = 64;
+  const publicKeyStringLength = 64;
   const base64Length = Math.max(
-    3 * ((stringLength - privateKeyStringLength) / 4) - 44,
+    3 * ((stringLength - publicKeyStringLength) / 4) - 44,
     10
   );
   const totalLength = Math.ceil(base64Length);

@@ -2,7 +2,7 @@
   <button
     ref="button"
     class="mdc-icon-button material-icons-outlined"
-    @click="$emit('click', arguments)"
+    @click="$emit('click', $event)"
   >
     <slot></slot>
   </button>

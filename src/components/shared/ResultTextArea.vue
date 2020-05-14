@@ -24,7 +24,13 @@ export default class ResultTextArea extends Vue {
   @Prop(Number) readonly randomTextLength: number | undefined;
 
   processedText = "";
+  stopAnimateTextTransition: (() => void) | undefined;
   stopFillElementWithRandomText: (() => void) | undefined;
+
+  beforeDestroy() {
+    this.stopAnimateTextTransition?.();
+    this.stopFillElementWithRandomText?.();
+  }
 
   @Watch("text")
   onTextChange() {
@@ -37,10 +43,11 @@ export default class ResultTextArea extends Vue {
   }
 
   onChange() {
+    this.stopAnimateTextTransition?.();
     this.stopFillElementWithRandomText?.();
 
     if (this.text) {
-      animateTextTransition(
+      this.stopAnimateTextTransition = animateTextTransition(
         this.processedText,
         this.text,
         3000,

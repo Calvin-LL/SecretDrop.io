@@ -157,8 +157,9 @@ export default class Encrypt extends Vue {
     this.files = [];
   }
 
-  async onEncryptClick() {
+  async onEncryptClick(e: Event) {
     if (!this.publicKey || this.loadingAnimationVisible) return;
+    (e.target as HTMLButtonElement)?.blur();
 
     this.loadingAnimationText = "Encrypting";
     this.loadingAnimationVisible = true;
