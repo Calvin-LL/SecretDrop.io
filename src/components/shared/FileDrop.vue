@@ -335,6 +335,7 @@ export default class FileDrop extends Vue {
       transition-duration: 250ms;
       transition-timing-function: ease-in-out;
 
+      border-radius: 16px;
       opacity: 1;
       background-color: rgba($color: #000000, $alpha: 0.1);
 

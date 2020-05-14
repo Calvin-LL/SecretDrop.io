@@ -59,6 +59,7 @@ export default class CardLoadingOverlay extends Vue {
   transition-timing-function: ease-in-out;
 
   background-color: global.$overlay-color;
+  border-radius: 32px;
 
   pointer-events: all;
 
