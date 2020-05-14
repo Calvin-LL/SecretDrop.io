@@ -276,6 +276,7 @@ export default Vue.extend({
   margin-right: 16px;
 
   & > h1 {
+    font-weight: 500;
     width: 100%;
     max-width: 700px;
     contain: content;
@@ -289,6 +290,7 @@ export default Vue.extend({
     contain: content;
 
     & > h2 {
+      font-weight: 500;
       margin-top: 48px;
 
       @media (max-width: 640px) {
