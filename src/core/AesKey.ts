@@ -21,11 +21,11 @@ export default class AesKey {
 
   async init(secret: string, importSalt: Uint8Array) {
     const secretBuffer = LZUTF8.encodeUTF8(secret);
-    // @ts-ignore
+
     const importedSecret = await window.crypto.subtle.importKey(
       "raw",
       secretBuffer,
-      { name: "PBKDF2" },
+      "PBKDF2",
       false,
       ["deriveKey"]
     );

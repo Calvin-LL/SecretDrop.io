@@ -1,13 +1,13 @@
 import "./polyfills";
 
-import EncryptedFile from "../EncryptedFile";
-import EncryptedMessage from "../EncryptedMessage";
-import { fileToArrayBuffer, getRandomDataOfLength } from "../Helpers";
-import KeyPair from "../KeyPair";
-import PlainFile from "../PlainFile";
-import PlainMessage from "../PlainMessage";
-import PrivateKey from "../PrivateKey";
-import PublicKey from "../PublicKey";
+import EncryptedFile from "@/core/EncryptedFile";
+import EncryptedMessage from "@/core/EncryptedMessage";
+import { fileToArrayBuffer, getRandomDataOfLength } from "@/core/Helpers";
+import KeyPair from "@/core/KeyPair";
+import PlainFile from "@/core/PlainFile";
+import PlainMessage from "@/core/PlainMessage";
+import PrivateKey from "@/core/PrivateKey";
+import PublicKey from "@/core/PublicKey";
 
 describe("PlainMessage to and from EncryptedMessage", () => {
   test("test string", async () => {

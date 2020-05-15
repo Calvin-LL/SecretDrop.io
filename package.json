@@ -80,7 +80,6 @@
     "import-sort-parser-babel-vue": "^1.0.6",
     "import-sort-style-module": "^6.0.0",
     "jest": "^26.0.1",
-    "jsdom": "^16.2.2",
     "node-webcrypto-ossl": "^2.1.0",
     "patch-package": "^6.2.2",
     "prettier": "^2.0.5",
