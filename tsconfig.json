@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "jest", "resize-observer-browser"],
+    "types": ["webpack-env", "resize-observer-browser"],
     "paths": {
       "@/*": ["src/*"]
     },

@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test": "jest",
     "postinstall": "patch-package",
-    "format": "import-sort --write 'src/**/!(*.d).{ts,js,vue}' && pretty-quick"
+    "format": "import-sort --write '{src,test}/**/!(*.d).{ts,js,vue}' && pretty-quick"
   },
   "husky": {
     "hooks": {

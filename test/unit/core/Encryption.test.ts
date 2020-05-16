@@ -8,6 +8,7 @@ import PlainFile from "@/core/PlainFile";
 import PlainMessage from "@/core/PlainMessage";
 import PrivateKey from "@/core/PrivateKey";
 import PublicKey from "@/core/PublicKey";
+import { describe, expect, test } from "@jest/globals";
 
 describe("PlainMessage to and from EncryptedMessage", () => {
   test("test string", async () => {
