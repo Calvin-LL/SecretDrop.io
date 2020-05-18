@@ -50,9 +50,11 @@ module.exports = {
   },
   css: {
     loaderOptions: {
-      postcss: {
-        plugins: production ? [require("autoprefixer")] : [],
-      },
+      postcss: production
+        ? {
+            plugins: [require("autoprefixer")],
+          }
+        : undefined,
       sass: {
         implementation: require("dart-sass"),
         webpackImporter: false,
