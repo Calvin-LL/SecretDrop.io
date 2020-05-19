@@ -1,7 +1,7 @@
 <template>
-  <div class="encrypt">
+  <div id="encrypt">
     <Card
-      class="encrypt-card"
+      id="encrypt-card"
       title="Encrypt"
       subtitle="Only the person who has the decryption link can decrypt your message or file. Everything is done on this device. This page also works offline."
       :class="{ error: error.title || error.message }"
@@ -226,7 +226,7 @@ export default class Encrypt extends Vue {
 @use "@material/ripple";
 @use "assets/scss/global";
 
-.encrypt {
+#encrypt {
   flex: 1;
 
   display: flex;
@@ -234,7 +234,7 @@ export default class Encrypt extends Vue {
   justify-content: center;
   align-items: flex-start;
 
-  & > .encrypt-card {
+  & > #encrypt-card {
     @include global.encrypt-card-background-auto;
 
     position: relative;

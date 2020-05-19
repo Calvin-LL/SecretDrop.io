@@ -1,7 +1,7 @@
 <template>
-  <div class="decrypt">
+  <div id="decrypt">
     <Card
-      class="decrypt-card"
+      id="decrypt-card"
       title="Decrypt"
       :class="{ error: error.title || error.message }"
     >
@@ -235,7 +235,7 @@ export default class Decrypt extends Vue {
 @use "@material/ripple";
 @use "assets/scss/global";
 
-.decrypt {
+#decrypt {
   flex: 1;
 
   display: flex;
@@ -243,7 +243,7 @@ export default class Decrypt extends Vue {
   justify-content: center;
   align-items: flex-start;
 
-  & > .decrypt-card {
+  & > #decrypt-card {
     @include global.decrypt-card-background-auto;
 
     position: relative;

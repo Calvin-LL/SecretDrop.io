@@ -2,7 +2,7 @@
   <div class="home">
     <div class="card-container">
       <LinkCard
-        class="encryption-link-card"
+        id="encryption-link-card"
         title="Encryption Link"
         subtitle="Files and messages encrypted with this link can only be decrypted with the link in the other box. Share this link."
         :baseUrl="encryptLinkBaseUrl"
@@ -14,7 +14,7 @@
     </div>
     <div class="card-container">
       <LinkCard
-        class="decryption-link-card"
+        id="decryption-link-card"
         title="Decryption Link"
         subtitle="This link can only decrypt files and messages encrypted with the link in the green box. <span class='warning'>Never share this link.</span>"
         :baseUrl="decryptLinkBaseUrl"
@@ -123,11 +123,11 @@ export default class GenerateKeyPair extends Vue {
     justify-content: center;
     align-items: center;
 
-    & > .encryption-link-card {
+    & > #encryption-link-card {
       @include global.encrypt-card-background-auto;
     }
 
-    & > .decryption-link-card {
+    & > #decryption-link-card {
       @include global.decrypt-card-background-auto;
 
       margin-top: 48px;
