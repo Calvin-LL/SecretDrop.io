@@ -1,5 +1,4 @@
 import * as UIHelpers from "@/UIHelpers";
-import { describe, expect, jest, test } from "@jest/globals";
 import delay from "delay";
 
 describe("animateAddTextInElement", () => {
