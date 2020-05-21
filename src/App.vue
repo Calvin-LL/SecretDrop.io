@@ -59,8 +59,8 @@ body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   min-width: 260px;
   min-height: 100vh;
-  overflow: overlay;
   overflow: auto;
+  overflow: overlay;
 }
 
 #app-main-container {
