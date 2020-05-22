@@ -218,7 +218,10 @@
         >.
       </p>
     </div>
-    <div class="fab-container">
+    <div
+      class="fab-container"
+      :style="{ 'pointer-events': hideScrollToTopButton ? 'none' : '' }"
+    >
       <MDCFAB
         :class="{ 'mdc-fab--exited': hideScrollToTopButton }"
         @click="onScrollTopClick"
