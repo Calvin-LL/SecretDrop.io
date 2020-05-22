@@ -153,6 +153,8 @@ export default class FileDrop extends Vue {
     await this.addFiles(files);
 
     this.toggleFileLoading(false);
+
+    (event.target as HTMLInputElement).value = "";
   }
 
   async getFilesFromEvent(event: Event): Promise<File[]> {
