@@ -55,10 +55,15 @@ export default class MessageTextArea extends Vue {
 
   onInput() {
     this.$emit("input", this.$refs.textarea.value);
+  }
 
-    this.$refs.textarea.style.height = "auto";
-    this.$refs.textarea.style.height =
-      Math.max(this.$refs.textarea.scrollHeight, 100) + "px";
+  @Watch("message")
+  onMessageChange() {
+    if (this.message.length > 0) {
+      this.$refs.textarea.style.height = "auto";
+      this.$refs.textarea.style.height =
+        Math.max(this.$refs.textarea.scrollHeight, 100) + "px";
+    } else this.$refs.textarea.style.height = "";
   }
 
   @Watch("hidden")
