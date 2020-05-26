@@ -1,53 +1,12 @@
 const webpack = require("webpack");
 const packageLock = require("./package-lock.json");
+const { GenerateSW } = require("workbox-webpack-plugin");
+const availabelIcons = require("file-icon-vectors/dist/icons/vivid/catalog.json");
 
 const production = process.env.NODE_ENV === "production";
 
 module.exports = {
   integrity: true,
-  pwa: {
-    workboxOptions: {
-      globPatterns: [
-        "../dist/**/*.{json,svg,png,webmanifest}",
-        "../../dist/**/*.{json,svg,png,webmanifest}",
-        "**/*.{html,js,css}",
-      ],
-      sourcemap: false,
-      ignoreURLParametersMatching: [/.*/],
-      runtimeCaching: [
-        {
-          urlPattern: /^https:\/\/fonts\.googleapis\.com/,
-          handler: "StaleWhileRevalidate",
-        },
-        {
-          urlPattern: /^https:\/\/fonts\.gstatic\.com/,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "google-fonts-webfonts",
-            expiration: {
-              maxAgeSeconds: 60 * 60 * 24 * 365,
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        { urlPattern: /\.(?:js|css)$/, handler: "CacheFirst" },
-        { urlPattern: /\.html$/, handler: "NetworkFirst" },
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "images",
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 30 * 24 * 60 * 60,
-            },
-          },
-        },
-      ],
-    },
-  },
   css: {
     loaderOptions: {
       postcss: production
@@ -77,6 +36,63 @@ module.exports = {
           packageLock.dependencies["file-icon-vectors"].version
         ),
       }),
+      ...(production
+        ? [
+            new GenerateSW({
+              additionalManifestEntries: [
+                ...availabelIcons.map((iconName) => ({
+                  url: `https://cdn.jsdelivr.net/npm/file-icon-vectors@${packageLock.dependencies["file-icon-vectors"].version}/dist/icons/vivid/${iconName}.svg`,
+                  revision:
+                    packageLock.dependencies["file-icon-vectors"].version,
+                })),
+              ],
+              swDest: "sw.js",
+              navigateFallback: "/index.html",
+              navigateFallbackAllowlist: [/^\/encrypt/, /^\/decrypt/],
+              sourcemap: false,
+              clientsClaim: true,
+              ignoreURLParametersMatching: [/.*/],
+              runtimeCaching: [
+                { urlPattern: /\.html$/, handler: "NetworkFirst" },
+                {
+                  urlPattern: /^https:\/\/fonts\.googleapis\.com/,
+                  handler: "StaleWhileRevalidate",
+                  options: { cacheName: "static-resources" },
+                },
+                {
+                  urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+                  handler: "StaleWhileRevalidate",
+                  options: { cacheName: "google-fonts-webfonts" },
+                },
+                {
+                  urlPattern: /favicon/g,
+                  handler: "StaleWhileRevalidate",
+                  options: { cacheName: "favicon" },
+                },
+                {
+                  urlPattern: /\.(?:xml|webmanifest|txt|ico)$/,
+                  handler: "StaleWhileRevalidate",
+                  options: { cacheName: "static-resources" },
+                },
+                {
+                  urlPattern: /\.(?:js|css)$/,
+                  handler: "CacheFirst",
+                  options: { cacheName: "static-resources" },
+                },
+                {
+                  urlPattern: /^https:\/\/cdn\.jsdelivr\.net/,
+                  handler: "CacheFirst",
+                  options: { cacheName: "file-icons" },
+                },
+                {
+                  urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                  handler: "CacheFirst",
+                  options: { cacheName: "images" },
+                },
+              ],
+            }),
+          ]
+        : []),
     ],
   },
 };
