@@ -1,5 +1,6 @@
 # SecretDrop.io
 [![Build Status](https://travis-ci.org/CoolCyberBrain/SecretDrop.io.svg?branch=master)](https://travis-ci.org/CoolCyberBrain/SecretDrop.io)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/26fe0534-9afd-4232-8901-a91696e5489d/deploy-status)](https://app.netlify.com/sites/secretdrop/deploys)
 
 Public key encryption for everyone at https://SecretDrop.io
 
