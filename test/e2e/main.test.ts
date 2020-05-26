@@ -2,7 +2,6 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 
-import delay from "delay";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import playwright from "playwright";
 
@@ -543,7 +542,7 @@ function testCopyAndDownload(
 async function waitForLoading(page: playwright.Page) {
   await page.waitForSelector(".card div.loading-overlay", {
     state: "visible",
-    timeout: 1000,
+    timeout: 10000,
   });
   await page.waitForSelector(".card div.loading-overlay", {
     state: "hidden",
@@ -561,8 +560,6 @@ function testSnapshot(
       const page = pageGetter();
 
       await scrollToTop(page);
-      await page.mouse.click(0, 0);
-      await delay(500);
 
       await toggleSelectorsOpacity(page, hideSelectors, false);
     });
@@ -590,8 +587,9 @@ function testSnapshot(
 
           await page.emulateMedia({ colorScheme });
 
-          await page.mouse.click(0, 0);
-          await page.focus("#top-bar > .content > .logo-with-text-a");
+          await page.evaluate(() => {
+            (document.activeElement as HTMLElement | undefined)?.blur();
+          });
 
           await scrollToTop(page);
 
