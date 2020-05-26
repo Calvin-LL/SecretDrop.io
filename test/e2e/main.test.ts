@@ -63,18 +63,17 @@ describe("home page", () => {
 
     expect(
       await homePage.waitForFunction(
-        "document.querySelector('#faq').getBoundingClientRect().y <= 1"
+        () => document.querySelector("#faq")!.getBoundingClientRect().y <= 1
       )
     ).toBeTruthy();
 
     await homePage.click(
       "#faq > .fab-container > button:not(.mdc-fab--exited)"
     );
-    await delay(1000);
 
     expect(
       await homePage.waitForFunction(
-        "document.querySelector('#top-bar').getBoundingClientRect().y <= 1"
+        () => document.querySelector("#top-bar")!.getBoundingClientRect().y <= 1
       )
     ).toBeTruthy();
   });
@@ -307,7 +306,7 @@ describe("encrypt-decrypt", () => {
       ]);
       await waitForLoading(decryptPage);
 
-      await encryptPage.waitForSelector(
+      await decryptPage.waitForSelector(
         "#decrypt-card div.textarea-container > textarea:not(disabled)"
       );
       inputTextarea = (await decryptPage.$(
@@ -542,12 +541,14 @@ function testCopyAndDownload(
 }
 
 async function waitForLoading(page: playwright.Page) {
-  await delay(500);
+  await page.waitForSelector(".card div.loading-overlay", {
+    state: "visible",
+    timeout: 1000,
+  });
   await page.waitForSelector(".card div.loading-overlay", {
     state: "hidden",
     timeout: 60000,
   });
-  await delay(500);
 }
 
 function testSnapshot(
@@ -595,7 +596,6 @@ function testSnapshot(
           await scrollToTop(page);
 
           while (true) {
-            await delay(300);
             expect(await page.screenshot()).toMatchImageSnapshot({
               failureThreshold: 0.1,
               failureThresholdType: "percent",
@@ -633,15 +633,37 @@ function testSnapshot(
 }
 
 async function scrollToTop(page: playwright.Page) {
-  return await page.evaluate(() => {
+  await page.evaluate(() => {
     window.scrollTo(0, 0);
   });
+
+  await page.waitForFunction(() => window.scrollY === 0);
 }
 
 async function scrollDownOnePage(page: playwright.Page) {
-  return await page.evaluate(() => {
+  const targetPosition = await page.evaluate(
+    () => window.scrollY + window.innerHeight
+  );
+
+  await page.evaluate(() => {
     window.scrollBy(0, window.innerHeight);
   });
+
+  await page.waitForFunction((targetPosition) => {
+    const maxHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+
+    return (
+      window.scrollY === targetPosition ||
+      window.scrollY + window.innerHeight >= maxHeight
+    );
+  }, targetPosition);
 }
 
 async function hasReachBottom(page: playwright.Page) {
