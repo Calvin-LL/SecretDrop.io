@@ -6,6 +6,13 @@ const availabelIcons = require("file-icon-vectors/dist/icons/vivid/catalog.json"
 const production = process.env.NODE_ENV === "production";
 
 module.exports = {
+  ...(process.env.TEST
+    ? {
+        devServer: {
+          progress: false,
+        },
+      }
+    : {}),
   integrity: true,
   css: {
     loaderOptions: {

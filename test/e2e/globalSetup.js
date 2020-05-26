@@ -10,7 +10,7 @@ module.exports = async function () {
       port: PORT,
       options: {
         cwd: path.join(__dirname, "..", ".."),
-        env: { ...process.env, NODE_ENV: "development" },
+        env: { ...process.env, TEST: true, NODE_ENV: "development" },
       },
     },
   ]);
