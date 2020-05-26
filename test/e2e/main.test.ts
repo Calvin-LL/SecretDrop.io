@@ -559,6 +559,8 @@ function testSnapshot(
     beforeAll(async () => {
       const page = pageGetter();
 
+      await page.waitForTimeout(1000);
+
       await scrollToTop(page);
 
       await toggleSelectorsOpacity(page, hideSelectors, false);
