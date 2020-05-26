@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <CardTitle v-bind="$attrs" />
+    <CardTitle :title="title" :subtitle="subtitle" />
     <slot></slot>
   </div>
 </template>
@@ -12,6 +12,10 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Card",
   components: { CardTitle },
+  props: {
+    title: String,
+    subtitle: String,
+  },
 });
 </script>
 
