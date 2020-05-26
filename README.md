@@ -1,4 +1,5 @@
 # SecretDrop.io
+[![Build Status](https://travis-ci.org/CoolCyberBrain/SecretDrop.io.svg?branch=master)](https://travis-ci.org/CoolCyberBrain/SecretDrop.io)
 
 Public key encryption for everyone at https://SecretDrop.io
 
