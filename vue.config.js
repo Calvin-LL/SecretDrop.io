@@ -40,10 +40,13 @@ module.exports = {
         ? [
             new GenerateSW({
               additionalManifestEntries: [
+                {
+                  url: `https://cdn.jsdelivr.net/npm/file-icon-vectors@${packageLock.dependencies["file-icon-vectors"].version}/dist/file-icon-vivid.min.css`,
+                  revision: null,
+                },
                 ...availabelIcons.map((iconName) => ({
                   url: `https://cdn.jsdelivr.net/npm/file-icon-vectors@${packageLock.dependencies["file-icon-vectors"].version}/dist/icons/vivid/${iconName}.svg`,
-                  revision:
-                    packageLock.dependencies["file-icon-vectors"].version,
+                  revision: null,
                 })),
               ],
               swDest: "sw.js",
@@ -61,33 +64,8 @@ module.exports = {
                 },
                 {
                   urlPattern: /^https:\/\/fonts\.gstatic\.com/,
-                  handler: "StaleWhileRevalidate",
+                  handler: "CacheFirst",
                   options: { cacheName: "google-fonts-webfonts" },
-                },
-                {
-                  urlPattern: /favicon/g,
-                  handler: "StaleWhileRevalidate",
-                  options: { cacheName: "favicon" },
-                },
-                {
-                  urlPattern: /\.(?:xml|webmanifest|txt|ico)$/,
-                  handler: "StaleWhileRevalidate",
-                  options: { cacheName: "static-resources" },
-                },
-                {
-                  urlPattern: /\.(?:js|css)$/,
-                  handler: "CacheFirst",
-                  options: { cacheName: "static-resources" },
-                },
-                {
-                  urlPattern: /^https:\/\/cdn\.jsdelivr\.net/,
-                  handler: "CacheFirst",
-                  options: { cacheName: "file-icons" },
-                },
-                {
-                  urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                  handler: "CacheFirst",
-                  options: { cacheName: "images" },
                 },
               ],
             }),
