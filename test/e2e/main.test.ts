@@ -135,6 +135,9 @@ describe("encrypt-decrypt", () => {
       ]);
       await waitForLoading(encryptPage);
 
+      await encryptPage.waitForSelector(
+        "#encrypt-card div.textarea-container > textarea:not(disabled)"
+      );
       inputTextarea = (await encryptPage.$(
         "#encrypt-card div.textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
@@ -304,6 +307,9 @@ describe("encrypt-decrypt", () => {
       ]);
       await waitForLoading(decryptPage);
 
+      await encryptPage.waitForSelector(
+        "#decrypt-card div.textarea-container > textarea:not(disabled)"
+      );
       inputTextarea = (await decryptPage.$(
         "#decrypt-card div.textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
