@@ -1,9 +1,12 @@
 language: node_js
+os:
+  - osx
 node_js: lts/*
 cache:
   directories:
     - node_modules
 script:
+  - defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
   - npm test
 
 before_deploy:
@@ -13,6 +16,5 @@ before_deploy:
 deploy:
   provider: script
   script: netlify deploy -s $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN -p --dir ./dist
-  skip_cleanup: true
   on:
     branch: master
