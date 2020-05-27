@@ -597,7 +597,7 @@ function testSnapshot(
 
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
-              failureThreshold: 0.1,
+              failureThreshold: 0.01,
               failureThresholdType: "percent",
               customSnapshotsDir: path.join(
                 __dirname,
