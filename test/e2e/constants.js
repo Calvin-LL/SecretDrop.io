@@ -1,7 +1,7 @@
 const playwright = require("playwright");
 
 const DEBUG = false;
-const RUN_IN_SERIAL = false;
+const RUN_IN_SERIAL = process.env.CI === true;
 const PORT = 3000;
 const BROWSERS = ["chromium", "firefox", "webkit"];
 const DEFAULT_DESKTOP_DEVICE = {
