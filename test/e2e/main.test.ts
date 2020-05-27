@@ -145,6 +145,8 @@ describe("encrypt-decrypt", () => {
       resultTextarea = (await encryptPage.$(
         "#encrypt-card div.result-container > div.result-textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
+
+      await removeFAQ(encryptPage);
     });
 
     afterAll(async () => {
@@ -181,7 +183,8 @@ describe("encrypt-decrypt", () => {
       });
 
       testSnapshot(() => encryptPage, [
-        "#encrypt-card div.result-container > div.result-textarea-container > textarea",
+        () => inputTextarea,
+        () => resultTextarea,
       ]);
 
       testCopyAndDownload(
@@ -317,6 +320,8 @@ describe("encrypt-decrypt", () => {
       resultTextarea = (await decryptPage.$(
         "#decrypt-card div.result-container > div.result-textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
+
+      await removeFAQ(decryptPage);
     });
 
     afterAll(async () => {
@@ -355,7 +360,8 @@ describe("encrypt-decrypt", () => {
       });
 
       testSnapshot(() => decryptPage, [
-        "#decrypt-card div.textarea-container > textarea",
+        () => inputTextarea,
+        () => resultTextarea,
       ]);
 
       testCopyAndDownload(
@@ -552,7 +558,7 @@ async function waitForLoading(page: playwright.Page) {
 
 function testSnapshot(
   pageGetter: () => playwright.Page,
-  hideSelectors: string[] = [],
+  hideSelectors: (string | (() => playwright.JSHandle))[] = [],
   fullPage: boolean = false
 ) {
   describe("screenshot", () => {
@@ -694,23 +700,28 @@ async function hasGonePastMain(page: playwright.Page) {
 
 async function toggleSelectorsOpacity(
   page: playwright.Page,
-  hideSelectors: string[],
+  hideSelectors: (string | (() => playwright.JSHandle))[] = [],
   visible: boolean
 ) {
   const extra = [".mdc-snackbar", ".fab-container"];
 
   for (const selector of hideSelectors.concat(extra)) {
-    const element = await page.$(selector);
+    const element =
+      typeof selector === "string" ? await page.$(selector) : selector();
 
     if (visible)
-      await element!.evaluate((el: HTMLAnchorElement) => {
+      await element?.evaluate((el: HTMLAnchorElement) => {
         el.style.display = "";
       });
     else
-      await element!.evaluate((el: HTMLAnchorElement) => {
+      await element?.evaluate((el: HTMLAnchorElement) => {
         el.style.display = "none";
       });
   }
+}
+
+async function removeFAQ(page: playwright.Page) {
+  await page.$eval("#faq", (el: HTMLDivElement) => (el.innerHTML = ""));
 }
 
 async function downloadToMD5String(download: playwright.Download) {
@@ -735,7 +746,7 @@ async function streamToString(download: playwright.Download) {
   });
 }
 
-export function getRandomStringOfLength(length: number) {
+function getRandomStringOfLength(length: number) {
   let result = "";
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   const charactersLength = characters.length;
