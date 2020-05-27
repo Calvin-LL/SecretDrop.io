@@ -641,12 +641,12 @@ async function scrollToTop(page: playwright.Page) {
 }
 
 async function scrollDownOnePage(page: playwright.Page) {
-  const targetPosition = await page.evaluate(
-    () => window.scrollY + window.innerHeight
-  );
+  const targetPosition = await page.evaluate(() => {
+    const result = window.scrollY + window.innerHeight;
 
-  await page.evaluate(() => {
-    window.scrollBy(0, window.innerHeight);
+    window.scrollTo(0, result);
+
+    return result;
   });
 
   await page.waitForFunction((targetPosition) => {
