@@ -1,6 +1,32 @@
 language: node_js
-os: osx
-osx_image: xcode11.4
+# os: osx
+# osx_image: xcode11.4
+os: linux
+dist: bionic
+addons:
+  apt:
+    update: true
+    packages:
+      # These are required to run webkit
+      - libwoff1
+      - libopus0
+      - libwebp6
+      - libwebpdemux2
+      - libenchant1c2a
+      - libgudev-1.0-0
+      - libsecret-1-0
+      - libhyphen0
+      - libgdk-pixbuf2.0-0
+      - libegl1
+      - libgles2
+      - libevent-2.1-6
+      - libnotify4
+      - libxslt1.1
+      - libvpx5
+      # This is required to run chromium
+      - libgbm1
+      # this is needed for running headful tests
+      - xvfb
 node_js: lts/*
 cache:
   directories:
