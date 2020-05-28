@@ -597,6 +597,8 @@ function testSnapshot(
 
           await page.emulateMedia({ colorScheme });
 
+          await page.mouse.move(0, 0);
+          await page.mouse.click(0, 0);
           await page.evaluate(() => {
             (document.activeElement as HTMLElement | undefined)?.blur();
           });
@@ -605,8 +607,6 @@ function testSnapshot(
 
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
-              failureThreshold: 0.01,
-              failureThresholdType: "percent",
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
