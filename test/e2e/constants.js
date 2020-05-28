@@ -38,8 +38,6 @@ const MOBILE_DEVICES = [
   playwright.devices["iPad Mini"],
   playwright.devices["iPad (gen 7) landscape"],
   playwright.devices["iPad (gen 7)"],
-  playwright.devices["Pixel 2 XL landscape"],
-  playwright.devices["Pixel 2 XL"],
   playwright.devices["Pixel 2 landscape"],
   playwright.devices["Pixel 2"],
   playwright.devices["iPhone 11 Pro landscape"],
