@@ -50,6 +50,7 @@ cache:
   directories:
     - node_modules
 script:
+  - defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
   - travis_retry travis_wait 30 npm test
 
 before_deploy:
