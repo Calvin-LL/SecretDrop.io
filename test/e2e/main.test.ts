@@ -42,15 +42,6 @@ afterAll(async () => {
 });
 
 describe("home page", () => {
-  testSnapshot(
-    () => homePage,
-    [
-      "#encryption-link-card > div.link-card-url-container > a",
-      "#decryption-link-card > div.link-card-url-container > a",
-    ],
-    true
-  );
-
   test("title is correct", async () => {
     expect(await homePage.title()).toBe(
       "SecretDrop.io - Generate New Key Pair"
@@ -75,7 +66,18 @@ describe("home page", () => {
         () => document.querySelector("#top-bar")!.getBoundingClientRect().y <= 1
       )
     ).toBeTruthy();
+
+    await removeFAQ(homePage);
   });
+
+  testSnapshot(
+    () => homePage,
+    [
+      "#encryption-link-card > div.link-card-url-container > a",
+      "#decryption-link-card > div.link-card-url-container > a",
+    ],
+    true
+  );
 
   describe("encryption link", () => {
     let encryptionLink: string;
