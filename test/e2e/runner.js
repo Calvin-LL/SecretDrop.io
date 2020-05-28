@@ -22,36 +22,27 @@ class Runner extends JestRunner {
   }
 
   static async getTests(tests) {
+    const browsersToTest = Runner.getBrowsersToTest();
+    const devicesToTest = Runner.getDevicesToTest();
+
     return await Promise.all(
       tests.map(async (test) =>
-        BROWSERS.flatMap((browser) => [
-          Runner.getBrowserTest(
-            test,
-            browser,
-            DEFAULT_DESKTOP_DEVICE,
-            DESKTOP_DEVICES,
-            "desktop"
-          ),
-          Runner.getBrowserTest(
-            test,
-            browser,
-            DEFAULT_MOBILE_DEVICE,
-            MOBILE_DEVICES,
-            "mobile"
-          ),
-        ])
+        browsersToTest.flatMap((browser) =>
+          devicesToTest.map(() =>
+            Runner.getBrowserTest(test, browser, "desktop")
+          )
+        )
       )
     ).then((data) => data.flat());
   }
 
-  static getBrowserTest(
-    test,
-    browserType,
-    device,
-    screenshotDevices,
-    deviceType
-  ) {
+  static getBrowserTest(test, browserType, deviceType) {
     const { displayName } = test.context.config;
+    const device =
+      deviceType === "desktop" ? DEFAULT_DESKTOP_DEVICE : DEFAULT_MOBILE_DEVICE;
+    const screenshotDevices =
+      deviceType === "desktop" ? DESKTOP_DEVICES : MOBILE_DEVICES;
+
     return {
       ...test,
       context: {
@@ -68,6 +59,32 @@ class Runner extends JestRunner {
         },
       },
     };
+  }
+
+  static getBrowsersToTest() {
+    switch (process.env.BROWSER) {
+      case "chromium":
+        return ["chromium"];
+      case "firefox":
+        return ["firefox"];
+      case "webkit":
+        return ["webkit"];
+
+      default:
+        return BROWSERS;
+    }
+  }
+
+  static getDevicesToTest() {
+    switch (process.env.DEVICE) {
+      case "desktop":
+        return ["desktop"];
+      case "mobile":
+        return ["mobile"];
+
+      default:
+        return ["desktop", "mobile"];
+    }
   }
 }
 
