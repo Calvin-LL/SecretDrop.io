@@ -5,19 +5,19 @@ node_js: lts/*
 cache:
   directories:
     - node_modules
-script:
-  - defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
 
 jobs:
   include:
     - name: Unit Tests
       script: travis_retry npm test unit
     - name: E2E Chromium Desktop
+      before_script: defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
       script: travis_retry npm test e2e
       env:
         - BROWSER=chromium
         - DEVICE=desktop
     - name: E2E Chromium Mobile
+      before_script: defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
       script: travis_retry npm test e2e
       env:
         - BROWSER=chromium

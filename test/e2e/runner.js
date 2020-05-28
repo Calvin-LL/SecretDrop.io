@@ -28,8 +28,8 @@ class Runner extends JestRunner {
     return await Promise.all(
       tests.map(async (test) =>
         browsersToTest.flatMap((browser) =>
-          devicesToTest.map(() =>
-            Runner.getBrowserTest(test, browser, "desktop")
+          devicesToTest.map((deviceType) =>
+            Runner.getBrowserTest(test, browser, deviceType)
           )
         )
       )
