@@ -59,14 +59,7 @@ class TestEnvironment extends NodeEnvironment {
   static getArgsForBrowser(browserType) {
     switch (browserType) {
       case "chromium":
-        return [
-          "--no-sandbox",
-          "--disable-namespace-sandbox",
-          "--disable-setuid-sandbox",
-          "--disable-gpu",
-          "--disable-font-subpixel-positioning",
-          "--font-render-hinting=none",
-        ];
+        return ["--no-sandbox", "--disable-setuid-sandbox"];
       case "firefox":
         return [];
       case "webkit":

@@ -32,7 +32,6 @@ let homePage: playwright.Page;
 beforeAll(async () => {
   homePage = await context.newPage();
   await homePage.goto("http://localhost:3000");
-  await removeFontAntiAliasing(homePage);
   await homePage.waitForSelector("#full-screen-loading-overlay", {
     state: "hidden",
   });
@@ -749,17 +748,6 @@ async function toggleSelectorsOpacity(
 
 async function removeFAQ(page: playwright.Page) {
   await page.$eval("#faq", (el: HTMLDivElement) => (el.innerHTML = ""));
-}
-
-async function removeFontAntiAliasing(page: playwright.Page) {
-  await page.addStyleTag({
-    content: `* {
-      font-smooth: never !important;
-      -webkit-font-smoothing: none !important;
-      -moz-osx-font-smoothing: grayscale !important;
-      text-rendering: geometricprecision !important;
-    }`,
-  });
 }
 
 async function downloadToMD5String(download: playwright.Download) {
