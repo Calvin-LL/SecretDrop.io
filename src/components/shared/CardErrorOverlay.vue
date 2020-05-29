@@ -96,6 +96,7 @@ export default class CardErrorOverlay extends Vue {
 
     font-size: 2rem;
     font-weight: 400;
+    text-align: center;
 
     margin-top: 0px;
     margin-left: 16px;
@@ -110,6 +111,7 @@ export default class CardErrorOverlay extends Vue {
   }
 
   & > .refresh > a {
+    text-align: center;
     overflow-wrap: break-word;
     word-break: break-all;
     color: #1976d2;
