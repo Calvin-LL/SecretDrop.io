@@ -607,25 +607,47 @@ function testSnapshot(
           await scrollToTop(page);
 
           while (true) {
-            expect(await page.screenshot()).toMatchImageSnapshot({
-              dumpDiffToConsole: true,
-              customDiffConfig: { threshold: 0.2 },
-              customSnapshotsDir: path.join(
-                __dirname,
-                "__image_snapshots__",
-                browserType,
-                `${viewport.width}×${viewport.height}`,
-                colorScheme
-              ),
-              customDiffDir: path.join(
-                __dirname,
-                "__image_snapshots__",
-                "__diff_output__",
-                browserType,
-                `${viewport.width}×${viewport.height}`,
-                colorScheme
-              ),
-            });
+            if (process.env.TRAVIS)
+              expect(await page.screenshot()).toMatchImageSnapshot({
+                dumpDiffToConsole: true,
+                customSnapshotsDir: path.join(
+                  __dirname,
+                  "__image_snapshots__",
+                  "Travis_macOS",
+                  browserType,
+                  `${viewport.width}×${viewport.height}`,
+                  colorScheme
+                ),
+                customDiffDir: path.join(
+                  __dirname,
+                  "__image_snapshots__",
+                  "Travis_macOS",
+                  "__diff_output__",
+                  browserType,
+                  `${viewport.width}×${viewport.height}`,
+                  colorScheme
+                ),
+              });
+            else
+              expect(await page.screenshot()).toMatchImageSnapshot({
+                customSnapshotsDir: path.join(
+                  __dirname,
+                  "__image_snapshots__",
+                  "default",
+                  browserType,
+                  `${viewport.width}×${viewport.height}`,
+                  colorScheme
+                ),
+                customDiffDir: path.join(
+                  __dirname,
+                  "__image_snapshots__",
+                  "default",
+                  "__diff_output__",
+                  browserType,
+                  `${viewport.width}×${viewport.height}`,
+                  colorScheme
+                ),
+              });
 
             if (
               (fullPage && (await hasReachBottom(page))) ||

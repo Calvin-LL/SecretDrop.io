@@ -40,6 +40,10 @@ jobs:
         - BROWSER=webkit
         - DEVICE=mobile
 
+addons:
+  artifacts:
+    working_dir: ./test/e2e/__image_snapshots__/Travis_macOS
+
 before_deploy:
   - npm install netlify-cli -g
   - npm run build
