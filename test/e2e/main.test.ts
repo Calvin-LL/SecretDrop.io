@@ -609,7 +609,6 @@ function testSnapshot(
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
               dumpDiffToConsole: true,
-              blur: 1,
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
@@ -735,6 +734,7 @@ async function removeFontAntiAliasing(page: playwright.Page) {
       font-smooth: never !important;
       -webkit-font-smoothing: none !important;
       -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: geometricprecision !important;
     }`,
   });
 }
