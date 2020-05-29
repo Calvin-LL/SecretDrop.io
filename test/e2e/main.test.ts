@@ -608,7 +608,7 @@ function testSnapshot(
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
               dumpDiffToConsole: true,
-              blur: 1,
+              blur: 2,
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
