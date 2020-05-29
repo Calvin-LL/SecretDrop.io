@@ -609,6 +609,7 @@ function testSnapshot(
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
               dumpDiffToConsole: true,
+              customDiffConfig: { threshold: 0.2 },
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
@@ -648,7 +649,6 @@ async function scrollToTop(page: playwright.Page) {
   });
 
   await page.waitForFunction(() => window.scrollY === 0);
-  await page.waitForTimeout(1);
 }
 
 async function scrollDownOnePage(page: playwright.Page) {
