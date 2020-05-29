@@ -3,42 +3,44 @@ os: osx
 osx_image: xcode11.4
 node_js: lts/*
 
-jobs:
-  include:
-    - name: Unit Tests
-      script: travis_retry npm test unit
-    - name: E2E Chromium Desktop
-      before_script: defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=chromium
-        - DEVICE=desktop
-    - name: E2E Chromium Mobile
-      before_script: defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=chromium
-        - DEVICE=mobile
-    - name: E2E Firefox Desktop
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=firefox
-        - DEVICE=desktop
-    - name: E2E Firefox Mobile
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=firefox
-        - DEVICE=mobile
-    - name: E2E Webkit Desktop
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=webkit
-        - DEVICE=desktop
-    - name: E2E Webkit Mobile
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=webkit
-        - DEVICE=mobile
+# jobs:
+#   include:
+#     - name: Unit Tests
+#       script: travis_retry npm test unit
+#     - name: E2E Chromium Desktop
+#       before_script: defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
+#       script: travis_retry npm test e2e
+#       env:
+#         - BROWSER=chromium
+#         - DEVICE=desktop
+#     - name: E2E Chromium Mobile
+#       before_script: defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
+#       script: travis_retry npm test e2e
+#       env:
+#         - BROWSER=chromium
+#         - DEVICE=mobile
+#     - name: E2E Firefox Desktop
+#       script: travis_retry npm test e2e
+#       env:
+#         - BROWSER=firefox
+#         - DEVICE=desktop
+#     - name: E2E Firefox Mobile
+#       script: travis_retry npm test e2e
+#       env:
+#         - BROWSER=firefox
+#         - DEVICE=mobile
+#     - name: E2E Webkit Desktop
+#       script: travis_retry npm test e2e
+#       env:
+#         - BROWSER=webkit
+#         - DEVICE=desktop
+#     - name: E2E Webkit Mobile
+#       script: travis_retry npm test e2e
+#       env:
+#         - BROWSER=webkit
+#         - DEVICE=mobile
+
+script: npm test -- -u
 
 addons:
   artifacts:
