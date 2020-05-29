@@ -46,7 +46,9 @@ script:
 
 addons:
   artifacts:
-    working_dir: ./test/e2e/__image_snapshots__/Travis_macOS
+    paths:
+      - ./test/e2e/__image_snapshots__/Travis_macOS
+    debug: true
 
 before_deploy:
   - npm install netlify-cli -g
