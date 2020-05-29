@@ -2,9 +2,6 @@ language: node_js
 os: osx
 osx_image: xcode11.4
 node_js: lts/*
-cache:
-  directories:
-    - node_modules
 
 jobs:
   include:
