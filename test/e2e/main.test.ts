@@ -648,6 +648,7 @@ async function scrollToTop(page: playwright.Page) {
   });
 
   await page.waitForFunction(() => window.scrollY === 0);
+  await page.waitForTimeout(1);
 }
 
 async function scrollDownOnePage(page: playwright.Page) {
