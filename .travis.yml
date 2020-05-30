@@ -15,9 +15,9 @@ addons:
       - libdbus-glib-1-2
       - libxt6
     # Upload snapshots
-  # artifacts:
-  #   paths:
-  #     - ./test/e2e/__image_snapshots__/
+  artifacts:
+    paths:
+      - ./test/e2e/__image_snapshots__/
 
 jobs:
   include:
@@ -29,7 +29,7 @@ jobs:
         - BROWSER=chromium
         - DEVICE=desktop
     - name: E2E Chromium Mobile
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=chromium
         - DEVICE=mobile
@@ -53,7 +53,7 @@ jobs:
     - name: E2E Webkit Mobile
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=webkit
         - DEVICE=mobile

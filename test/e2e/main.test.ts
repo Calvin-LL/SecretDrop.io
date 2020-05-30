@@ -485,8 +485,6 @@ function testCopyAndDownload(
   expectedStringGetter: () => string
 ) {
   test("copy", async () => {
-    if (browserType === "firefox") return;
-
     const page = pageGetter();
     const expectedString = expectedStringGetter();
     const copyEventSpy = jest.fn();
