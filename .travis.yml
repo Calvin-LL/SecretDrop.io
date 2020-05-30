@@ -15,45 +15,46 @@ addons:
       - libdbus-glib-1-2
       - libxt6
     # Upload snapshots
-  # artifacts:
-  #   paths:
-  #     - ./test/e2e/__image_snapshots__/
+  artifacts:
+    paths:
+      - ./test/e2e/__image_snapshots__/travis_darwin
+      - ./test/e2e/__image_snapshots__/linux
 
 jobs:
   include:
-    - name: Unit Tests
-      script: travis_retry npm test unit
+    # - name: Unit Tests
+    #   script: travis_retry npm test unit
     - name: E2E Chromium Desktop
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=chromium
         - DEVICE=desktop
     - name: E2E Chromium Mobile
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=chromium
         - DEVICE=mobile
     - name: E2E Firefox Desktop
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=firefox
         - DEVICE=desktop
     - name: E2E Firefox Mobile
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=firefox
         - DEVICE=mobile
     - name: E2E Webkit Desktop
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=webkit
         - DEVICE=desktop
     - name: E2E Webkit Mobile
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=webkit
         - DEVICE=mobile

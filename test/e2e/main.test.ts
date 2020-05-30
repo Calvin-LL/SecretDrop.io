@@ -35,6 +35,7 @@ beforeAll(async () => {
   await homePage.waitForSelector("#full-screen-loading-overlay", {
     state: "hidden",
   });
+  await removeAnimations(homePage);
 });
 
 afterAll(async () => {
@@ -134,6 +135,7 @@ describe("encrypt-decrypt", () => {
         ),
       ]);
       await waitForLoading(encryptPage);
+      await removeAnimations(encryptPage);
 
       await encryptPage.waitForSelector(
         "#encrypt-card div.textarea-container > textarea:not(disabled)"
@@ -309,6 +311,7 @@ describe("encrypt-decrypt", () => {
         ),
       ]);
       await waitForLoading(decryptPage);
+      await removeAnimations(decryptPage);
 
       await decryptPage.waitForSelector(
         "#decrypt-card div.textarea-container > textarea:not(disabled)"
@@ -565,6 +568,12 @@ function testSnapshot(
     beforeAll(async () => {
       const page = pageGetter();
 
+      await page.mouse.move(0, 0);
+      await page.mouse.click(0, 0);
+      await page.evaluate(() => {
+        (document.activeElement as HTMLElement | undefined)?.blur();
+      });
+
       await page.waitForTimeout(1000);
 
       await scrollToTop(page);
@@ -729,6 +738,26 @@ async function toggleSelectorsOpacity(
 
 async function removeFAQ(page: playwright.Page) {
   await page.$eval("#faq", (el: HTMLDivElement) => (el.innerHTML = ""));
+}
+
+async function removeAnimations(page: playwright.Page) {
+  await page.addStyleTag({
+    content: `
+      * {
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        -ms-transition: none !important;
+        transition: none !important;
+
+        -webkit-animation: none !important;
+        -moz-animation: none !important;
+        -o-animation: none !important;
+        -ms-animation: none !important;
+        animation: none !important;
+      }
+    `,
+  });
 }
 
 async function downloadToMD5String(download: playwright.Download) {
