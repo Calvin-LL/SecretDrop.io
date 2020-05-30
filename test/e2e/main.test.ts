@@ -91,8 +91,8 @@ describe("home page", () => {
 
     testCopyAndDownload(
       () => homePage,
-      "#encryption-link-card > div.bottom-bar-container > div > button:nth-child(2)",
-      "#encryption-link-card > div.bottom-bar-container > div > button:nth-child(1)",
+      "#encryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(2)",
+      "#encryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(1)",
       () => encryptionLink
     );
   });
@@ -109,8 +109,8 @@ describe("home page", () => {
 
     testCopyAndDownload(
       () => homePage,
-      "#decryption-link-card > div.bottom-bar-container > div > button:nth-child(2)",
-      "#decryption-link-card > div.bottom-bar-container > div > button:nth-child(1)",
+      "#decryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(2)",
+      "#decryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(1)",
       () => decryptionLink
     );
   });
@@ -606,47 +606,26 @@ function testSnapshot(
           await scrollToTop(page);
 
           while (true) {
-            if (process.env.TRAVIS)
-              expect(await page.screenshot()).toMatchImageSnapshot({
-                dumpDiffToConsole: true,
-                customSnapshotsDir: path.join(
-                  __dirname,
-                  "__image_snapshots__",
-                  "Travis_macOS",
-                  browserType,
-                  `${viewport.width}×${viewport.height}`,
-                  colorScheme
-                ),
-                customDiffDir: path.join(
-                  __dirname,
-                  "__image_snapshots__",
-                  "Travis_macOS",
-                  "__diff_output__",
-                  browserType,
-                  `${viewport.width}×${viewport.height}`,
-                  colorScheme
-                ),
-              });
-            else
-              expect(await page.screenshot()).toMatchImageSnapshot({
-                customSnapshotsDir: path.join(
-                  __dirname,
-                  "__image_snapshots__",
-                  "default",
-                  browserType,
-                  `${viewport.width}×${viewport.height}`,
-                  colorScheme
-                ),
-                customDiffDir: path.join(
-                  __dirname,
-                  "__image_snapshots__",
-                  "default",
-                  "__diff_output__",
-                  browserType,
-                  `${viewport.width}×${viewport.height}`,
-                  colorScheme
-                ),
-              });
+            expect(await page.screenshot()).toMatchImageSnapshot({
+              dumpDiffToConsole: true,
+              customSnapshotsDir: path.join(
+                __dirname,
+                "__image_snapshots__",
+                process.platform,
+                browserType,
+                `${viewport.width}×${viewport.height}`,
+                colorScheme
+              ),
+              customDiffDir: path.join(
+                __dirname,
+                "__image_snapshots__",
+                process.platform,
+                "__diff_output__",
+                browserType,
+                `${viewport.width}×${viewport.height}`,
+                colorScheme
+              ),
+            });
 
             if (
               (fullPage && (await hasReachBottom(page))) ||
