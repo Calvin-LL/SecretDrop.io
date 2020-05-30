@@ -46,9 +46,6 @@ jobs:
     - name: E2E Webkit Desktop
       os: osx
       osx_image: xcode11.5
-      before_script:
-        # - defaults -currentHost write -globalDomain AppleFontSmoothing -int 0
-        - defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
       script: travis_retry npm test e2e
       env:
         - BROWSER=webkit
@@ -56,9 +53,6 @@ jobs:
     - name: E2E Webkit Mobile
       os: osx
       osx_image: xcode11.5
-      before_script:
-        # - defaults -currentHost write -globalDomain AppleFontSmoothing -int 0
-        - defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
       script: travis_retry npm test e2e
       env:
         - BROWSER=webkit
