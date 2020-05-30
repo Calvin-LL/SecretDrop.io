@@ -14,8 +14,8 @@ addons:
       - libdbus-glib-1-2
       - libxt6
     # Upload snapshots
-    # paths:
-    #   - ./test/e2e/__image_snapshots__/Travis_macOS
+    paths:
+      - ./test/e2e/__image_snapshots__/Travis_macOS
 
 jobs:
   include:

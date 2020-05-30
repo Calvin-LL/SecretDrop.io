@@ -607,11 +607,13 @@ function testSnapshot(
 
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
-              dumpDiffToConsole: true,
+              dumpDiffToConsole: !!process.env.TRAVIS,
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
-                process.platform,
+                process.env.TRAVIS && process.platform === "darwin" && false
+                  ? `travis_${process.platform}`
+                  : process.platform,
                 browserType,
                 `${viewport.width}×${viewport.height}`,
                 colorScheme
@@ -619,7 +621,9 @@ function testSnapshot(
               customDiffDir: path.join(
                 __dirname,
                 "__image_snapshots__",
-                process.platform,
+                process.env.TRAVIS && process.platform === "darwin" && false
+                  ? `travis_${process.platform}`
+                  : process.platform,
                 "__diff_output__",
                 browserType,
                 `${viewport.width}×${viewport.height}`,

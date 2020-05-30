@@ -13,27 +13,25 @@ class Runner extends JestRunner {
     super(config, context);
   }
 
-  async runTests(tests, watcher, onStart, onResult, onFailure, options) {
-    const browserTests = await Runner.getTests(tests);
+  runTests(tests, watcher, onStart, onResult, onFailure, options) {
+    const browserTests = Runner.getTests(tests);
 
     return super.runTests(browserTests, watcher, onStart, onResult, onFailure, {
       serial: RUN_IN_SERIAL,
     });
   }
 
-  static async getTests(tests) {
+  static getTests(tests) {
     const browsersToTest = Runner.getBrowsersToTest();
     const devicesToTest = Runner.getDevicesToTest();
 
-    return await Promise.all(
-      tests.map(async (test) =>
-        browsersToTest.flatMap((browser) =>
-          devicesToTest.map((deviceType) =>
-            Runner.getBrowserTest(test, browser, deviceType)
-          )
+    return tests.flatMap((test) =>
+      browsersToTest.flatMap((browser) =>
+        devicesToTest.map((deviceType) =>
+          Runner.getBrowserTest(test, browser, deviceType)
         )
       )
-    ).then((data) => data.flat());
+    );
   }
 
   static getBrowserTest(test, browserType, deviceType) {
