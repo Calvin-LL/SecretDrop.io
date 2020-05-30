@@ -21,35 +21,35 @@ addons:
 
 jobs:
   include:
-    - name: Unit Tests
-      script: travis_retry npm test unit
-    - name: E2E Chromium Desktop
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=chromium
-        - DEVICE=desktop
+    # - name: Unit Tests
+    #   script: travis_retry npm test unit
+    # - name: E2E Chromium Desktop
+    #   script: travis_retry npm test e2e
+    #   env:
+    #     - BROWSER=chromium
+    #     - DEVICE=desktop
     - name: E2E Chromium Mobile
       script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=chromium
         - DEVICE=mobile
-    - name: E2E Firefox Desktop
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=firefox
-        - DEVICE=desktop
-    - name: E2E Firefox Mobile
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=firefox
-        - DEVICE=mobile
-    - name: E2E Webkit Desktop
-      os: osx
-      osx_image: xcode11.5
-      script: travis_retry npm test e2e
-      env:
-        - BROWSER=webkit
-        - DEVICE=desktop
+    # - name: E2E Firefox Desktop
+    #   script: travis_retry npm test e2e
+    #   env:
+    #     - BROWSER=firefox
+    #     - DEVICE=desktop
+    # - name: E2E Firefox Mobile
+    #   script: travis_retry npm test e2e
+    #   env:
+    #     - BROWSER=firefox
+    #     - DEVICE=mobile
+    # - name: E2E Webkit Desktop
+    #   os: osx
+    #   osx_image: xcode11.5
+    #   script: travis_retry npm test e2e
+    #   env:
+    #     - BROWSER=webkit
+    #     - DEVICE=desktop
     - name: E2E Webkit Mobile
       os: osx
       osx_image: xcode11.5
