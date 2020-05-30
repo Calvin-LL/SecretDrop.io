@@ -47,7 +47,7 @@ jobs:
       os: osx
       osx_image: xcode11.5
       before_script:
-        - defaults -currentHost write -globalDomain AppleFontSmoothing -int 3
+        - defaults -currentHost write -globalDomain AppleFontSmoothing -int 1
         - defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
       script: travis_retry npm test e2e
       env:
@@ -57,7 +57,7 @@ jobs:
       os: osx
       osx_image: xcode11.5
       before_script:
-        - defaults -currentHost write -globalDomain AppleFontSmoothing -int 3
+        - defaults -currentHost write -globalDomain AppleFontSmoothing -int 1
         - defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
       script: travis_retry npm test e2e
       env:
