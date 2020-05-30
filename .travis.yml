@@ -1,13 +1,63 @@
 language: node_js
-os: osx
-osx_image: xcode11.4
 node_js: lts/*
-cache:
-  directories:
-    - node_modules
-script:
-  - defaults write org.chromium.Chromium NSAppSleepDisabled -bool YES
-  - npm test
+
+os: linux
+dist: bionic
+addons:
+  apt:
+    update: true
+    packages:
+      # Chromium dependencies
+      - libnss3
+      - libxss1
+      - libasound2
+      # Firefox dependencies
+      - libdbus-glib-1-2
+      - libxt6
+    # Upload snapshots
+  # artifacts:
+  #   paths:
+  #     - ./test/e2e/__image_snapshots__/travis_darwin
+  #     - ./test/e2e/__image_snapshots__/linux
+
+jobs:
+  include:
+    - name: Unit Tests
+      script: travis_retry npm test unit
+    - name: E2E Chromium Desktop
+      script: travis_retry npm test e2e
+      env:
+        - BROWSER=chromium
+        - DEVICE=desktop
+    - name: E2E Chromium Mobile
+      script: travis_retry npm test e2e
+      env:
+        - BROWSER=chromium
+        - DEVICE=mobile
+    - name: E2E Firefox Desktop
+      script: travis_retry npm test e2e
+      env:
+        - BROWSER=firefox
+        - DEVICE=desktop
+    - name: E2E Firefox Mobile
+      script: travis_retry npm test e2e
+      env:
+        - BROWSER=firefox
+        - DEVICE=mobile
+    - name: E2E Webkit Desktop
+      os: osx
+      osx_image: xcode11.5
+      script: travis_retry npm test e2e
+      env:
+        - BROWSER=webkit
+        - DEVICE=desktop
+    - name: E2E Webkit Mobile
+      os: osx
+      osx_image: xcode11.5
+      script: travis_retry npm test e2e
+      env:
+        - BROWSER=webkit
+        - DEVICE=mobile
 
 before_deploy:
   - npm install netlify-cli -g

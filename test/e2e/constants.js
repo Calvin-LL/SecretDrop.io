@@ -1,7 +1,7 @@
 const playwright = require("playwright");
 
 const DEBUG = false;
-const RUN_IN_SERIAL = process.env.CI === true;
+const RUN_IN_SERIAL = false;
 const PORT = 3000;
 const BROWSERS = ["chromium", "firefox", "webkit"];
 const DEFAULT_DESKTOP_DEVICE = {
@@ -38,8 +38,6 @@ const MOBILE_DEVICES = [
   playwright.devices["iPad Mini"],
   playwright.devices["iPad (gen 7) landscape"],
   playwright.devices["iPad (gen 7)"],
-  playwright.devices["Pixel 2 XL landscape"],
-  playwright.devices["Pixel 2 XL"],
   playwright.devices["Pixel 2 landscape"],
   playwright.devices["Pixel 2"],
   playwright.devices["iPhone 11 Pro landscape"],

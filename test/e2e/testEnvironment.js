@@ -14,14 +14,15 @@ class TestEnvironment extends NodeEnvironment {
 
     const { browserType, device, screenshotDevices } = this._config;
 
-    this._browser = await playwright[browserType].launch(
-      DEBUG
+    this._browser = await playwright[browserType].launch({
+      ...TestEnvironment.getArgsForBrowser(browserType),
+      ...(DEBUG
         ? {
             headless: false,
             slowMo: 100,
           }
-        : {}
-    );
+        : {}),
+    });
 
     this.global.browserType = browserType;
     this.global.device = device;
@@ -48,6 +49,17 @@ class TestEnvironment extends NodeEnvironment {
     switch (browserType) {
       case "chromium":
         return ["clipboard-read", "clipboard-write"];
+      case "firefox":
+        return [];
+      case "webkit":
+        return [];
+    }
+  }
+
+  static getArgsForBrowser(browserType) {
+    switch (browserType) {
+      case "chromium":
+        return ["--no-sandbox", "--disable-setuid-sandbox"];
       case "firefox":
         return [];
       case "webkit":

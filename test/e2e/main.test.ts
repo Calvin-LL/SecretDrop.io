@@ -2,7 +2,6 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 
-import delay from "delay";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import playwright from "playwright";
 
@@ -15,7 +14,7 @@ expect.extend({ toMatchImageSnapshot });
 jest.setTimeout(60000);
 
 const TEST_STRING =
-  "!#$%&()*MNOPQRSTUVWXYZ[]^_`abcdefghijklmnz{|}~☇☈☉☊☋☌☍☎☏☐☑☒☓☚☛☜☝☞☟☠☡☢☣☤☥买乱乲乳乴乵乶乷乸乹乺乻乼乽癩羅蘿螺裸邏樂洛烙珞落酪駱亂👩🏼‍🦯👩‍❤️‍👨👩‍❤️‍👩👨‍❤️‍👨👩‍❤️‍💋‍👨👩‍❤️‍💋‍👩👨‍👩‍👦👨‍❤️‍💋‍👨👨‍👩‍👧👩‍👩‍👧‍👧👩‍👦👗👮🏿‍♀️👮🏿👮🏽‍♂️";
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 const TEST_FILES = [
   path.join(__dirname, "test-files", "Archive.zip"),
   path.join(__dirname, "test-files", "Macaca_nigra_self-portrait_large.jpg"),
@@ -36,6 +35,7 @@ beforeAll(async () => {
   await homePage.waitForSelector("#full-screen-loading-overlay", {
     state: "hidden",
   });
+  await removeAnimations(homePage);
 });
 
 afterAll(async () => {
@@ -43,15 +43,6 @@ afterAll(async () => {
 });
 
 describe("home page", () => {
-  testSnapshot(
-    () => homePage,
-    [
-      "#encryption-link-card > div.link-card-url-container > a",
-      "#decryption-link-card > div.link-card-url-container > a",
-    ],
-    true
-  );
-
   test("title is correct", async () => {
     expect(await homePage.title()).toBe(
       "SecretDrop.io - Generate New Key Pair"
@@ -63,21 +54,31 @@ describe("home page", () => {
 
     expect(
       await homePage.waitForFunction(
-        "document.querySelector('#faq').getBoundingClientRect().y <= 1"
+        () => document.querySelector("#faq")!.getBoundingClientRect().y <= 1
       )
     ).toBeTruthy();
 
     await homePage.click(
       "#faq > .fab-container > button:not(.mdc-fab--exited)"
     );
-    await delay(1000);
 
     expect(
       await homePage.waitForFunction(
-        "document.querySelector('#top-bar').getBoundingClientRect().y <= 1"
+        () => document.querySelector("#top-bar")!.getBoundingClientRect().y <= 1
       )
     ).toBeTruthy();
+
+    await removeFAQ(homePage);
   });
+
+  testSnapshot(
+    () => homePage,
+    [
+      "#encryption-link-card > div.link-card-url-container > a",
+      "#decryption-link-card > div.link-card-url-container > a",
+    ],
+    true
+  );
 
   describe("encryption link", () => {
     let encryptionLink: string;
@@ -91,8 +92,8 @@ describe("home page", () => {
 
     testCopyAndDownload(
       () => homePage,
-      "#encryption-link-card > div.bottom-bar-container > div > button:nth-child(2)",
-      "#encryption-link-card > div.bottom-bar-container > div > button:nth-child(1)",
+      "#encryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(2)",
+      "#encryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(1)",
       () => encryptionLink
     );
   });
@@ -109,8 +110,8 @@ describe("home page", () => {
 
     testCopyAndDownload(
       () => homePage,
-      "#decryption-link-card > div.bottom-bar-container > div > button:nth-child(2)",
-      "#decryption-link-card > div.bottom-bar-container > div > button:nth-child(1)",
+      "#decryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(2)",
+      "#decryption-link-card > div.bottom-bar-container > div.bottom-bar > button:nth-child(1)",
       () => decryptionLink
     );
   });
@@ -134,7 +135,11 @@ describe("encrypt-decrypt", () => {
         ),
       ]);
       await waitForLoading(encryptPage);
+      await removeAnimations(encryptPage);
 
+      await encryptPage.waitForSelector(
+        "#encrypt-card div.textarea-container > textarea:not(disabled)"
+      );
       inputTextarea = (await encryptPage.$(
         "#encrypt-card div.textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
@@ -144,6 +149,8 @@ describe("encrypt-decrypt", () => {
       resultTextarea = (await encryptPage.$(
         "#encrypt-card div.result-container > div.result-textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
+
+      await removeFAQ(encryptPage);
     });
 
     afterAll(async () => {
@@ -180,7 +187,8 @@ describe("encrypt-decrypt", () => {
       });
 
       testSnapshot(() => encryptPage, [
-        "#encrypt-card div.result-container > div.result-textarea-container > textarea",
+        () => inputTextarea,
+        () => resultTextarea,
       ]);
 
       testCopyAndDownload(
@@ -303,7 +311,11 @@ describe("encrypt-decrypt", () => {
         ),
       ]);
       await waitForLoading(decryptPage);
+      await removeAnimations(decryptPage);
 
+      await decryptPage.waitForSelector(
+        "#decrypt-card div.textarea-container > textarea:not(disabled)"
+      );
       inputTextarea = (await decryptPage.$(
         "#decrypt-card div.textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
@@ -313,6 +325,8 @@ describe("encrypt-decrypt", () => {
       resultTextarea = (await decryptPage.$(
         "#decrypt-card div.result-container > div.result-textarea-container > textarea"
       )) as playwright.ElementHandle<HTMLTextAreaElement>;
+
+      await removeFAQ(decryptPage);
     });
 
     afterAll(async () => {
@@ -351,7 +365,8 @@ describe("encrypt-decrypt", () => {
       });
 
       testSnapshot(() => decryptPage, [
-        "#decrypt-card div.textarea-container > textarea",
+        () => inputTextarea,
+        () => resultTextarea,
       ]);
 
       testCopyAndDownload(
@@ -473,8 +488,6 @@ function testCopyAndDownload(
   expectedStringGetter: () => string
 ) {
   test("copy", async () => {
-    if (browserType === "firefox") return;
-
     const page = pageGetter();
     const expectedString = expectedStringGetter();
     const copyEventSpy = jest.fn();
@@ -536,26 +549,34 @@ function testCopyAndDownload(
 }
 
 async function waitForLoading(page: playwright.Page) {
-  await delay(500);
+  await page.waitForSelector(".card div.loading-overlay", {
+    state: "visible",
+    timeout: 10000,
+  });
   await page.waitForSelector(".card div.loading-overlay", {
     state: "hidden",
     timeout: 60000,
   });
-  await delay(500);
 }
 
 function testSnapshot(
   pageGetter: () => playwright.Page,
-  hideSelectors: string[] = [],
+  hideSelectors: (string | (() => playwright.JSHandle))[] = [],
   fullPage: boolean = false
 ) {
   describe("screenshot", () => {
     beforeAll(async () => {
       const page = pageGetter();
 
-      await scrollToTop(page);
+      await page.mouse.move(0, 0);
       await page.mouse.click(0, 0);
-      await delay(500);
+      await page.evaluate(() => {
+        (document.activeElement as HTMLElement | undefined)?.blur();
+      });
+
+      await page.waitForTimeout(1000);
+
+      await scrollToTop(page);
 
       await toggleSelectorsOpacity(page, hideSelectors, false);
     });
@@ -583,19 +604,23 @@ function testSnapshot(
 
           await page.emulateMedia({ colorScheme });
 
+          await page.mouse.move(0, 0);
           await page.mouse.click(0, 0);
-          await page.focus("#top-bar > .content > .logo-with-text-a");
+          await page.evaluate(() => {
+            (document.activeElement as HTMLElement | undefined)?.blur();
+          });
 
           await scrollToTop(page);
 
           while (true) {
-            await delay(300);
             expect(await page.screenshot()).toMatchImageSnapshot({
-              failureThreshold: 0.1,
-              failureThresholdType: "percent",
+              dumpDiffToConsole: !!process.env.TRAVIS,
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
+                process.env.TRAVIS && process.platform === "darwin"
+                  ? `travis_${process.platform}`
+                  : process.platform,
                 browserType,
                 `${viewport.width}×${viewport.height}`,
                 colorScheme
@@ -603,6 +628,9 @@ function testSnapshot(
               customDiffDir: path.join(
                 __dirname,
                 "__image_snapshots__",
+                process.env.TRAVIS && process.platform === "darwin"
+                  ? `travis_${process.platform}`
+                  : process.platform,
                 "__diff_output__",
                 browserType,
                 `${viewport.width}×${viewport.height}`,
@@ -627,15 +655,37 @@ function testSnapshot(
 }
 
 async function scrollToTop(page: playwright.Page) {
-  return await page.evaluate(() => {
+  await page.evaluate(() => {
     window.scrollTo(0, 0);
   });
+
+  await page.waitForFunction(() => window.scrollY === 0);
 }
 
 async function scrollDownOnePage(page: playwright.Page) {
-  return await page.evaluate(() => {
-    window.scrollBy(0, window.innerHeight);
+  const targetPosition = await page.evaluate(() => {
+    const result = window.scrollY + window.innerHeight;
+
+    window.scrollTo(0, result);
+
+    return result;
   });
+
+  await page.waitForFunction((targetPosition) => {
+    const maxHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+
+    return (
+      window.scrollY === targetPosition ||
+      window.scrollY + window.innerHeight >= maxHeight
+    );
+  }, targetPosition);
 }
 
 async function hasReachBottom(page: playwright.Page) {
@@ -666,23 +716,48 @@ async function hasGonePastMain(page: playwright.Page) {
 
 async function toggleSelectorsOpacity(
   page: playwright.Page,
-  hideSelectors: string[],
+  hideSelectors: (string | (() => playwright.JSHandle))[] = [],
   visible: boolean
 ) {
   const extra = [".mdc-snackbar", ".fab-container"];
 
   for (const selector of hideSelectors.concat(extra)) {
-    const element = await page.$(selector);
+    const element =
+      typeof selector === "string" ? await page.$(selector) : selector();
 
     if (visible)
-      await element!.evaluate((el: HTMLAnchorElement) => {
+      await element?.evaluate((el: HTMLAnchorElement) => {
         el.style.display = "";
       });
     else
-      await element!.evaluate((el: HTMLAnchorElement) => {
+      await element?.evaluate((el: HTMLAnchorElement) => {
         el.style.display = "none";
       });
   }
+}
+
+async function removeFAQ(page: playwright.Page) {
+  await page.$eval("#faq", (el: HTMLDivElement) => (el.innerHTML = ""));
+}
+
+async function removeAnimations(page: playwright.Page) {
+  await page.addStyleTag({
+    content: `
+      * {
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        -ms-transition: none !important;
+        transition: none !important;
+
+        -webkit-animation: none !important;
+        -moz-animation: none !important;
+        -o-animation: none !important;
+        -ms-animation: none !important;
+        animation: none !important;
+      }
+    `,
+  });
 }
 
 async function downloadToMD5String(download: playwright.Download) {
@@ -707,7 +782,7 @@ async function streamToString(download: playwright.Download) {
   });
 }
 
-export function getRandomStringOfLength(length: number) {
+function getRandomStringOfLength(length: number) {
   let result = "";
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   const charactersLength = characters.length;
