@@ -44,20 +44,20 @@ jobs:
     #   env:
     #     - BROWSER=firefox
     #     - DEVICE=mobile
-    # - name: E2E Webkit Desktop
-    #   os: osx
-    #   osx_image: xcode11.5
-    #   script: travis_retry npm test e2e -- -u
-    #   env:
-    #     - BROWSER=webkit
-    #     - DEVICE=desktop
-    - name: E2E Webkit Mobile
+    - name: E2E Webkit Desktop
       os: osx
       osx_image: xcode11.5
       script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=webkit
-        - DEVICE=mobile
+        - DEVICE=desktop
+    # - name: E2E Webkit Mobile
+    #   os: osx
+    #   osx_image: xcode11.5
+    #   script: travis_retry npm test e2e -- -u
+    #   env:
+    #     - BROWSER=webkit
+    #     - DEVICE=mobile
 
 before_deploy:
   - npm install netlify-cli -g
