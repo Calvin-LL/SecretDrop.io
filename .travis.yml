@@ -4,18 +4,19 @@ node_js: lts/*
 os: linux
 dist: bionic
 addons:
-  - apt:
-      packages:
-        # Chromium dependencies
-        - libnss3
-        - libxss1
-        - libasound2
-        # Firefox dependencies
-        - libdbus-glib-1-2
-        - libxt6
-      # Upload snapshots
-  - paths:
-      - ./test/e2e/__image_snapshots__/
+  apt:
+    update: true
+    packages:
+      # Chromium dependencies
+      - libnss3
+      - libxss1
+      - libasound2
+      # Firefox dependencies
+      - libdbus-glib-1-2
+      - libxt6
+    # Upload snapshots
+  paths:
+    - ./test/e2e/__image_snapshots__/
 
 jobs:
   include:
