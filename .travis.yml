@@ -15,7 +15,7 @@ addons:
       - libxt6
     # Upload snapshots
   paths:
-    - ./test/e2e/__image_snapshots__/Travis_macOS
+    - ./test/e2e/__image_snapshots__/
 
 jobs:
   include:
