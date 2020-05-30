@@ -4,7 +4,7 @@ node_js: lts/*
 os: linux
 dist: bionic
 addons:
-  apt:
+  - apt:
     packages:
       # Chromium dependencies
       - libnss3
@@ -14,8 +14,8 @@ addons:
       - libdbus-glib-1-2
       - libxt6
     # Upload snapshots
-  paths:
-    - ./test/e2e/__image_snapshots__/
+  - paths:
+      - ./test/e2e/__image_snapshots__/
 
 jobs:
   include:
