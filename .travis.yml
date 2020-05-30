@@ -46,14 +46,20 @@ jobs:
     - name: E2E Webkit Desktop
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e -- -u
+      before_script:
+        - defaults write org.webkit.Playwright AppleFontSmoothing -int 3
+        - defaults write org.webkit.Playwright CGFontRenderingFontSmoothingDisabled -bool NO
+      script: travis_retry npm test e2e
       env:
         - BROWSER=webkit
         - DEVICE=desktop
     - name: E2E Webkit Mobile
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e -- -u
+      before_script:
+        - defaults write org.webkit.Playwright AppleFontSmoothing -int 3
+        - defaults write org.webkit.Playwright CGFontRenderingFontSmoothingDisabled -bool NO
+      script: travis_retry npm test e2e
       env:
         - BROWSER=webkit
         - DEVICE=mobile
