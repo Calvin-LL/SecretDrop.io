@@ -15,8 +15,9 @@ addons:
       - libdbus-glib-1-2
       - libxt6
     # Upload snapshots
-  paths:
-    - ./test/e2e/__image_snapshots__/
+  artifacts:
+    paths:
+      - ./test/e2e/__image_snapshots__/
 
 jobs:
   include:
