@@ -611,10 +611,9 @@ function testSnapshot(
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
-                // process.env.TRAVIS && process.platform === "darwin"
-                //   ? `travis_${process.platform}`
-                //   :
-                process.platform,
+                process.env.TRAVIS && process.platform === "darwin"
+                  ? `travis_${process.platform}`
+                  : process.platform,
                 browserType,
                 `${viewport.width}×${viewport.height}`,
                 colorScheme
@@ -622,10 +621,9 @@ function testSnapshot(
               customDiffDir: path.join(
                 __dirname,
                 "__image_snapshots__",
-                // process.env.TRAVIS && process.platform === "darwin"
-                //   ? `travis_${process.platform}`
-                //   :
-                process.platform,
+                process.env.TRAVIS && process.platform === "darwin"
+                  ? `travis_${process.platform}`
+                  : process.platform,
                 "__diff_output__",
                 browserType,
                 `${viewport.width}×${viewport.height}`,

@@ -46,14 +46,14 @@ jobs:
     - name: E2E Webkit Desktop
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=webkit
         - DEVICE=desktop
     - name: E2E Webkit Mobile
       os: osx
       osx_image: xcode11.5
-      script: travis_retry npm test e2e
+      script: travis_retry npm test e2e -- -u
       env:
         - BROWSER=webkit
         - DEVICE=mobile
