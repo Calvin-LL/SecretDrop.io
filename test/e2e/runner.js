@@ -71,6 +71,8 @@ class Runner extends JestRunner {
         return ["webkit"];
 
       default:
+        if (process.platform === "linux")
+          return BROWSERS.filter((os) => os !== "webkit");
         return BROWSERS;
     }
   }
