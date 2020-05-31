@@ -13,6 +13,8 @@ jobs:
       - run: npm ci
       - name: Build for production
         run: npm run build
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
       - name: Upload build
         uses: actions/upload-artifact@v1
         with:
@@ -34,6 +36,9 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: npm test unit
+
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
 
   e2e_tests_ubuntu:
     needs: build
