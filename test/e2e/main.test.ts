@@ -614,7 +614,7 @@ function testSnapshot(
 
           while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
-              dumpDiffToConsole: !!process.env.TRAVIS,
+              dumpDiffToConsole: !!process.env.CI,
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
