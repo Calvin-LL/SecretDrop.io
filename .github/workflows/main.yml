@@ -70,7 +70,7 @@ jobs:
 
   e2e_tests_macos:
     needs: build
-    runs-on: macos-10.15
+    runs-on: macos-latest
     strategy:
       matrix:
         browser: [webkit]
