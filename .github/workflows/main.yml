@@ -99,7 +99,7 @@ jobs:
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: build
+    needs: [build, unit_tests, e2e_tests_ubuntu, e2e_tests_macos]
     runs-on: ubuntu-18.04
     steps:
       - name: Download build
