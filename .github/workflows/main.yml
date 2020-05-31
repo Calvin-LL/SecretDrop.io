@@ -5,36 +5,36 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.2
-      with:
-        node-version: 12.x
-    - run: npm install
-    - name: Build for production
-      run: npm run build
-    - name: Upload build
-      uses: actions/upload-artifact@v1
-      with:
-        name: dist
-        path: ./dist
-  
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - name: Build for production
+        run: npm run build
+      - name: Upload build
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: ./dist
+
   unit_tests:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.2
-      with:
-        node-version: 12.x
-    - run: npm install
-    - name: Run unit tests
-      uses: nick-invision/retry@v1
-      with:
-        timeout_minutes: 10
-        max_attempts: 3
-        command: npm test unit
-        
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - name: Run unit tests
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: npm test unit
+
   e2e_tests_ubuntu:
     needs: build
     runs-on: ubuntu-18.04
@@ -43,26 +43,26 @@ jobs:
         browser: [chromium, firefox]
         device: [desktop, mobile]
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.2
-      with:
-        node-version: 12.x
-    - run: npm install
-    - name: Download build
-      uses: actions/download-artifact@v1
-      with:
-        name: dist
-    - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
-      uses: nick-invision/retry@v1
-      with:
-        timeout_minutes: 10
-        max_attempts: 3
-        command: npm test e2e
-      env:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - name: Download build
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: npm test e2e
+        env:
           BROWSER: ${{ matrix.browser }}
           DEVICE: ${{ matrix.device }}
-          
+
   e2e_tests_macos:
     needs: build
     runs-on: macos-10.15
@@ -71,38 +71,38 @@ jobs:
         browser: [webkit]
         device: [desktop, mobile]
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.2
-      with:
-        node-version: 12.x
-    - run: npm install
-    - name: Download build
-      uses: actions/download-artifact@v1
-      with:
-        name: dist
-    - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
-      uses: nick-invision/retry@v1
-      with:
-        timeout_minutes: 10
-        max_attempts: 3
-        command: npm test e2e
-      env:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - name: Download build
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: npm test e2e
+        env:
           BROWSER: ${{ matrix.browser }}
           DEVICE: ${{ matrix.device }}
-        
+
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-18.04
     steps:
-    - name: Download build
-      uses: actions/download-artifact@v1
-      with:
-        name: dist
-    - name: Deploy to Netlify
-      uses: netlify/actions/build@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        NETLIFY_DIR: ./dist
+      - name: Download build
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Deploy to Netlify
+        uses: netlify/actions/build@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DIR: ./dist
