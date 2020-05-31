@@ -56,6 +56,7 @@ module.exports = {
                   revision: null,
                 })),
               ],
+              exclude: ["_redirects"],
               swDest: "sw.js",
               navigateFallback: "/index.html",
               navigateFallbackAllowlist: [/^\/encrypt/, /^\/decrypt/],
