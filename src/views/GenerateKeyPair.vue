@@ -41,8 +41,8 @@ import { Component, Vue } from "vue-property-decorator";
   components: { LinkCard, FullScreenLoadingOverlay },
 })
 export default class GenerateKeyPair extends Vue {
-  encryptLinkBaseUrl = "https://secretdrop.io/encrypt?key=";
-  decryptLinkBaseUrl = "https://secretdrop.io/decrypt?key=";
+  encryptLinkBaseUrl = `${window.location.origin}/encrypt?key=`;
+  decryptLinkBaseUrl = `${window.location.origin}/decrypt?key=`;
 
   publicKeyString = "";
   privatekeyString = "";
@@ -60,11 +60,6 @@ export default class GenerateKeyPair extends Vue {
 
   created() {
     const keyPair = new KeyPair();
-
-    if (process.env.NODE_ENV !== "production") {
-      this.encryptLinkBaseUrl = `http://${window.location.host}/encrypt?key=`;
-      this.decryptLinkBaseUrl = `http://${window.location.host}/decrypt?key=`;
-    }
 
     this.publicKeyString = keyPair.getPublicKeyString();
     this.privatekeyString = keyPair.getPrivateKeyString();
