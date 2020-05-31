@@ -10,6 +10,7 @@ jobs:
       uses: actions/setup-node@v1.4.2
       with:
         node-version: 12.x
+    - run: npm install
     - name: Build for production
       run: npm run build
     - name: Upload build
@@ -26,6 +27,7 @@ jobs:
       uses: actions/setup-node@v1.4.2
       with:
         node-version: 12.x
+    - run: npm install
     - name: Run unit tests
       uses: nick-invision/retry@v1
       with:
@@ -46,6 +48,7 @@ jobs:
       uses: actions/setup-node@v1.4.2
       with:
         node-version: 12.x
+    - run: npm install
     - name: Download build
       uses: actions/download-artifact@v1
       with:
@@ -73,6 +76,7 @@ jobs:
       uses: actions/setup-node@v1.4.2
       with:
         node-version: 12.x
+    - run: npm install
     - name: Download build
       uses: actions/download-artifact@v1
       with:
@@ -92,11 +96,6 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.2
-      with:
-        node-version: 12.x
     - name: Download build
       uses: actions/download-artifact@v1
       with:
