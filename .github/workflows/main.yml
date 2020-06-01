@@ -10,12 +10,15 @@ jobs:
         uses: actions/setup-node@v1.4.2
         with:
           node-version: 12.x
+      - id: get_node_version
+        run: echo "::set-output name=version::$(eval node -v)"
       - uses: actions/cache@v2
+        id: cache
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ steps.get_node_version.outputs.version }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
       - name: Build for production
         run: npm run build
       - name: Upload build
@@ -32,14 +35,15 @@ jobs:
         uses: actions/setup-node@v1.4.2
         with:
           node-version: 12.x
+      - id: get_node_version
+        run: echo "::set-output name=version::$(eval node -v)"
       - uses: actions/cache@v2
+        id: cache
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ steps.get_node_version.outputs.version }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
-        env:
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
+        if: steps.cache.outputs.cache-hit != 'true'
       - name: Run unit tests
         uses: nick-invision/retry@v1
         with:
@@ -60,12 +64,15 @@ jobs:
         uses: actions/setup-node@v1.4.2
         with:
           node-version: 12.x
+      - id: get_node_version
+        run: echo "::set-output name=version::$(eval node -v)"
       - uses: actions/cache@v2
+        id: cache
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ steps.get_node_version.outputs.version }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
       - name: Download build
         uses: actions/download-artifact@v1
         with:
@@ -81,39 +88,42 @@ jobs:
           DEVICE: ${{ matrix.device }}
           TEST_WITH_DIST: true
 
-  # e2e_tests_macos:
-  #   needs: build
-  #   runs-on: macOS-10.15
-  #   strategy:
-  #     matrix:
-  #       browser: [webkit]
-  #       device: [desktop, mobile]
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Setup Node.js environment
-  #       uses: actions/setup-node@v1.4.2
-  #       with:
-  #         node-version: 12.x
-  #     - uses: actions/cache@v2
-  #       with:
-  #         path: ~/.npm
-  #         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-  #         restore-keys: ${{ runner.os }}-node-
-  #     - run: npm ci
-  #     - name: Download build
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: dist
-  #     - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
-  #       uses: nick-invision/retry@v1
-  #       with:
-  #         timeout_minutes: 10
-  #         max_attempts: 3
-  #         command: npm test e2e
-  #       env:
-  #         BROWSER: ${{ matrix.browser }}
-  #         DEVICE: ${{ matrix.device }}
-  #         TEST_WITH_DIST: true
+  e2e_tests_macos:
+    needs: build
+    runs-on: macOS-10.15
+    strategy:
+      matrix:
+        browser: [webkit]
+        device: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+      - id: get_node_version
+        run: echo "::set-output name=version::$(eval node -v)"
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ steps.get_node_version.outputs.version }}-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
+      - name: Download build
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: npm test e2e
+        env:
+          BROWSER: ${{ matrix.browser }}
+          DEVICE: ${{ matrix.device }}
+          TEST_WITH_DIST: true
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
