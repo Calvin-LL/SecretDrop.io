@@ -590,7 +590,6 @@ function testSnapshot(
       await toggleSelectorsOpacity(page, hideSelectors, true);
     });
 
-    // takes too long for screen shots in chrome, only use the current device
     describe.each(screenshotDevices)("", ({ viewport }) => {
       beforeAll(async () => {
         const page = pageGetter();
