@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["es2020"],
+    "lib": ["es2020", "dom"],
     "module": "commonjs",
     "target": "es2019",
     "types": ["jest", "node"]
