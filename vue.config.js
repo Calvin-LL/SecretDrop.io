@@ -9,11 +9,6 @@ module.exports = {
   integrity: true,
   css: {
     loaderOptions: {
-      postcss: production
-        ? {
-            plugins: [require("autoprefixer")],
-          }
-        : undefined,
       sass: {
         implementation: require("dart-sass"),
         webpackImporter: false,
