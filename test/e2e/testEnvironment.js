@@ -15,7 +15,7 @@ class TestEnvironment extends NodeEnvironment {
     const { browserType, device, screenshotDevices } = this._config;
 
     this._browser = await playwright[browserType].launch({
-      ...TestEnvironment.getArgsForBrowser(browserType),
+      args: TestEnvironment.getArgsForBrowser(browserType),
       ...(DEBUG
         ? {
             headless: false,
@@ -59,7 +59,12 @@ class TestEnvironment extends NodeEnvironment {
   static getArgsForBrowser(browserType) {
     switch (browserType) {
       case "chromium":
-        return ["--no-sandbox", "--disable-setuid-sandbox"];
+        return [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-gpu",
+          "--font-render-hinting=none",
+        ];
       case "firefox":
         return [];
       case "webkit":
