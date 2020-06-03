@@ -1,5 +1,6 @@
 import * as UIHelpers from "@/UIHelpers";
 import delay from "delay";
+import waitForExpect from "wait-for-expect";
 
 describe("animateAddTextInElement", () => {
   const testString =
@@ -17,12 +18,12 @@ describe("animateAddTextInElement", () => {
       mockOnFinish
     );
 
-    await delay(550);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("500ms", async () => {
@@ -38,13 +39,13 @@ describe("animateAddTextInElement", () => {
       mockOnFinish
     );
 
-    await delay(550);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(initialString + testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("3000ms", async () => {
@@ -60,13 +61,13 @@ describe("animateAddTextInElement", () => {
       mockOnFinish
     );
 
-    await delay(3200);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(initialString + testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 });
 
@@ -89,13 +90,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(550);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("initial length < final length, 500ms", async () => {
@@ -111,13 +112,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(550);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("initial length < final length, 3000ms", async () => {
@@ -133,13 +134,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(3200);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("initial length === final length, 500ms", async () => {
@@ -155,13 +156,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(550);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("initial length === final length, 3000ms", async () => {
@@ -177,13 +178,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(3200);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("initial length > final length, 500ms", async () => {
@@ -199,13 +200,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(550);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 
   test("initial length > final length, 3000ms", async () => {
@@ -221,13 +222,13 @@ describe("animateTextTransition", () => {
       mockOnFinish
     );
 
-    await delay(3200);
+    await waitForExpect(() => {
+      expect(mockOnFinish).toBeCalled();
+    });
 
     expect(mockOnUpdate).toBeCalled();
     expect(mockOnUpdate).toHaveBeenNthCalledWith(1, initialString);
     expect(mockOnUpdate).toHaveBeenLastCalledWith(testString);
-
-    expect(mockOnFinish).toBeCalled();
   });
 });
 
