@@ -3,6 +3,8 @@ import fs from "fs";
 import path from "path";
 
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+// @ts-ignore
+import kebabCase from "lodash.kebabcase";
 import playwright from "playwright";
 
 declare const device: { viewport: { width: number; height: number } };
@@ -635,6 +637,21 @@ function testSnapshot(
                 `${viewport.width}×${viewport.height}`,
                 getColorSchemeFolder(colorScheme)
               ),
+              customSnapshotIdentifier: ({
+                testPath,
+                currentTestName,
+                counter,
+              }) => {
+                const currentTestNameFiltered = filterCurrentTestName(
+                  currentTestName
+                );
+
+                return kebabCase(
+                  `${path.basename(
+                    testPath
+                  )}-${currentTestNameFiltered}-${counter}`
+                );
+              },
             });
 
             if (
@@ -651,6 +668,10 @@ function testSnapshot(
       );
     });
   });
+}
+
+function filterCurrentTestName(name: string) {
+  return name.replace("no-preference", "light");
 }
 
 function getColorSchemeFolder(
