@@ -67,6 +67,7 @@ export default class FullScreenLoadingOverlay extends Vue {
   & > .animated-logo {
     width: 170px;
     width: min(170px, 30%);
+    width: clamp(120px, 30%, 170px);
   }
 
   & > .loading-text {
