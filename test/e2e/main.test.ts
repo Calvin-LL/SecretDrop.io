@@ -622,7 +622,7 @@ function testSnapshot(
                   : process.platform,
                 browserType,
                 `${viewport.width}×${viewport.height}`,
-                colorScheme
+                getColorSchemeFolder(colorScheme)
               ),
               customDiffDir: path.join(
                 __dirname,
@@ -633,7 +633,7 @@ function testSnapshot(
                 "__diff_output__",
                 browserType,
                 `${viewport.width}×${viewport.height}`,
-                colorScheme
+                getColorSchemeFolder(colorScheme)
               ),
             });
 
@@ -651,6 +651,13 @@ function testSnapshot(
       );
     });
   });
+}
+
+function getColorSchemeFolder(
+  colorScheme: typeof COLOR_SCHEMES[number]
+): typeof COLOR_SCHEMES[number] {
+  if (colorScheme === "no-preference") return "light";
+  return colorScheme;
 }
 
 async function scrollToTop(page: playwright.Page) {
