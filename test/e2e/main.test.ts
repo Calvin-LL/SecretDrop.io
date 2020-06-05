@@ -629,10 +629,10 @@ function testSnapshot(
               customDiffDir: path.join(
                 __dirname,
                 "__image_snapshots__",
+                "__diff_output__",
                 process.env.CI && process.platform === "darwin"
                   ? `ci_${process.platform}`
                   : process.platform,
-                "__diff_output__",
                 browserType,
                 `${viewport.width}×${viewport.height}`,
                 getColorSchemeFolder(colorScheme)
