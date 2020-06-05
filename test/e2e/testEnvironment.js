@@ -63,6 +63,7 @@ class TestEnvironment extends NodeEnvironment {
           "--no-sandbox",
           "--disable-setuid-sandbox",
           "--disable-gpu",
+          "--disable-font-subpixel-positioning",
           "--font-render-hinting=none",
         ];
       case "firefox":
