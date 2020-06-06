@@ -598,22 +598,21 @@ function testSnapshot(
         await page.setViewportSize(viewport);
       });
 
-      test.each(COLOR_SCHEMES)(
-        `${viewport.width}×${viewport.height} %s`,
-        async (colorScheme) => {
-          const page = pageGetter();
+      test(`${viewport.width}×${viewport.height} %s`, async () => {
+        const page = pageGetter();
 
-          await page.emulateMedia({ colorScheme });
+        await page.mouse.move(0, 0);
+        await page.mouse.click(0, 0);
+        await page.evaluate(() => {
+          (document.activeElement as HTMLElement | undefined)?.blur();
+        });
 
-          await page.mouse.move(0, 0);
-          await page.mouse.click(0, 0);
-          await page.evaluate(() => {
-            (document.activeElement as HTMLElement | undefined)?.blur();
-          });
+        await scrollToTop(page);
 
-          await scrollToTop(page);
+        while (true) {
+          for (const colorScheme of COLOR_SCHEMES) {
+            await page.emulateMedia({ colorScheme });
 
-          while (true) {
             expect(await page.screenshot()).toMatchImageSnapshot({
               dumpDiffToConsole: !!process.env.CI,
               customSnapshotsDir: path.join(
@@ -653,19 +652,19 @@ function testSnapshot(
                 );
               },
             });
-
-            if (
-              (fullPage && (await hasReachBottom(page))) ||
-              (!fullPage && (await hasGonePastMain(page)))
-            ) {
-              await scrollToTop(page);
-              break;
-            }
-
-            await scrollDownOnePage(page);
           }
+
+          if (
+            (fullPage && (await hasReachBottom(page))) ||
+            (!fullPage && (await hasGonePastMain(page)))
+          ) {
+            await scrollToTop(page);
+            break;
+          }
+
+          await scrollDownOnePage(page);
         }
-      );
+      });
     });
   });
 }
