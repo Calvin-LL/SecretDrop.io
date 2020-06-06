@@ -598,7 +598,7 @@ function testSnapshot(
         await page.setViewportSize(viewport);
       });
 
-      test(`${viewport.width}×${viewport.height} %s`, async () => {
+      test(`${viewport.width}×${viewport.height}`, async () => {
         const page = pageGetter();
 
         await page.mouse.move(0, 0);
