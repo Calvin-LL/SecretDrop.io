@@ -37,7 +37,7 @@ class TestEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    this._browser.close();
+    await this._browser.close();
     await super.teardown();
   }
 
