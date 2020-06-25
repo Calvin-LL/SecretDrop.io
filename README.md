@@ -1,4 +1,6 @@
-# SecretDrop.io [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![CI](https://github.com/CoolCyberBrain/SecretDrop.io/workflows/CI/badge.svg?branch=master)](https://github.com/CoolCyberBrain/SecretDrop.io/actions)
+# SecretDrop.io
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![CI](https://github.com/CoolCyberBrain/SecretDrop.io/workflows/CI/badge.svg?branch=master)](https://github.com/CoolCyberBrain/SecretDrop.io/actions)
 
 Public key encryption for everyone at https://SecretDrop.io
 
