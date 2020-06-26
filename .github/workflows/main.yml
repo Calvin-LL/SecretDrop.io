@@ -87,8 +87,8 @@ jobs:
       - name: Upload Screenshots
         uses: actions/upload-artifact@v1
         with:
-          name: linux-${{ matrix.browser }}-${{ matrix.device }}
-          path: ./test/e2e/__image_snapshots__/linux
+          name: ci_linux-${{ matrix.browser }}-${{ matrix.device }}
+          path: ./test/e2e/__image_snapshots__/ci_linux
 
   e2e_tests_macos:
     needs: build
