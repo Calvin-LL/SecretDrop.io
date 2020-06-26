@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
+import kebabCase from "lodash/kebabCase";
 
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import playwright from "playwright";
@@ -208,8 +209,6 @@ describe("encrypt-decrypt", () => {
 
     describe("file encryption", () => {
       test("encrypt files", async () => {
-        if (browserType === "webkit") return;
-
         const [fileChooser] = await Promise.all([
           encryptPage.waitForEvent("filechooser"),
           await encryptPage.click(
@@ -386,8 +385,6 @@ describe("encrypt-decrypt", () => {
 
     describe("file decryption", () => {
       test("decrypt files", async () => {
-        if (browserType === "webkit") return;
-
         const decryptMD5 = [];
         const [fileChooser] = await Promise.all([
           decryptPage.waitForEvent("filechooser"),
@@ -532,8 +529,6 @@ function testCopyAndDownload(
   });
 
   test("download", async () => {
-    if (browserType === "webkit") return;
-
     const page = pageGetter();
     const expectedString = expectedStringGetter();
 
@@ -597,6 +592,8 @@ function testSnapshot(
       });
 
       test(`${viewport.width}×${viewport.height}`, async () => {
+        let scrollCounter = 0;
+
         const page = pageGetter();
 
         await page.mouse.move(0, 0);
@@ -613,12 +610,16 @@ function testSnapshot(
 
             expect(await page.screenshot()).toMatchImageSnapshot({
               dumpDiffToConsole: !!process.env.CI,
+              customSnapshotIdentifier: ({ testPath, currentTestName }) =>
+                kebabCase(
+                  `${path.basename(
+                    testPath
+                  )}-${currentTestName}-${scrollCounter}`
+                ),
               customSnapshotsDir: path.join(
                 __dirname,
                 "__image_snapshots__",
-                process.env.CI && process.platform === "darwin"
-                  ? `ci_${process.platform}`
-                  : process.platform,
+                process.env.CI ? `ci_${process.platform}` : process.platform,
                 browserType,
                 `${viewport.width}×${viewport.height}`,
                 getColorSchemeFolder(colorScheme)
@@ -627,9 +628,7 @@ function testSnapshot(
                 __dirname,
                 "__image_snapshots__",
                 "__diff_output__",
-                process.env.CI && process.platform === "darwin"
-                  ? `ci_${process.platform}`
-                  : process.platform,
+                process.env.CI ? `ci_${process.platform}` : process.platform,
                 browserType,
                 `${viewport.width}×${viewport.height}`,
                 getColorSchemeFolder(colorScheme)
@@ -646,6 +645,8 @@ function testSnapshot(
           }
 
           await scrollDownOnePage(page);
+
+          scrollCounter++;
         }
       });
     });
