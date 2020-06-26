@@ -78,11 +78,16 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: npm test e2e
+          command: npm test e2e -- -u
         env:
           BROWSER: ${{ matrix.browser }}
           DEVICE: ${{ matrix.device }}
           TEST_WITH_DIST: true
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v1
+        with:
+          name: linux
+          path: ./test/e2e/__image_snapshots__/linux
 
   e2e_tests_macos:
     needs: build
@@ -113,16 +118,16 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: npm test e2e
+          command: npm test e2e -- -u
         env:
           BROWSER: ${{ matrix.browser }}
           DEVICE: ${{ matrix.device }}
           TEST_WITH_DIST: true
-      # - name: Upload Screenshots
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: ci_darwin
-      #     path: ./test/e2e/__image_snapshots__/ci_darwin
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v1
+        with:
+          name: ci_darwin
+          path: ./test/e2e/__image_snapshots__/ci_darwin
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
