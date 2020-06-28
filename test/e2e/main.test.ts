@@ -487,45 +487,18 @@ function testCopyAndDownload(
   test("copy", async () => {
     const page = pageGetter();
     const expectedString = expectedStringGetter();
-    const copyEventSpy = jest.fn();
-    const mockExecCommand = jest.fn();
-    const copyEventSpyName = getRandomStringOfLength(5);
-    const mockExecCommandName = getRandomStringOfLength(5);
 
-    await page.exposeFunction(copyEventSpyName, copyEventSpy);
-    await page.exposeFunction(mockExecCommandName, mockExecCommand);
+    if (browserType !== "firefox") {
+      await page.click(copyButtonSelector);
 
-    await page.evaluate(
-      ([copyEventSpyName, mockExecCommandName]) => {
-        const tempAddEventListener = HTMLSpanElement.prototype.addEventListener;
+      expect(
+        await page.waitForSelector(".mdc-snackbar.mdc-snackbar--open")
+      ).toBeTruthy();
 
-        //@ts-ignore
-        HTMLSpanElement.prototype.addEventListener = function (type, listener) {
-          if (type === "copy") {
-            //@ts-ignore
-            window[copyEventSpyName](this.innerText);
-          }
-
-          return tempAddEventListener.call(this, type, listener);
-        };
-
-        document.execCommand = (type) => {
-          //@ts-ignore
-          window[mockExecCommandName](type);
-          return true;
-        };
-      },
-      [copyEventSpyName, mockExecCommandName]
-    );
-
-    await page.click(copyButtonSelector);
-
-    expect(
-      await page.waitForSelector(".mdc-snackbar.mdc-snackbar--open")
-    ).toBeTruthy();
-
-    expect(copyEventSpy).toBeCalledWith(expectedString);
-    expect(mockExecCommand).toBeCalledWith("copy");
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+        expectedString
+      );
+    }
   });
 
   test("download", async () => {

@@ -34,7 +34,7 @@ import FullScreenLoadingOverlay from "@/components/GenerateKeyPair/FullScreenLoa
 import LinkCard from "@/components/GenerateKeyPair/LinkCard.vue";
 import KeyPair from "@/core/KeyPair";
 import { downloadAsTxt } from "@/UIHelpers";
-import copy from "copy-to-clipboard";
+import { writeText as copy } from "clipboard-polyfill";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
@@ -88,12 +88,13 @@ export default class GenerateKeyPair extends Vue {
   }
 
   onDecryptLinkCopy() {
-    if (copy(this.fullDecryptLink))
-      this.$root.$emit("show-snackbar", "Copied to clipboard.");
-    else
-      this.$root.$emit(
-        "show-snackbar",
-        "Failed to copy to clipboard. Try copying the link manually."
+    copy(this.fullDecryptLink)
+      .then(() => this.$root.$emit("show-snackbar", "Copied to clipboard."))
+      .catch(() =>
+        this.$root.$emit(
+          "show-snackbar",
+          "Failed to copy to clipboard. Try copying the link manually."
+        )
       );
   }
 }

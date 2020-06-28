@@ -64,7 +64,7 @@ import PrivateKey from "@/core/PrivateKey";
 import CardError from "@/error/CardError";
 import { downloadAsTxt } from "@/UIHelpers";
 import { getPredictedLengthOfDecryptedString } from "@/UIHelpers";
-import copy from "copy-to-clipboard";
+import { writeText as copy } from "clipboard-polyfill";
 import delay from "delay";
 // @ts-ignore
 import { ErrorBoundary } from "vue-error-boundary";
@@ -218,12 +218,13 @@ export default class Decrypt extends Vue {
   onCopyClick() {
     if (this.resultText.length <= 0 || this.loadingAnimationVisible) return;
 
-    if (copy(this.resultText))
-      this.$root.$emit("show-snackbar", "Copied to clipboard.");
-    else
-      this.$root.$emit(
-        "show-snackbar",
-        "Failed to copy to clipboard. Try copying the link manually."
+    copy(this.resultText)
+      .then(() => this.$root.$emit("show-snackbar", "Copied to clipboard."))
+      .catch(() =>
+        this.$root.$emit(
+          "show-snackbar",
+          "Failed to copy to clipboard. Try copying the text manually."
+        )
       );
   }
 
