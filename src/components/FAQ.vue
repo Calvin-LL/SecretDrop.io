@@ -177,12 +177,14 @@
       <p>
         Encrypted messages are of the form:<br />"[encryption side public key
         string],[{[PBKDF2 salt length (4 bytes)][PBKDF2 salt][iv (12
-        bytes)][encrypted binary of lz-utf8 string]} in base64]"
+        bytes)][encrypted binary of lz-utf8 string][authentication tag (16
+        bytes)]} in base64]"
       </p>
       <p>
         Encrypted files are of the form:<br />{[encryption side public key
         length (4 bytes)][encryption side public key][PBKDF2 salt length (4
-        bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary]}
+        bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary][authentication tag
+        (16 bytes)]}
       </p>
     </div>
 
