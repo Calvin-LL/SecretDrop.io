@@ -1,4 +1,6 @@
-const failFast = require("jasmine-fail-fast");
+if (process.env.CI) {
+  const failFast = require("jasmine-fail-fast");
 
-const jasmineEnv = jasmine.getEnv();
-jasmineEnv.addReporter(failFast.init());
+  const jasmineEnv = jasmine.getEnv();
+  jasmineEnv.addReporter(failFast.init());
+}
