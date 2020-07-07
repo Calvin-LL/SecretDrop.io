@@ -48,7 +48,7 @@ export default class AesKey {
     if (this.cryptoKey) {
       const iv = getRandomDataOfLength(12);
       const encryptStringBuffer = await window.crypto.subtle.encrypt(
-        { name: "AES-GCM", iv },
+        { name: "AES-GCM", iv, tagLength: 128 },
         this.cryptoKey,
         new Uint8Array(arrayBuffer)
       );
@@ -71,7 +71,7 @@ export default class AesKey {
         encryptedUint8Array.length
       );
       const decryptStringBuffer = await window.crypto.subtle.decrypt(
-        { name: "AES-GCM", iv },
+        { name: "AES-GCM", iv, tagLength: 128 },
         this.cryptoKey,
         encodeString
       );
