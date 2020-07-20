@@ -35,7 +35,7 @@
     "autosize": "^4.0.2",
     "clipboard-polyfill": "^3.0.0-pre5",
     "core-js": "^3.6.4",
-    "delay": "^4.3.0",
+    "delay": "^4.4.0",
     "detect-browser": "^5.1.1",
     "elliptic": "^6.5.3",
     "file-icon-vectors": "^1.0.0",
