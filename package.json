@@ -33,7 +33,7 @@
     "@material/snackbar": "^7.0.0",
     "@material/theme": "^7.0.0",
     "autosize": "^4.0.2",
-    "clipboard-polyfill": "^3.0.0-pre5",
+    "clipboard-polyfill": "^3.0.1",
     "core-js": "^3.6.4",
     "delay": "^4.3.0",
     "detect-browser": "^5.1.1",
