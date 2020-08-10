@@ -72,7 +72,7 @@
     "@vue/cli-plugin-router": "^4.4.6",
     "@vue/cli-plugin-typescript": "^4.4.6",
     "@vue/cli-service": "^4.4.6",
-    "babel-jest": "^26.2.1",
+    "babel-jest": "^26.3.0",
     "dart-sass": "^1.25.0",
     "fibers": "^5.0.0",
     "husky": "^4.2.5",
