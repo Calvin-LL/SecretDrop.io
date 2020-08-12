@@ -35,7 +35,7 @@ export default class FullScreenLoadingOverlay extends Vue {
 @use "assets/scss/global";
 
 #full-screen-loading-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
