@@ -104,6 +104,8 @@ export default class GenerateKeyPair extends Vue {
 @use "assets/scss/global";
 
 .home {
+  position: relative;
+
   flex: 1;
 
   display: flex;

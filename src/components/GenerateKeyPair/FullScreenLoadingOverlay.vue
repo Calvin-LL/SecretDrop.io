@@ -19,6 +19,12 @@ export default class FullScreenLoadingOverlay extends Vue {
   invisible = false;
   gone = false;
 
+  mounted() {
+    const distanceFromTop = this.$el.getBoundingClientRect().top;
+
+    (this.$el as HTMLDivElement).style.top = `${-distanceFromTop}px`;
+  }
+
   @Watch("hidden")
   async onHiddenChange(hidden: boolean) {
     if (hidden) {
@@ -37,7 +43,7 @@ export default class FullScreenLoadingOverlay extends Vue {
 #full-screen-loading-overlay {
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: -70px;
   left: 0;
   right: 0;
 
