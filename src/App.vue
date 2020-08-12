@@ -31,18 +31,6 @@ export default Vue.extend({
     FAQ,
     MDCSnackBar,
   },
-  async mounted() {
-    const anchor = window.location.hash;
-    if (anchor) {
-      const anchorElement = document.querySelector(anchor);
-
-      if (anchorElement) {
-        await delay(0);
-        if (anchorElement.getBoundingClientRect().top !== 0)
-          anchorElement.scrollIntoView();
-      }
-    }
-  },
 });
 </script>
 
