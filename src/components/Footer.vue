@@ -20,7 +20,7 @@
         >
         <a
           class="github-link"
-          href="https://github.com/CoolCyberBrain/secretdrop.io"
+          href="https://github.com/Calvin-LL/secretdrop.io"
           target="_blank"
           rel="noopener noreferrer"
           >View on Github

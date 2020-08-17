@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CoolCyberBrain/secretdrop.io.git"
+    "url": "git+https://github.com/Calvin-LL/secretdrop.io.git"
   },
   "author": "Calvin Liang",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/CoolCyberBrain/secretdrop.io/issues"
+    "url": "https://github.com/Calvin-LL/secretdrop.io/issues"
   },
-  "homepage": "https://github.com/CoolCyberBrain/secretdrop.io#readme",
+  "homepage": "https://github.com/Calvin-LL/secretdrop.io#readme",
   "dependencies": {
     "@material/button": "^7.0.0",
     "@material/circular-progress": "^7.0.0",

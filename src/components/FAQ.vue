@@ -132,7 +132,7 @@
       <p>
         The source code for this website is publicly available on
         <a
-          href="https://github.com/CoolCyberBrain/secretdrop.io"
+          href="https://github.com/Calvin-LL/secretdrop.io"
           target="_blank"
           rel="noopener noreferrer"
           >Github</a
