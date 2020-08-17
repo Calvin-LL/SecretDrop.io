@@ -20,9 +20,9 @@ export default class FullScreenLoadingOverlay extends Vue {
   gone = false;
 
   mounted() {
-    const distanceFromTop = this.$el.getBoundingClientRect().top;
+    this.setOverlayTop();
 
-    (this.$el as HTMLDivElement).style.top = `${-distanceFromTop}px`;
+    window.addEventListener("load", this.setOverlayTop);
   }
 
   @Watch("hidden")
@@ -33,6 +33,14 @@ export default class FullScreenLoadingOverlay extends Vue {
       await delay(250);
       this.gone = true;
     }
+  }
+
+  setOverlayTop() {
+    (this.$el as HTMLDivElement).style.top = "0px";
+
+    const distanceFromTop = this.$el.getBoundingClientRect().top;
+
+    (this.$el as HTMLDivElement).style.top = `${-distanceFromTop}px`;
   }
 }
 </script>
