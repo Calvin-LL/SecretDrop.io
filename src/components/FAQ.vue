@@ -149,7 +149,10 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src="@/assets/images/diagram.svg" />
+          <img
+            src="@/assets/images/diagram.svg"
+            alt="Diagram of how SecretDrop.io works"
+          />
         </a>
         Here is a diagram
       </p>
@@ -175,16 +178,44 @@
         https://SecretDrop.io/decrypt/?key=[private key]
       </p>
       <p>
-        Encrypted messages are of the form:<br />"[encryption side public key
-        string],[{[PBKDF2 salt length (4 bytes)][PBKDF2 salt][iv (12
-        bytes)][encrypted binary of lz-utf8 string][authentication tag (16
-        bytes)]} in base64]"
+        Encrypted messages are of the form:
+      </p>
+      <p class="diagram-container">
+        <a
+          :href="require('@/assets/images/message-format.svg')"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="@/assets/images/message-format.svg"
+            alt="Diagram of the format of a encrypted message"
+          />
+        </a>
       </p>
       <p>
-        Encrypted files are of the form:<br />{[encryption side public key
-        length (4 bytes)][encryption side public key][PBKDF2 salt length (4
-        bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary][authentication tag
-        (16 bytes)]}
+        [encryption side public key string],[{[PBKDF2 salt length (4
+        bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary of lz-utf8
+        string][authentication tag (16 bytes)]} in base64]"
+      </p>
+      <p>
+        Encrypted files are of the form:
+      </p>
+      <p class="diagram-container">
+        <a
+          :href="require('@/assets/images/file-format.svg')"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="@/assets/images/file-format.svg"
+            alt="Diagram of the format of a encrypted file"
+          />
+        </a>
+      </p>
+      <p>
+        {[encryption side public key length (4 bytes)][encryption side public
+        key][PBKDF2 salt length (4 bytes)][PBKDF2 salt][iv (12 bytes)][encrypted
+        binary][authentication tag (16 bytes)]}
       </p>
     </div>
 
@@ -326,6 +357,7 @@ export default Vue.extend({
         width: 100%;
 
         & > img {
+          width: 100%;
           background-color: white;
         }
       }
