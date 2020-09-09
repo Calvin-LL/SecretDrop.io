@@ -61,7 +61,7 @@
     "@types/elliptic": "^6.4.12",
     "@types/file-saver": "^2.0.1",
     "@types/jest": "^26.0.13",
-    "@types/jest-image-snapshot": "^3.1.0",
+    "@types/jest-image-snapshot": "^4.1.0",
     "@types/jsdom": "^16.2.4",
     "@types/lodash": "^4.14.161",
     "@types/mime": "^2.0.3",
