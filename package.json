@@ -40,7 +40,7 @@
     "elliptic": "^6.5.3",
     "file-icon-vectors": "^1.0.0",
     "file-saver": "^2.0.2",
-    "file-selector": "^0.1.12",
+    "file-selector": "^0.1.13",
     "file-type": "^15.0.0",
     "file-upload-thumbnail": "^0.1.1",
     "filesize.js": "^2.0.0",
