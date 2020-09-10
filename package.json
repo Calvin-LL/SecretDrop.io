@@ -70,7 +70,7 @@
     "@types/webpack-env": "^1.15.2",
     "@vue/cli-plugin-babel": "^4.5.4",
     "@vue/cli-plugin-router": "^4.5.4",
-    "@vue/cli-plugin-typescript": "^4.5.4",
+    "@vue/cli-plugin-typescript": "^4.5.5",
     "@vue/cli-service": "^4.5.4",
     "babel-jest": "^26.3.0",
     "dart-sass": "^1.25.0",
