@@ -740,13 +740,11 @@ async function removeAnimations(page: playwright.Page) {
 }
 
 async function downloadToMD5String(download: playwright.Download) {
-  const stream = (await download.createReadStream())!;
-  const chunks: Uint8Array[] = [];
-  const fileBuffer: Buffer = await new Promise((resolve, reject) => {
-    stream.on("data", (chunk: Uint8Array) => chunks.push(chunk));
-    stream.on("error", reject);
-    stream.on("end", () => resolve(Buffer.concat(chunks)));
-  });
+  const filePath = await download.path();
+
+  if (!filePath) throw "can't get file path";
+
+  const fileBuffer = fs.readFileSync(filePath);
 
   return crypto.createHash("md5").update(fileBuffer).digest("base64");
 }
