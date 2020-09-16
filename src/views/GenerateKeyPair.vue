@@ -16,7 +16,7 @@
       <LinkCard
         id="decryption-link-card"
         title="Decryption Link"
-        subtitle="This link can only decrypt files and messages encrypted with the link in the green box. <span class='warning'>Never share this link.</span>"
+        subtitle="This link can only decrypt files and messages encrypted with the link in the other box. <span class='warning'>Never share this link.</span>"
         :baseUrl="decryptLinkBaseUrl"
         :keyString="privatekeyString"
         @download="onDecryptLinkDownload"
