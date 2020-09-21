@@ -94,7 +94,7 @@
           iMessage service, it is used to encrypt DNS information with DNSCurve,
           and it is the preferred method for authentication for secure web
           browsing over SSL/TLS."
-          <div style="text-align: end;">
+          <div style="text-align: end">
             -<a
               href="https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/"
               target="_blank"
@@ -171,15 +171,13 @@
       </p>
       <p>
         Encryption links are of the form:<br />
-        https://SecretDrop.io/encrypt/?key=[public key]
+        https://SecretDrop.io/encrypt/#key=[public key]
       </p>
       <p>
         Decryption links are of the form:<br />
-        https://SecretDrop.io/decrypt/?key=[private key]
+        https://SecretDrop.io/decrypt/#key=[private key]
       </p>
-      <p>
-        Encrypted messages are of the form:
-      </p>
+      <p>Encrypted messages are of the form:</p>
       <p class="diagram-container">
         <a
           :href="require('@/assets/images/message-format.svg')"
@@ -197,9 +195,7 @@
         bytes)][PBKDF2 salt][iv (12 bytes)][encrypted binary of lz-utf8
         string][authentication tag (16 bytes)]} in base64]"
       </p>
-      <p>
-        Encrypted files are of the form:
-      </p>
+      <p>Encrypted files are of the form:</p>
       <p class="diagram-container">
         <a
           :href="require('@/assets/images/file-format.svg')"
