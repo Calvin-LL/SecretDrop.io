@@ -41,8 +41,8 @@ import { Component, Vue } from "vue-property-decorator";
   components: { LinkCard, FullScreenLoadingOverlay },
 })
 export default class GenerateKeyPair extends Vue {
-  encryptLinkBaseUrl = `${window.location.origin}/encrypt?key=`;
-  decryptLinkBaseUrl = `${window.location.origin}/decrypt?key=`;
+  encryptLinkBaseUrl = `${window.location.origin}/encrypt#key=`;
+  decryptLinkBaseUrl = `${window.location.origin}/decrypt#key=`;
 
   publicKeyString = "";
   privatekeyString = "";

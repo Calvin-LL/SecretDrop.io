@@ -108,7 +108,9 @@ export default class Decrypt extends Vue {
   randomTextLength = 0;
 
   created() {
-    this.privateKeyString = this.$route.query.key as string;
+    const parsedHash = new URLSearchParams(this.$route.hash.substr(1));
+
+    this.privateKeyString = parsedHash.get("key") ?? undefined;
   }
 
   async mounted() {

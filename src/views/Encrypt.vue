@@ -114,7 +114,9 @@ export default class Encrypt extends Vue {
   randomTextLength = 0;
 
   created() {
-    this.publicKeyString = this.$route.query.key as string;
+    const parsedHash = new URLSearchParams(this.$route.hash.substr(1));
+
+    this.publicKeyString = parsedHash.get("key") ?? undefined;
   }
 
   async mounted() {
