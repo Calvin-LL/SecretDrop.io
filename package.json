@@ -53,7 +53,7 @@
     "vue-async-computed": "^3.9.0",
     "vue-class-component": "^7.2.6",
     "vue-error-boundary": "^1.0.3",
-    "vue-property-decorator": "^9.0.0",
+    "vue-property-decorator": "^9.0.2",
     "vue-router": "^3.4.3",
     "webcrypto-shim": "^0.1.6"
   },
