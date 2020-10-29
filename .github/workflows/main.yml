@@ -79,6 +79,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
         uses: nick-invision/retry@v1
         with:
@@ -120,6 +121,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - name: Run e2e tests ${{ matrix.browser }} ${{ matrix.device }}
         uses: nick-invision/retry@v1
         with:
@@ -146,6 +148,7 @@ jobs:
   #       uses: actions/download-artifact@v2
   #       with:
   #         name: dist
+  #         path: dist
   #     - name: Deploy to Netlify
   #       uses: netlify/actions/cli@master
   #       with:
@@ -163,6 +166,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - name: Deploy preview to Netlify
         uses: netlify/actions/cli@master
         with:
