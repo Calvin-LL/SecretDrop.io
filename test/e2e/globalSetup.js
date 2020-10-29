@@ -6,7 +6,7 @@ module.exports = async function () {
   if (process.env.TEST_WITH_DIST) {
     await setup([
       {
-        command: `serve ./dist -l ${PORT}`,
+        command: `serve ./dist -l ${PORT} -s`,
         launchTimeout: 60000,
         port: PORT,
         options: {
