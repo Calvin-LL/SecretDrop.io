@@ -41,7 +41,7 @@
     "file-icon-vectors": "^1.0.0",
     "file-saver": "^2.0.2",
     "file-selector": "^0.2.2",
-    "file-type": "^16.0.0",
+    "file-type": "^16.0.1",
     "file-upload-thumbnail": "^0.1.1",
     "filesize.js": "^2.0.0",
     "lodash.kebabcase": "^4.1.1",
