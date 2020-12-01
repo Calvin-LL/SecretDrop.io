@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Calvin-LL/secretdrop.io#readme",
   "dependencies": {
-    "@material/button": "^7.0.0",
+    "@material/button": "^8.0.0",
     "@material/circular-progress": "^7.0.0",
     "@material/fab": "^7.0.0",
     "@material/icon-button": "^7.0.0",
