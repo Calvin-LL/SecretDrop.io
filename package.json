@@ -29,7 +29,7 @@
     "@material/circular-progress": "^7.0.0",
     "@material/fab": "^7.0.0",
     "@material/icon-button": "^7.0.0",
-    "@material/ripple": "^7.0.0",
+    "@material/ripple": "^10.0.0",
     "@material/snackbar": "^7.0.0",
     "@material/theme": "^7.0.0",
     "autosize": "^4.0.2",
