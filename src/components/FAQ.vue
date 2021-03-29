@@ -241,7 +241,7 @@
     <div>
       <h2>"Who made this?"</h2>
       <p>
-        I did. Feel free to visit
+        I did. Check out
         <a href="https://calvin.sh" target="_blank" rel="noopener noreferrer"
           >my website</a
         >.
