@@ -88,17 +88,17 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: npm test e2e
-          # command: npm test e2e -- -u
+          # command: npm test e2e
+          command: npm test e2e -- -u
         env:
           BROWSER: ${{ matrix.browser }}
           DEVICE: ${{ matrix.device }}
           TEST_WITH_DIST: true
-      # - name: Upload Screenshots
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ci_linux-${{ matrix.browser }}-${{ matrix.device }}
-      #     path: ./test/e2e/__image_snapshots__/ci_linux
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: ci_linux-${{ matrix.browser }}-${{ matrix.device }}
+          path: ./test/e2e/__image_snapshots__/ci_linux
 
   e2e_tests_macos:
     needs: build
@@ -131,35 +131,35 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: npm test e2e
-          # command: npm test e2e -- -u
+          # command: npm test e2e
+          command: npm test e2e -- -u
         env:
           BROWSER: ${{ matrix.browser }}
           DEVICE: ${{ matrix.device }}
           TEST_WITH_DIST: true
-      # - name: Upload Screenshots
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ci_darwin-${{ matrix.browser }}-${{ matrix.device }}
-      #     path: ./test/e2e/__image_snapshots__/ci_darwin
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: ci_darwin-${{ matrix.browser }}-${{ matrix.device }}
+          path: ./test/e2e/__image_snapshots__/ci_darwin
 
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [build, unit_tests, e2e_tests_ubuntu, e2e_tests_macos]
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Download build
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: dist
-      - name: Deploy to Netlify
-        uses: netlify/actions/cli@master
-        with:
-          args: deploy --prod --dir=dist
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  # deploy:
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   needs: [build, unit_tests, e2e_tests_ubuntu, e2e_tests_macos]
+  #   runs-on: ubuntu-18.04
+  #   steps:
+  #     - name: Download build
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: dist
+  #         path: dist
+  #     - name: Deploy to Netlify
+  #       uses: netlify/actions/cli@master
+  #       with:
+  #         args: deploy --prod --dir=dist
+  #       env:
+  #         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  #         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
   deploy_preview:
     if: github.event_name == 'pull_request'
