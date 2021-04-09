@@ -39,7 +39,7 @@ export default class LinkCard extends Vue {
     animateAddTextInElement(
       this.baseUrl,
       this.keyString,
-      3000,
+      1500,
       (s) => {
         this.urlToShow = s;
       },
