@@ -128,7 +128,7 @@ export default class Decrypt extends Vue {
 
     this.privateKey = new PrivateKey(this.privateKeyString);
 
-    await delay(3000);
+    await delay(1500);
     this.loadingAnimationVisible = false;
   }
 

@@ -134,7 +134,7 @@ export default class Encrypt extends Vue {
 
     this.publicKey = new PublicKey(this.publicKeyString);
 
-    await delay(3000);
+    await delay(1500);
     this.loadingAnimationVisible = false;
   }
 
