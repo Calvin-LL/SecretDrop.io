@@ -45,7 +45,7 @@ body {
   flex-direction: column;
   margin: 0;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
-  min-width: 260px;
+  min-width: 320px;
   min-height: 100vh;
   overflow: auto;
   overflow: overlay;
