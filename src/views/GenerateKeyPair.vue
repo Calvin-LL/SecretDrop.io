@@ -3,7 +3,7 @@
     <div class="card-container">
       <LinkCard
         id="encryption-link-card"
-        title="Encryption Link"
+        title="Public Encryption Link"
         subtitle="Files and messages encrypted with this link can only be decrypted with the link in the other box. Share this link."
         :baseUrl="encryptLinkBaseUrl"
         :keyString="publicKeyString"
@@ -15,7 +15,7 @@
     <div class="card-container">
       <LinkCard
         id="decryption-link-card"
-        title="Decryption Link"
+        title="Private Decryption Link"
         subtitle="This link can only decrypt files and messages encrypted with the link in the other box. <span class='warning'>Never share this link.</span>"
         :baseUrl="decryptLinkBaseUrl"
         :keyString="privatekeyString"
