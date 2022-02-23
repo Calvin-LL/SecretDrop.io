@@ -1,63 +1,21 @@
-<template>
-  <div id="app">
-    <div id="app-main-container">
-      <TopBar />
-      <router-view />
-    </div>
-    <FAQ />
-    <Footer />
-
-    <MDCSnackBar />
-  </div>
-</template>
-
-<script lang="ts">
-import FAQ from "@/components/FAQ.vue";
-import Footer from "@/components/Footer.vue";
-import MDCSnackBar from "@/components/MDC/MDCSnackBar.vue";
-import TopBar from "@/components/TopBar.vue";
-import delay from "delay";
-// @ts-ignore
-import smoothscroll from "smoothscroll-polyfill";
-import Vue from "vue";
-
-smoothscroll.polyfill();
-
-export default Vue.extend({
-  name: "App",
-  components: {
-    TopBar,
-    Footer,
-    FAQ,
-    MDCSnackBar,
-  },
-});
+<script setup lang="ts">
+// This starter template is using Vue 3 <script setup> SFCs
+// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
+import HelloWorld from './components/HelloWorld.vue'
 </script>
 
-<style lang="scss">
-@use "assets/scss/global";
+<template>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+</template>
 
-body {
-  @include global.primary-text-auto;
-  @include global.background-auto;
-
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  font-family: "Roboto", Arial, Helvetica, sans-serif;
-  min-width: 320px;
-  min-height: 100vh;
-  overflow: auto;
-  overflow: overlay;
-}
-
-#app-main-container {
-  width: 100%;
-  min-height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
