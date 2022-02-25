@@ -1,0 +1,64 @@
+@use "colors";
+
+@mixin encrypt-card-background-auto {
+  background-color: colors.$encrypt-card-background;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: colors.$encrypt-card-background-dark;
+  }
+}
+
+@mixin decrypt-card-background-auto {
+  background-color: colors.$decrypt-card-background;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: colors.$decrypt-card-background-dark;
+  }
+}
+
+@mixin background-auto {
+  background-color: colors.$background;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: colors.$background-dark;
+  }
+}
+
+@mixin dark-background-auto {
+  background-color: colors.$dark-background;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: colors.$dark-background-dark;
+  }
+}
+
+@mixin primary-text-auto {
+  color: colors.$primary-text-color;
+
+  @media (prefers-color-scheme: dark) {
+    color: colors.$primary-text-color-dark;
+  }
+}
+
+@mixin secondary-text-auto {
+  color: colors.$secondary-text-color;
+
+  @media (prefers-color-scheme: dark) {
+    color: colors.$secondary-text-color-dark;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

@@ -16,6 +16,11 @@ module.exports = {
   ],
   plugins: ["import"],
   rules: {
+    "vue/html-self-closing": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/require-default-prop": "off",
+
     "no-undef": "off",
     "no-console": ["warn", { allow: ["warn", "error"] }],
     "sort-imports": [

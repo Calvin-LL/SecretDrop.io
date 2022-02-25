@@ -1,0 +1,6 @@
+$transition-duration-minuscule: 180ms;
+$transition-duration-tiny: 180ms;
+$transition-duration-small: 280ms;
+$transition-timing-function-standard: cubic-bezier(0.4, 0, 0.2, 1);
+$transition-timing-function-deceleration: cubic-bezier(0, 0, 0.2, 1);
+$transition-timing-function-acceleration: cubic-bezier(0.4, 0, 1, 1);
