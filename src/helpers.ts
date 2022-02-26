@@ -24,7 +24,14 @@ export function animateAddTextInElement(
   const stringLength = addedString.length;
   const startTimestamp = Date.now();
 
-  if (startingString && startingString.length > 0) onUpdate?.(startingString);
+  if (startingString && startingString.length > 0) {
+    onUpdate?.(
+      fillStringWithRandom(
+        startingString,
+        (startingString + addedString).length
+      )
+    );
+  }
 
   const intervalId = setInterval(() => {
     const timeElapsed = Date.now() - startTimestamp;
