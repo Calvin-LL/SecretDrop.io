@@ -6,13 +6,15 @@ withDefaults(
     iconStyle?: "round" | "outlined";
     icon?: string;
     text?: string;
-    raised?: boolean;
+    buttonStyle?: "raised" | "flat" | "filled";
     to?: RouteLocationRaw;
     textColor?: "vivid" | "primary" | "secondary";
+    tintedBackground?: boolean;
   }>(),
   {
     iconStyle: "round",
-    textColor: "vivid",
+    textColor: "primary",
+    style: "flat",
   }
 );
 </script>
@@ -21,13 +23,28 @@ withDefaults(
   <router-link
     v-if="to"
     class="button"
-    :class="[{ raised }, textColor]"
+    :class="[
+      buttonStyle,
+      `text-color-${textColor}`,
+      { icon },
+      { tinted: tintedBackground },
+    ]"
     :to="to"
   >
     <span class="icon" :class="`material-icons-${iconStyle}`">{{ icon }}</span>
     <span class="label">{{ text }}</span>
   </router-link>
-  <button v-else class="button" :class="[{ raised }, textColor]" :to="to">
+  <button
+    v-else
+    class="button"
+    :class="[
+      buttonStyle,
+      `text-color-${textColor}`,
+      { icon },
+      { tinted: tintedBackground },
+    ]"
+    :to="to"
+  >
     <span class="icon" :class="`material-icons-${iconStyle}`">{{ icon }}</span>
     <span class="label">{{ text }}</span>
   </button>
@@ -64,50 +81,71 @@ withDefaults(
   transition-duration: transitions.$transition-duration-tiny;
   transition-timing-function: transitions.$transition-timing-function-standard;
 
-  &.vivid {
+  &.text-color-vivid {
     color: colors.$theme-color;
   }
 
-  &.primary {
+  &.text-color-primary {
     @include global.primary-text-auto;
   }
 
-  &.secondary {
+  &.text-color-secondary {
     @include global.secondary-text-auto;
   }
 
+  &.icon {
+    min-width: unset;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 24px;
+  }
+
   &:hover {
-    background-color: rgba(colors.$theme-color, 0.08);
+    background-color: rgba(colors.$primary-text-color, 0.08);
+
+    &.tinted {
+      background-color: rgba(colors.$theme-color, 0.08);
+    }
   }
 
   &:focus-visible {
-    background-color: rgba(colors.$theme-color, 0.12);
+    background-color: rgba(colors.$primary-text-color, 0.12);
+
+    &.tinted {
+      background-color: rgba(colors.$theme-color, 0.12);
+    }
   }
 
   &:active {
-    background-color: rgba(colors.$theme-color, 0.24);
+    background-color: rgba(colors.$primary-text-color, 0.24);
+
+    &.tinted {
+      background-color: rgba(colors.$theme-color, 0.24);
+    }
   }
 
   &.raised {
-    @include shadows.shadow(1, colors.$theme-color);
+    @include shadows.shadow(1, colors.$theme-color-bright);
 
     background: colors.$theme-color;
     color: white;
 
     &:hover {
-      @include shadows.shadow(4, colors.$theme-color);
+      @include shadows.shadow(4, colors.$theme-color-bright);
 
       background-color: color.scale(colors.$theme-color, $lightness: 8%);
     }
 
     &:focus-visible {
-      @include shadows.shadow(4, colors.$theme-color);
+      @include shadows.shadow(4, colors.$theme-color-bright);
 
       background-color: color.scale(colors.$theme-color, $lightness: 12%);
     }
 
     &:active {
-      @include shadows.shadow(8, colors.$theme-color);
+      @include shadows.shadow(8, colors.$theme-color-bright);
 
       background-color: color.scale(colors.$theme-color, $lightness: 24%);
     }

@@ -23,6 +23,10 @@ import FaqSection from "@/components/FaqSection.vue";
 @use "@fontsource/inter/variable-full";
 @use "material-icons/iconfont/material-icons.css";
 
+.icon {
+  user-select: none;
+}
+
 body {
   @include global.primary-text-auto;
   @include global.background-auto;

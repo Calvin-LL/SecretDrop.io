@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { scrollTo } from "@/helpers";
 import Button from "@/components/shared/Button.vue";
 import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
+
+function scrollToFaq() {
+  scrollTo("#faq");
+}
 </script>
 
 <template>
@@ -13,8 +18,17 @@ import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
         </router-link>
       </header>
       <nav class="button-container">
-        <Button text="Generate new key pair" :to="{ path: '/' }" raised />
-        <Button text="FAQ" text-color="vivid" />
+        <Button
+          text="Generate new key pair"
+          :to="{ path: '/' }"
+          button-style="raised"
+        />
+        <Button
+          text="FAQ"
+          text-color="vivid"
+          tinted-background
+          @click="scrollToFaq"
+        />
       </nav>
     </div>
   </div>

@@ -1,21 +1,5 @@
 @use "colors";
 
-@mixin encrypt-card-background-auto {
-  background-color: colors.$encrypt-card-background;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: colors.$encrypt-card-background-dark;
-  }
-}
-
-@mixin decrypt-card-background-auto {
-  background-color: colors.$decrypt-card-background;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: colors.$decrypt-card-background-dark;
-  }
-}
-
 @mixin background-auto {
   background-color: colors.$background;
 

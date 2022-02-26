@@ -56,25 +56,25 @@ function scrollToTop() {
   transition-duration: transitions.$transition-duration-small;
   transition-timing-function: transitions.$transition-timing-function-standard;
 
-  @include shadows.shadow(6, colors.$theme-color);
+  @include shadows.shadow(6, colors.$theme-color-bright);
 
   background: colors.$theme-color;
   color: white;
 
   &:hover {
-    @include shadows.shadow(8, colors.$theme-color);
+    @include shadows.shadow(8, colors.$theme-color-bright);
 
     background-color: color.scale(colors.$theme-color, $lightness: 8%);
   }
 
   &:focus-visible {
-    @include shadows.shadow(8, colors.$theme-color);
+    @include shadows.shadow(8, colors.$theme-color-bright);
 
     background-color: color.scale(colors.$theme-color, $lightness: 12%);
   }
 
   &:active {
-    @include shadows.shadow(12, colors.$theme-color);
+    @include shadows.shadow(12, colors.$theme-color-bright);
 
     background-color: color.scale(colors.$theme-color, $lightness: 24%);
   }

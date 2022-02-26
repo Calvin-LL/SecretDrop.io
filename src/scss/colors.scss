@@ -1,7 +1,10 @@
 $encrypt-color: #43a047;
-$decrypt-color: #ffc107;
+$encrypt-color-bright: #00c853;
+$decrypt-color: #f44336;
+$decrypt-color-bright: #d50000;
 
 $theme-color: #43a047;
+$theme-color-bright: #00c853;
 
 // light
 $primary-text-color: rgba(#000, 0.87);
@@ -9,8 +12,9 @@ $secondary-text-color: rgba(#000, 0.54);
 $disabled-text-color: rgba(#000, 0.38);
 $background: #fafafa;
 $dark-background: #e0e0e0;
-$encrypt-card-background: #f1f8e9;
-$decrypt-card-background: #fff8e1;
+$warning-color: #d50000;
+$encrypt-card-background: #ebffeb;
+$decrypt-card-background: #ffebeb;
 
 // dark
 $primary-text-color-dark: #fff;
@@ -18,7 +22,8 @@ $secondary-text-color-dark: rgba(#fff, 0.7);
 $disabled-text-color-dark: rgba(#fff, 0.5);
 $background-dark: #303030;
 $dark-background-dark: #212121;
-$encrypt-card-background-dark: #273a12;
-$decrypt-card-background-dark: #4b3900;
+$warning-color-dark: #ff7070;
+$encrypt-card-background-dark: #005600;
+$decrypt-card-background-dark: #560000;
 
 $overlay-color: rgba(#000000, 0.4);
