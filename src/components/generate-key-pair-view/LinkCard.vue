@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 
 import Card from "../shared/Card.vue";
 
-import { showSnackBar } from "@/snack-bar-manager";
+import { showSnackbar } from "@/snackbar-manager";
 import { animateAddTextInElement, downloadAsTxt } from "@/helpers";
 import Button from "@/components/shared/Button.vue";
 
@@ -55,9 +55,9 @@ async function copyLink() {
   try {
     await navigator.clipboard.writeText(url);
 
-    await showSnackBar("Link copied to clipboard");
+    await showSnackbar("Link copied to clipboard");
   } catch (error) {
-    await showSnackBar("Failed to copy link to clipboard.");
+    await showSnackbar("Failed to copy link to clipboard.");
   }
 }
 </script>

@@ -1,5 +1,9 @@
 import { saveAs } from "file-saver";
 
+export function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function scrollTo(selector: string): void {
   scrollToElement(document.querySelector(selector) as Element);
 }
