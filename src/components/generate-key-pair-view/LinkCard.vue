@@ -111,6 +111,8 @@ async function copyLink() {
   margin-bottom: 16px;
 
   & > a {
+    @include global.link-text-auto;
+
     font-family: "Roboto Mono", monospace;
 
     transition-property: color;
@@ -119,11 +121,6 @@ async function copyLink() {
 
     overflow-wrap: break-word;
     word-break: break-all;
-    color: #1976d2;
-
-    &:visited {
-      color: #512da8;
-    }
 
     &.loading {
       @include global.primary-text-auto;

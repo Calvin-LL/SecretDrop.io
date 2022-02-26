@@ -32,6 +32,22 @@
   }
 }
 
+@mixin link-text-auto {
+  color: colors.$link-text-color;
+
+  &:visited {
+    color: colors.$link-text-color-visited;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: colors.$link-text-color-dark;
+
+    &:visited {
+      color: colors.$link-text-color-visited-dark;
+    }
+  }
+}
+
 @mixin flex-center {
   display: flex;
   flex-direction: column;

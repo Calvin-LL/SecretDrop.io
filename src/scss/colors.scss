@@ -8,24 +8,28 @@ $theme-color-bright: #00c853;
 $primary-text-color: rgba(#000, 0.87);
 $secondary-text-color: rgba(#000, 0.54);
 $disabled-text-color: rgba(#000, 0.38);
+$link-text-color: #1976d2;
+$link-text-color-visited: #512da8;
 $background: #fafafa;
 $dark-background: #e0e0e0;
 $warning-color: #d50000;
 $encrypt-card-background: #ebffeb;
 $decrypt-card-background: #ffebeb;
 $encrypt-color-bright: #00c853;
-$encrypt-color-bright-dark: #008000;
+$decrypt-color-bright: #d50000;
 
 // dark
 $primary-text-color-dark: #fff;
 $secondary-text-color-dark: rgba(#fff, 0.7);
 $disabled-text-color-dark: rgba(#fff, 0.5);
+$link-text-color-dark: #1976d2;
+$link-text-color-visited-dark: #ba68c8;
 $background-dark: #303030;
 $dark-background-dark: #212121;
 $warning-color-dark: #ff7070;
-$encrypt-card-background-dark: #005600;
+$encrypt-card-background-dark: #004000;
 $decrypt-card-background-dark: #560000;
-$decrypt-color-bright: #d50000;
+$encrypt-color-bright-dark: #006000;
 $decrypt-color-bright-dark: #800000;
 
 $overlay-color: rgba(#000000, 0.4);

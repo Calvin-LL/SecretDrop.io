@@ -383,13 +383,10 @@ function onWindowScroll() {
     }
 
     a {
+      @include global.link-text-auto;
+
       overflow-wrap: break-word;
       word-break: break-all;
-      color: #1976d2;
-
-      &:visited {
-        color: #512da8;
-      }
     }
 
     .icons {
