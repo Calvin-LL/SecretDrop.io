@@ -34,6 +34,7 @@ withDefaults(
 </template>
 
 <style lang="scss">
+@use "sass:color";
 @use "@/scss/global";
 @use "@/scss/colors";
 @use "@/scss/transitions";
@@ -60,7 +61,7 @@ withDefaults(
   background: transparent;
 
   transition-property: background, box-shadow;
-  transition-duration: transitions.$transition-duration-minuscule;
+  transition-duration: transitions.$transition-duration-tiny;
   transition-timing-function: transitions.$transition-timing-function-standard;
 
   &.vivid {
@@ -88,27 +89,27 @@ withDefaults(
   }
 
   &.raised {
-    @include shadows.shadow(1);
+    @include shadows.shadow(1, colors.$theme-color);
 
     background: colors.$theme-color;
     color: white;
 
     &:hover {
-      @include shadows.shadow(4);
+      @include shadows.shadow(4, colors.$theme-color);
 
-      background-color: rgba(colors.$theme-color, 0.9);
+      background-color: color.scale(colors.$theme-color, $lightness: 8%);
     }
 
     &:focus-visible {
-      @include shadows.shadow(2);
+      @include shadows.shadow(4, colors.$theme-color);
 
-      background-color: rgba(colors.$theme-color, 0.8);
+      background-color: color.scale(colors.$theme-color, $lightness: 12%);
     }
 
     &:active {
-      @include shadows.shadow(8);
+      @include shadows.shadow(8, colors.$theme-color);
 
-      background-color: rgba(colors.$theme-color, 0.7);
+      background-color: color.scale(colors.$theme-color, $lightness: 24%);
     }
   }
 

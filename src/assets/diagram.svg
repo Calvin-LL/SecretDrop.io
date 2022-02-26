@@ -1,0 +1,423 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1647">
+	<defs>
+		<style>
+			.a{fill:#f1f8e9;}.b{fill:#fff8e1;}.c{opacity:0.2;}.d{fill:#fbb03b;}.e{font-size:79px;}.e,.f,.i{font-family:Roboto-Regular, Roboto, Arial, Helvetica, sans-serif;}.f{font-size:58px;}.g,.h{fill:none;stroke:#000;stroke-width:2.16px;}.g{stroke-miterlimit:10;}.i{font-size:19.31px;}
+		</style>
+	</defs>
+	<title>
+		diagram
+	</title>
+	<rect class="a" x="1180" width="740" height="1647" />
+	<rect class="b" width="740" height="1647" />
+	<g class="c">
+		<rect class="d" y="498" width="740" height="1149" />
+	</g>
+	<text class="e" transform="translate(233.4 98.09)">
+		Alice
+	</text>
+	<text class="e" transform="translate(1530.68 98.09)">
+		Bob
+	</text>
+	<text class="f" transform="translate(892.37 82.15)">
+		Open
+		<tspan x="-37.45" y="53">
+			Channel
+		</tspan>
+	</text>
+	<line class="g" x1="279.01" y1="211.91" x2="241.75" y2="236.75" />
+	<polygon points="233.72 242.1 239.07 232.72 244.44 240.76 233.72 242.1" />
+	<polygon class="g" points="233.72 242.1 239.07 232.72 244.44 240.76 233.72 242.1" />
+	<line class="g" x1="354.12" y1="211.91" x2="391.37" y2="236.75" />
+	<polygon points="399.41 242.1 388.69 240.76 394.05 232.72 399.41 242.1" />
+	<polygon class="g" points="399.41 242.1 388.69 240.76 394.05 232.72 399.41 242.1" />
+	<path class="h" d="M251.11,147.53H382a9.92,9.92,0,0,1,1.89.18,10.49,10.49,0,0,1,1.81.55,9.6,9.6,0,0,1,1.67.9,9.71,9.71,0,0,1,2.66,2.66,9.6,9.6,0,0,1,.9,1.67,10.49,10.49,0,0,1,.55,1.81,9.92,9.92,0,0,1,.18,1.89v45.06a9.9,9.9,0,0,1-.18,1.88,10.33,10.33,0,0,1-.55,1.82,10,10,0,0,1-.9,1.67,9.81,9.81,0,0,1-1.2,1.46,9.32,9.32,0,0,1-1.46,1.2,9.55,9.55,0,0,1-1.67.89,9.68,9.68,0,0,1-1.81.55,9.18,9.18,0,0,1-1.89.19H251.11a9.74,9.74,0,0,1-5.36-1.63,9.4,9.4,0,0,1-1.47-1.2,9.81,9.81,0,0,1-1.2-1.46,9.92,9.92,0,0,1-.89-1.67,9.55,9.55,0,0,1-.55-1.82,9.91,9.91,0,0,1-.19-1.88V157.19a9.93,9.93,0,0,1,.19-1.89,9.68,9.68,0,0,1,.55-1.81,9.55,9.55,0,0,1,.89-1.67,9.84,9.84,0,0,1,4.34-3.56,9.49,9.49,0,0,1,3.69-.73Z" />
+	<text class="i" transform="translate(255.64 175.96)">
+		Gener
+	</text>
+	<text class="i" transform="translate(306.07 175.96)">
+		ate New
+	</text>
+	<text class="i" transform="translate(281.17 198.5)">
+		K
+	</text>
+	<text class="i" transform="translate(293.04 198.5)">
+		e
+	</text>
+	<text class="i" transform="translate(303.14 198.5)">
+		y P
+	</text>
+	<text class="i" transform="translate(329.14 198.5)">
+		air
+	</text>
+	<line class="g" x1="230.72" y1="308.47" x2="230.72" y2="359.6" />
+	<polygon points="230.72 369.26 225.9 359.6 235.55 359.6 230.72 369.26" />
+	<polygon class="g" points="230.72 369.26 225.9 359.6 235.55 359.6 230.72 369.26" />
+	<rect class="h" x="166.35" y="244.1" width="128.76" height="64.38" />
+	<text class="i" transform="translate(173.71 283.26)">
+		Priv
+	</text>
+	<text class="i" transform="translate(206.33 283.26)">
+		ate K
+	</text>
+	<text class="i" transform="translate(250.02 283.26)">
+		e
+	</text>
+	<text class="i" transform="translate(260.13 283.26)">
+		y A
+	</text>
+	<line class="g" x1="402.4" y1="308.47" x2="402.4" y2="359.6" />
+	<polygon points="402.4 369.26 397.57 359.6 407.23 359.6 402.4 369.26" />
+	<polygon class="g" points="402.4 369.26 397.57 359.6 407.23 359.6 402.4 369.26" />
+	<rect class="h" x="338.02" y="244.1" width="128.76" height="64.38" />
+	<text class="i" transform="translate(348.65 283.26)">
+		Public K
+	</text>
+	<text class="i" transform="translate(418.45 283.26)">
+		e
+	</text>
+	<text class="i" transform="translate(428.55 283.26)">
+		y A
+	</text>
+	<line class="g" x1="1566.58" y1="211.91" x2="1477.29" y2="240.1" />
+	<polygon points="1468.08 243.01 1475.84 235.5 1478.75 244.71 1468.08 243.01" />
+	<polygon class="g" points="1468.08 243.01 1475.84 235.5 1478.75 244.71 1468.08 243.01" />
+	<line class="g" x1="1641.69" y1="211.91" x2="1730.98" y2="240.1" />
+	<polygon points="1740.19 243.01 1729.52 244.71 1732.43 235.5 1740.19 243.01" />
+	<polygon class="g" points="1740.19 243.01 1729.52 244.71 1732.43 235.5 1740.19 243.01" />
+	<line class="g" x1="1604.13" y1="211.91" x2="1626.95" y2="234.72" />
+	<polygon points="1633.78 241.55 1623.53 238.14 1630.37 231.31 1633.78 241.55" />
+	<polygon class="g" points="1633.78 241.55 1623.53 238.14 1630.37 231.31 1633.78 241.55" />
+	<line class="g" x1="1604.13" y1="211.91" x2="1581.32" y2="234.72" />
+	<polygon points="1574.49 241.55 1577.9 231.31 1584.73 238.14 1574.49 241.55" />
+	<polygon class="g" points="1574.49 241.55 1577.9 231.31 1584.73 238.14 1574.49 241.55" />
+	<path class="h" d="M1538.68,147.53h130.91a9.9,9.9,0,0,1,1.88.18,10.23,10.23,0,0,1,1.81.55,9.6,9.6,0,0,1,1.67.9,8.88,8.88,0,0,1,1.46,1.2,10,10,0,0,1,1.21,1.46,10.27,10.27,0,0,1,.89,1.67,10.49,10.49,0,0,1,.55,1.81,9.92,9.92,0,0,1,.18,1.89v45.06a9.9,9.9,0,0,1-.18,1.88,10.33,10.33,0,0,1-.55,1.82,10.7,10.7,0,0,1-.89,1.67,10.54,10.54,0,0,1-1.21,1.46,8.88,8.88,0,0,1-1.46,1.2,9.74,9.74,0,0,1-3.48,1.44,9.16,9.16,0,0,1-1.88.19H1538.68a9.16,9.16,0,0,1-1.88-.19,9.46,9.46,0,0,1-1.81-.55,9.21,9.21,0,0,1-1.67-.89,9.4,9.4,0,0,1-1.47-1.2,11.22,11.22,0,0,1-1.2-1.46,9.92,9.92,0,0,1-.89-1.67,10.33,10.33,0,0,1-.55-1.82,9.9,9.9,0,0,1-.18-1.88V157.19a9.92,9.92,0,0,1,.18-1.89,10.49,10.49,0,0,1,.55-1.81,9.55,9.55,0,0,1,.89-1.67,10.59,10.59,0,0,1,1.2-1.46,9.4,9.4,0,0,1,1.47-1.2,9.25,9.25,0,0,1,1.67-.9,10.23,10.23,0,0,1,1.81-.55A9.9,9.9,0,0,1,1538.68,147.53Z" />
+	<text class="i" transform="translate(1571.22 186.69)">
+		Encr
+	</text>
+	<text class="i" transform="translate(1609.67 186.69)">
+		ypt
+	</text>
+	<line class="g" x1="1464.65" y1="308.47" x2="1435.83" y2="341.42" />
+	<polygon points="1429.46 348.69 1432.19 338.24 1439.45 344.6 1429.46 348.69" />
+	<polygon class="g" points="1429.46 348.69 1432.19 338.24 1439.45 344.6 1429.46 348.69" />
+	<rect class="h" x="1400.27" y="244.1" width="128.76" height="64.38" />
+	<text class="i" transform="translate(1407.92 283.26)">
+		Priv
+	</text>
+	<text class="i" transform="translate(1440.54 283.26)">
+		ate K
+	</text>
+	<text class="i" transform="translate(1484.22 283.26)">
+		e
+	</text>
+	<text class="i" transform="translate(1494.34 283.26)">
+		y B
+	</text>
+	<line class="g" x1="1743.62" y1="308.47" x2="1717.3" y2="1003.39" />
+	<polygon points="1716.94 1013.04 1712.47 1003.21 1722.12 1003.58 1716.94 1013.04" />
+	<polygon class="g" points="1716.94 1013.04 1712.47 1003.21 1722.12 1003.58 1716.94 1013.04" />
+	<rect class="h" x="1679.24" y="244.1" width="128.76" height="64.38" />
+	<text class="i" transform="translate(1690.16 283.26)">
+		Public K
+	</text>
+	<text class="i" transform="translate(1759.95 283.26)">
+		e
+	</text>
+	<text class="i" transform="translate(1770.06 283.26)">
+		y B
+	</text>
+	<line class="g" x1="1035.46" y1="260.19" x2="1529.03" y2="179.72" />
+	<line class="g" x1="1035.46" y1="276.29" x2="1250.05" y2="276.29" />
+	<rect class="h" x="885.24" y="244.1" width="150.22" height="64.38" />
+	<text class="i" transform="translate(894.11 283.26)">
+		Encr
+	</text>
+	<text class="i" transform="translate(932.56 283.26)">
+		yption Link
+	</text>
+	<line class="g" x1="1314.43" y1="308.47" x2="1343.25" y2="341.42" />
+	<polygon points="1349.61 348.69 1339.62 344.6 1346.89 338.24 1349.61 348.69" />
+	<polygon class="g" points="1349.61 348.69 1339.62 344.6 1346.89 338.24 1349.61 348.69" />
+	<rect class="h" x="1250.05" y="244.1" width="128.76" height="64.38" />
+	<text class="i" transform="translate(1260.68 283.26)">
+		Public K
+	</text>
+	<text class="i" transform="translate(1330.48 283.26)">
+		e
+	</text>
+	<text class="i" transform="translate(1340.59 283.26)">
+		y A
+	</text>
+	<line class="g" x1="1389.54" y1="415.77" x2="1389.54" y2="458.69" />
+	<rect class="h" x="1314.43" y="351.39" width="150.22" height="64.38" />
+	<text class="i" transform="translate(1333.42 379.83)">
+		Elliptic Cur
+	</text>
+	<text class="i" transform="translate(1425.11 379.83)">
+		v
+	</text>
+	<text class="i" transform="translate(1434.34 379.83)">
+		e
+	</text>
+	<text class="i" transform="translate(1362.5 402.36)">
+		Magic
+	</text>
+	<line class="g" x1="1571.95" y1="308.47" x2="1485.01" y2="564.17" />
+	<polygon points="1481.9 573.31 1480.44 562.62 1489.58 565.72 1481.9 573.31" />
+	<polygon class="g" points="1481.9 573.31 1480.44 562.62 1489.58 565.72 1481.9 573.31" />
+	<line class="g" x1="1571.95" y1="308.47" x2="1640.39" y2="1003.45" />
+	<polygon points="1641.34 1013.06 1635.58 1003.92 1645.2 1002.97 1641.34 1013.06" />
+	<polygon class="g" points="1641.34 1013.06 1635.58 1003.92 1645.2 1002.97 1641.34 1013.06" />
+	<rect class="h" x="1550.49" y="244.1" width="42.92" height="64.38" />
+	<text class="i" transform="translate(1555.67 283.26)">
+		salt
+	</text>
+	<line class="g" x1="1636.32" y1="308.47" x2="1558.03" y2="778.23" />
+	<polygon points="1556.44 787.76 1553.27 777.44 1562.79 779.03 1556.44 787.76" />
+	<polygon class="g" points="1556.44 787.76 1553.27 777.44 1562.79 779.03 1556.44 787.76" />
+	<line class="g" x1="1636.32" y1="308.47" x2="1678.44" y2="1003.41" />
+	<polygon points="1679.03 1013.04 1673.62 1003.7 1683.26 1003.12 1679.03 1013.04" />
+	<polygon class="g" points="1679.03 1013.04 1673.62 1003.7 1683.26 1003.12 1679.03 1013.04" />
+	<rect class="h" x="1614.86" y="244.1" width="42.92" height="64.38" />
+	<text class="i" transform="translate(1628.76 283.26)">
+		iv
+	</text>
+	<line class="g" x1="1453.92" y1="641.1" x2="1453.92" y2="673.29" />
+	<rect class="h" x="1400.27" y="576.72" width="107.3" height="64.38" />
+	<text class="i" transform="translate(1418.12 615.88)">
+		PBKDF2
+	</text>
+	<line class="g" x1="1453.92" y1="737.67" x2="1493.34" y2="781.46" />
+	<polygon points="1499.8 788.64 1489.74 784.69 1496.92 778.24 1499.8 788.64" />
+	<polygon class="g" points="1499.8 788.64 1489.74 784.69 1496.92 778.24 1499.8 788.64" />
+	<rect class="h" x="1400.27" y="673.29" width="107.3" height="64.38" />
+	<text class="i" transform="translate(1419.04 712.45)">
+		AES k
+	</text>
+	<text class="i" transform="translate(1468.46 712.45)">
+		e
+	</text>
+	<text class="i" transform="translate(1478.57 712.45)">
+		y
+	</text>
+	<line class="g" x1="1529.03" y1="855.69" x2="1529.03" y2="887.88" />
+	<rect class="h" x="1475.38" y="791.31" width="107.3" height="64.38" />
+	<text class="i" transform="translate(1487.01 830.48)">
+		AES-GCM
+	</text>
+	<line class="g" x1="1400.27" y1="823.5" x2="1462.13" y2="823.5" />
+	<polygon points="1471.78 823.5 1462.13 828.33 1462.13 818.67 1471.78 823.5" />
+	<polygon class="g" points="1471.78 823.5 1462.13 828.33 1462.13 818.67 1471.78 823.5" />
+	<line class="g" x1="1529.03" y1="952.26" x2="1594.07" y2="1008.01" />
+	<polygon points="1601.4 1014.3 1590.93 1011.68 1597.21 1004.34 1601.4 1014.3" />
+	<polygon class="g" points="1601.4 1014.3 1590.93 1011.68 1597.21 1004.34 1601.4 1014.3" />
+	<rect class="h" x="1475.38" y="887.88" width="107.3" height="64.38" />
+	<text class="i" transform="translate(1485.55 916.32)">
+		Encr
+	</text>
+	<text class="i" transform="translate(1524 916.32)">
+		ypted
+	</text>
+	<text class="i" transform="translate(1508.49 938.85)">
+		Data
+	</text>
+	<line class="g" x1="1604.13" y1="1048.83" x2="1035.46" y2="802.04" />
+	<rect class="h" x="1604.13" y="1016.64" width="150.22" height="64.38" />
+	<text class="i" transform="translate(1613.84 1055.8)">
+		P
+	</text>
+	<text class="i" transform="translate(1625.92 1055.8)">
+		ackaged Data
+	</text>
+	<line class="g" x1="885.24" y1="802.04" x2="541.89" y2="673.29" />
+	<rect class="h" x="885.24" y="769.85" width="150.22" height="64.38" />
+	<text class="i" transform="translate(894.95 809.02)">
+		P
+	</text>
+	<text class="i" transform="translate(907.03 809.02)">
+		ackaged Data
+	</text>
+	<path class="h" d="M251.11,539.16H382a9.93,9.93,0,0,1,1.89.19,9.68,9.68,0,0,1,1.81.55,9.55,9.55,0,0,1,1.67.89,9.84,9.84,0,0,1,3.56,4.34,10.23,10.23,0,0,1,.55,1.81,9.9,9.9,0,0,1,.18,1.88v45.07a9.9,9.9,0,0,1-.18,1.88,10.23,10.23,0,0,1-.55,1.81,9.6,9.6,0,0,1-.9,1.67,9.4,9.4,0,0,1-1.2,1.47,10.59,10.59,0,0,1-1.46,1.2,9.55,9.55,0,0,1-1.67.89,10.49,10.49,0,0,1-1.81.55,9.92,9.92,0,0,1-1.89.18H251.11a9.49,9.49,0,0,1-3.69-.73,9.21,9.21,0,0,1-1.67-.89,10.68,10.68,0,0,1-1.47-1.2,9.4,9.4,0,0,1-1.2-1.47,9.74,9.74,0,0,1-1.44-3.48,9.91,9.91,0,0,1-.19-1.88V548.82a9.91,9.91,0,0,1,.19-1.88,9.46,9.46,0,0,1,.55-1.81,9.21,9.21,0,0,1,.89-1.67,9.43,9.43,0,0,1,2.67-2.67,9.74,9.74,0,0,1,3.48-1.44A9.91,9.91,0,0,1,251.11,539.16Z" />
+	<text class="i" transform="translate(283.02 578.33)">
+		Decr
+	</text>
+	<text class="i" transform="translate(322.73 578.33)">
+		ypt
+	</text>
+	<line class="g" x1="230.72" y1="437.23" x2="316.56" y2="539.16" />
+	<line class="g" x1="230.72" y1="437.23" x2="177.08" y2="635.73" />
+	<rect class="h" x="155.62" y="372.85" width="150.22" height="64.38" />
+	<text class="i" transform="translate(163.85 412.02)">
+		Decr
+	</text>
+	<text class="i" transform="translate(203.56 412.02)">
+		yption Link
+	</text>
+	<line class="g" x1="477.51" y1="405.04" x2="885.24" y2="276.29" />
+	<rect class="h" x="327.29" y="372.85" width="150.22" height="64.38" />
+	<text class="i" transform="translate(336.16 412.02)">
+		Encr
+	</text>
+	<text class="i" transform="translate(374.61 412.02)">
+		yption Link
+	</text>
+	<line class="g" x1="177.08" y1="700.11" x2="177.08" y2="863.9" />
+	<polygon points="177.07 873.56 172.25 863.9 181.9 863.9 177.07 873.56" />
+	<polygon class="g" points="177.07 873.56 172.25 863.9 181.9 863.9 177.07 873.56" />
+	<rect class="h" x="112.7" y="635.73" width="128.76" height="64.38" />
+	<text class="i" transform="translate(120.06 674.9)">
+		Priv
+	</text>
+	<text class="i" transform="translate(152.68 674.9)">
+		ate K
+	</text>
+	<text class="i" transform="translate(196.37 674.9)">
+		e
+	</text>
+	<text class="i" transform="translate(206.48 674.9)">
+		y A
+	</text>
+	<line class="g" x1="305.83" y1="802.04" x2="250.08" y2="867.09" />
+	<polygon points="243.79 874.42 246.41 863.94 253.75 870.23 243.79 874.42" />
+	<polygon class="g" points="243.79 874.42 246.41 863.94 253.75 870.23 243.79 874.42" />
+	<rect class="h" x="241.45" y="737.67" width="128.76" height="64.38" />
+	<text class="i" transform="translate(252.37 776.83)">
+		Public K
+	</text>
+	<text class="i" transform="translate(322.16 776.83)">
+		e
+	</text>
+	<text class="i" transform="translate(332.27 776.83)">
+		y B
+	</text>
+	<line class="g" x1="413.13" y1="802.04" x2="241.87" y2="1154.94" />
+	<polygon points="237.66 1163.62 237.54 1152.82 246.22 1157.04 237.66 1163.62" />
+	<polygon class="g" points="237.66 1163.62 237.54 1152.82 246.22 1157.04 237.66 1163.62" />
+	<rect class="h" x="391.67" y="737.67" width="42.92" height="64.38" />
+	<text class="i" transform="translate(396.85 776.83)">
+		salt
+	</text>
+	<line class="g" x1="477.51" y1="802.04" x2="288.43" y2="1390.29" />
+	<polygon points="285.48 1399.49 283.84 1388.81 293.02 1391.77 285.48 1399.49" />
+	<polygon class="g" points="285.48 1399.49 283.84 1388.81 293.02 1391.77 285.48 1399.49" />
+	<rect class="h" x="456.05" y="737.67" width="42.92" height="64.38" />
+	<text class="i" transform="translate(469.95 776.83)">
+		iv
+	</text>
+	<line class="g" x1="429.22" y1="705.48" x2="413.13" y2="737.67" />
+	<line class="g" x1="466.78" y1="705.48" x2="477.51" y2="737.67" />
+	<line class="g" x1="504.33" y1="705.48" x2="579.44" y2="737.67" />
+	<line class="g" x1="391.67" y1="705.48" x2="305.83" y2="737.67" />
+	<rect class="h" x="391.67" y="641.1" width="150.22" height="64.38" />
+	<text class="i" transform="translate(401.38 680.26)">
+		P
+	</text>
+	<text class="i" transform="translate(413.46 680.26)">
+		ackaged Data
+	</text>
+	<line class="g" x1="209.26" y1="941.53" x2="209.26" y2="973.72" />
+	<rect class="h" x="144.89" y="877.15" width="128.76" height="64.38" />
+	<text class="i" transform="translate(153.15 905.59)">
+		Elliptic Cur
+	</text>
+	<text class="i" transform="translate(244.83 905.59)">
+		v
+	</text>
+	<text class="i" transform="translate(254.07 905.59)">
+		e
+	</text>
+	<text class="i" transform="translate(182.22 928.12)">
+		Magic
+	</text>
+	<line class="g" x1="209.26" y1="1231.23" x2="209.26" y2="1252.69" />
+	<rect class="h" x="155.62" y="1166.86" width="107.3" height="64.38" />
+	<text class="i" transform="translate(173.47 1206.02)">
+		PBKDF2
+	</text>
+	<line class="g" x1="209.26" y1="1317.07" x2="251.05" y2="1391.36" />
+	<polygon points="255.79 1399.78 246.84 1393.73 255.26 1388.99 255.79 1399.78" />
+	<polygon class="g" points="255.79 1399.78 246.84 1393.73 255.26 1388.99 255.79 1399.78" />
+	<rect class="h" x="155.62" y="1252.69" width="107.3" height="64.38" />
+	<text class="i" transform="translate(174.39 1291.86)">
+		AES k
+	</text>
+	<text class="i" transform="translate(223.81 1291.86)">
+		e
+	</text>
+	<text class="i" transform="translate(233.92 1291.86)">
+		y
+	</text>
+	<line class="g" x1="284.37" y1="1467.29" x2="284.37" y2="1499.48" />
+	<rect class="h" x="230.72" y="1402.91" width="107.3" height="64.38" />
+	<text class="i" transform="translate(242.36 1442.07)">
+		AES-GCM
+	</text>
+	<line class="g" x1="579.44" y1="802.04" x2="316.61" y2="1390.81" />
+	<polygon points="312.67 1399.63 312.19 1388.83 321.01 1392.77 312.67 1399.63" />
+	<polygon class="g" points="312.67 1399.63 312.19 1388.83 321.01 1392.77 312.67 1399.63" />
+	<rect class="h" x="520.43" y="737.67" width="118.03" height="64.38" />
+	<text class="i" transform="translate(535.97 766.1)">
+		Encr
+	</text>
+	<text class="i" transform="translate(574.42 766.1)">
+		ypted
+	</text>
+	<text class="i" transform="translate(558.9 788.63)">
+		Data
+	</text>
+	<rect class="h" x="209.26" y="1499.48" width="150.22" height="64.38" />
+	<text class="i" transform="translate(263.84 1527.91)">
+		Data
+	</text>
+	<text class="i" transform="translate(221.07 1550.44)">
+		(message/ﬁle)
+	</text>
+	<text class="i" transform="translate(403 555.79)">
+		*The Decr
+	</text>
+	<text class="i" transform="translate(488.21 555.79)">
+		ypt page
+	</text>
+	<text class="i" transform="translate(404.93 578.33)">
+		does not gener
+	</text>
+	<text class="i" transform="translate(532.69 578.33)">
+		ate
+	</text>
+	<text class="i" transform="translate(425.54 600.86)">
+		anything new
+	</text>
+	<line class="g" x1="1389.54" y1="523.07" x2="1419.5" y2="565.86" />
+	<polygon points="1425.03 573.77 1415.54 568.63 1423.44 563.09 1425.03 573.77" />
+	<polygon class="g" points="1425.03 573.77 1415.54 568.63 1423.44 563.09 1425.03 573.77" />
+	<rect class="h" x="1314.43" y="458.69" width="150.22" height="64.38" />
+	<text class="i" transform="translate(1329.22 497.86)">
+		Shar
+	</text>
+	<text class="i" transform="translate(1368.17 497.86)">
+		ed Secr
+	</text>
+	<text class="i" transform="translate(1432.24 497.86)">
+		et
+	</text>
+	<line class="g" x1="209.26" y1="1038.1" x2="209.26" y2="1156.02" />
+	<polygon points="209.26 1163.26 204.44 1153.61 209.26 1156.02 214.09 1153.61 209.26 1163.26" />
+	<polygon class="g" points="209.26 1163.26 204.44 1153.61 209.26 1156.02 214.09 1153.61 209.26 1163.26" />
+	<rect class="h" x="144.89" y="973.72" width="128.76" height="64.38" />
+	<text class="i" transform="translate(148.94 1012.89)">
+		Shar
+	</text>
+	<text class="i" transform="translate(187.9 1012.89)">
+		ed Secr
+	</text>
+	<text class="i" transform="translate(251.96 1012.89)">
+		et
+	</text>
+	<polygon class="g" points="1271.51 780.59 1357.35 780.59 1400.27 823.5 1357.35 866.42 1271.51 866.42 1228.59 823.5 1271.51 780.59" />
+	<text class="i" transform="translate(1293.89 819.75)">
+		Data
+	</text>
+	<text class="i" transform="translate(1251.13 842.28)">
+		(message/ﬁle)
+	</text>
+</svg>

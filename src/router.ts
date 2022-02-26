@@ -4,7 +4,7 @@ const routes = [
   {
     path: "/",
     name: "GenerateKeyPair",
-    component: () => import("@/views/GenerateKeyPair.vue"),
+    component: () => import("@/views/GenerateKeyPairView.vue"),
     meta: {
       title: "SecretDrop.io - Generate New Key Pair",
       metaTags: [
@@ -19,7 +19,7 @@ const routes = [
   {
     path: "/decrypt",
     name: "Decrypt",
-    component: () => import("@/views/Encrypt.vue"),
+    component: () => import("@/views/EncryptView.vue"),
     meta: {
       title: "Decrypt",
       metaTags: [
@@ -34,7 +34,7 @@ const routes = [
   {
     path: "/encrypt",
     name: "Encrypt",
-    component: () => import("@/views/Encrypt.vue"),
+    component: () => import("@/views/EncryptView.vue"),
     meta: {
       title: "Encrypt",
       metaTags: [

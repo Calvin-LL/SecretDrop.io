@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import Footer from "./components/Footer.vue";
+
 import TopBar from "@/components/TopBar.vue";
+import FaqSection from "@/components/FaqSection.vue";
 </script>
 
 <template>
@@ -8,8 +11,8 @@ import TopBar from "@/components/TopBar.vue";
       <TopBar />
       <router-view />
     </div>
-    <!-- <FAQ /> -->
-    <!-- <Footer /> -->
+    <FaqSection />
+    <Footer />
 
     <!-- snack bar -->
   </div>
@@ -18,7 +21,7 @@ import TopBar from "@/components/TopBar.vue";
 <style lang="scss">
 @use "@/scss/global";
 @use "@fontsource/inter/variable-full";
-@use "material-icons/iconfont/material-icons";
+@use "material-icons/iconfont/material-icons.css";
 
 body {
   @include global.primary-text-auto;

@@ -20,6 +20,9 @@ module.exports = {
     "vue/max-attributes-per-line": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/require-default-prop": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/html-closing-bracket-newline": "off",
+    "vue/html-indent": "off",
 
     "no-undef": "off",
     "no-console": ["warn", { allow: ["warn", "error"] }],

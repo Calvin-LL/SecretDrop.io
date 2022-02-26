@@ -22,6 +22,7 @@ import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
 
 <style lang="scss">
 @use "@/scss/global";
+@use "@/scss/colors";
 
 #top-bar {
   display: flex;
@@ -70,6 +71,13 @@ import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
       justify-content: center;
       align-items: center;
 
+      &:focus-visible {
+        outline-color: colors.$theme-color;
+        outline-width: 2px;
+        outline-style: solid;
+        outline-offset: 8px;
+      }
+
       & > .logo-text {
         font-size: 2rem;
         font-weight: 300;
@@ -78,8 +86,6 @@ import AnimatedLogo from "@/components/shared/AnimatedLogo.vue";
     }
 
     & > .button-container {
-      contain: content;
-
       display: flex;
       justify-content: center;
       align-items: center;

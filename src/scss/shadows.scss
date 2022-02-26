@@ -91,7 +91,7 @@ $ambient-map: (
   24: "0px 9px 46px 8px",
 );
 
-@mixin shadow($elevation, $inset: false, $color: $baseline-color) {
+@mixin shadow($elevation, $color: $baseline-color) {
   $umbra-z-value: map.get($umbra-map, $elevation);
   $penumbra-z-value: map.get($penumbra-map, $elevation);
   $ambient-z-value: map.get($ambient-map, $elevation);
@@ -100,12 +100,6 @@ $ambient-map: (
   $penumbra-color: rgba($color, $penumbra-opacity);
   $ambient-color: rgba($color, $ambient-opacity);
 
-  @if $inset {
-    box-shadow: inset #{$umbra-z-value} $umbra-color,
-      inset #{$penumbra-z-value} $penumbra-color,
-      inset #{$ambient-z-value} $ambient-color;
-  } @else {
-    box-shadow: #{$umbra-z-value} $umbra-color,
-      #{$penumbra-z-value} $penumbra-color, #{$ambient-z-value} $ambient-color;
-  }
+  box-shadow: #{$umbra-z-value} $umbra-color,
+    #{$penumbra-z-value} $penumbra-color, #{$ambient-z-value} $ambient-color;
 }
