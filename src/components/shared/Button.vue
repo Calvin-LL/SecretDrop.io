@@ -59,6 +59,7 @@ withDefaults(
 
 .button {
   all: unset;
+  -webkit-tap-highlight-color: transparent;
 
   user-select: none;
   cursor: pointer;

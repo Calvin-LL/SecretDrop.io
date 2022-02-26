@@ -29,6 +29,7 @@ function scrollToTop() {
 
 .scoll-to-top-button {
   all: unset;
+  -webkit-tap-highlight-color: transparent;
 
   position: fixed;
   bottom: 1rem;
