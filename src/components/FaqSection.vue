@@ -158,9 +158,7 @@ function onWindowScroll() {
             (10<sup>18</sup>) AES keys per second (if such a device could ever
             be made) would, in theory, require about 3×10<sup>51</sup> years to
             exhaust the 256-bit key space." (3×10<sup>51</sup> years is 3
-            sexdecillion years, or
-            3,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000
-            years)
+            sexdecillion years)
           </p>
         </blockquote>
       </figure>

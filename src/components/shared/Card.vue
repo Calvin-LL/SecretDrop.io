@@ -55,6 +55,8 @@ defineProps<{
     background-color: colors.$encrypt-card-background;
 
     @media (prefers-color-scheme: dark) {
+      @include shadows.shadow(24, colors.$encrypt-color-bright-dark);
+
       background-color: colors.$encrypt-card-background-dark;
     }
   }
@@ -67,6 +69,8 @@ defineProps<{
     background-color: colors.$decrypt-card-background;
 
     @media (prefers-color-scheme: dark) {
+      @include shadows.shadow(24, colors.$decrypt-color-bright-dark);
+
       background-color: colors.$decrypt-card-background-dark;
     }
   }

@@ -21,7 +21,9 @@ import FaqSection from "@/components/FaqSection.vue";
 
 <style lang="scss">
 @use "@/scss/global";
-@use "@fontsource/inter/variable-full";
+@use "@fontsource/roboto/300" as *;
+@use "@fontsource/roboto/400" as *;
+@use "@fontsource/roboto/500" as *;
 @use "material-icons/iconfont/material-icons.css";
 
 .icon {
@@ -33,7 +35,7 @@ body {
   @include global.background-auto;
 
   margin: 0;
-  font-family: "InterVariable", "Roboto", Arial, Helvetica, sans-serif;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
   min-width: 320px;
   min-height: 100vh;
   overflow: auto;

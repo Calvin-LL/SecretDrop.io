@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 import Card from "../shared/Card.vue";
+import AnimatedSafe from "../shared/AnimatedSafe.vue";
 
 import { showSnackbar } from "@/snackbar-manager";
 import { animateAddTextInElement, downloadAsTxt } from "@/helpers";
@@ -17,24 +18,22 @@ const props = defineProps<{
   cardType: "encryption" | "decryption";
 }>();
 
-const emit = defineEmits<{
-  (e: "animationFinish"): void;
-}>();
-
 let cancelTextAnimation: (() => void) | undefined;
 
+const fullUrl = computed(() => props.baseUrl + props.keyString);
 const displayUrl = ref("");
+const showLoadingAnimation = ref(true);
 
 onMounted(() => {
   cancelTextAnimation = animateAddTextInElement(
     props.baseUrl,
     props.keyString,
-    1500,
+    2000,
     (s) => {
       displayUrl.value = s;
     },
     () => {
-      emit("animationFinish");
+      showLoadingAnimation.value = false;
     }
   );
 });
@@ -44,16 +43,12 @@ onBeforeUnmount(() => {
 });
 
 function downloadLink() {
-  const url = props.baseUrl + props.keyString;
-
-  downloadAsTxt(url, `${props.cardType}-link.txt`);
+  downloadAsTxt(fullUrl.value, `${props.cardType}-link.txt`);
 }
 
 async function copyLink() {
-  const url = props.baseUrl + props.keyString;
-
   try {
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(fullUrl.value);
 
     await showSnackbar("Link copied to clipboard");
   } catch (error) {
@@ -72,39 +67,56 @@ async function copyLink() {
         <a
           ref="url"
           class="url"
+          :class="{ loading: showLoadingAnimation }"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          :href="baseUrl + keyString"
+          :href="fullUrl"
         >
           {{ displayUrl }}
         </a>
       </div>
       <div class="bottom-bar-container">
-        <div class="bottom-bar">
-          <Button
-            text-color="secondary"
-            icon="save_alt"
-            @click="downloadLink()"
-          />
-          <Button
-            text-color="secondary"
-            icon="file_copy"
-            icon-style="outlined"
-            @click="copyLink()"
-          />
-        </div>
+        <Transition>
+          <div v-if="showLoadingAnimation" class="loading-bar">
+            <AnimatedSafe class="animated-safe" width="36px" />
+            <div class="label">Generating key</div>
+          </div>
+          <div v-else class="botton-bar">
+            <Button
+              text-color="secondary"
+              icon="save_alt"
+              @click="downloadLink()"
+            />
+            <Button
+              text-color="secondary"
+              icon="file_copy"
+              icon-style="outlined"
+              @click="copyLink()"
+            />
+          </div>
+        </Transition>
       </div>
     </template>
   </Card>
 </template>
 
 <style lang="scss">
+@use "@fontsource/roboto-mono";
+@use "@/scss/global";
+@use "@/scss/transitions";
+
 .link-card-url-container {
   padding-left: 8px;
   padding-right: 8px;
   margin-bottom: 16px;
 
   & > a {
+    font-family: "Roboto Mono", monospace;
+
+    transition-property: color;
+    transition-duration: transitions.$transition-duration-small;
+    transition-timing-function: transitions.$transition-timing-function-standard;
+
     overflow-wrap: break-word;
     word-break: break-all;
     color: #1976d2;
@@ -112,16 +124,65 @@ async function copyLink() {
     &:visited {
       color: #512da8;
     }
+
+    &.loading {
+      @include global.primary-text-auto;
+
+      pointer-events: none;
+      cursor: default;
+    }
   }
 }
 
 .bottom-bar-container {
-  width: 100%;
-  contain: content;
+  position: relative;
 
-  & > .bottom-bar {
+  width: 100%;
+  height: 48px;
+
+  & > .loading-bar {
+    @include global.absolute-overlay;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > .animated-safe {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    & > .label {
+      @include global.secondary-text-auto;
+
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+  }
+
+  & > .botton-bar {
+    @include global.absolute-overlay;
+
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+  }
+
+  & > .v-enter-active {
+    transition-property: opacity;
+    transition-duration: transitions.$transition-duration-small;
+    transition-timing-function: transitions.$transition-timing-function-deceleration;
+  }
+
+  & > .v-leave-active {
+    transition-property: opacity;
+    transition-duration: transitions.$transition-duration-small;
+    transition-timing-function: transitions.$transition-timing-function-acceleration;
+  }
+
+  & > .v-enter-from,
+  & > .v-leave-to {
+    opacity: 0;
   }
 }
 </style>

@@ -159,7 +159,7 @@ withDefaults(
     text-transform: uppercase;
 
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.0892857143em;
   }
 }

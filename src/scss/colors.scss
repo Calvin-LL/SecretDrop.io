@@ -1,7 +1,5 @@
 $encrypt-color: #43a047;
-$encrypt-color-bright: #00c853;
 $decrypt-color: #f44336;
-$decrypt-color-bright: #d50000;
 
 $theme-color: #43a047;
 $theme-color-bright: #00c853;
@@ -15,6 +13,8 @@ $dark-background: #e0e0e0;
 $warning-color: #d50000;
 $encrypt-card-background: #ebffeb;
 $decrypt-card-background: #ffebeb;
+$encrypt-color-bright: #00c853;
+$encrypt-color-bright-dark: #008000;
 
 // dark
 $primary-text-color-dark: #fff;
@@ -25,6 +25,8 @@ $dark-background-dark: #212121;
 $warning-color-dark: #ff7070;
 $encrypt-card-background-dark: #005600;
 $decrypt-card-background-dark: #560000;
+$decrypt-color-bright: #d50000;
+$decrypt-color-bright-dark: #800000;
 
 $overlay-color: rgba(#000000, 0.4);
 
