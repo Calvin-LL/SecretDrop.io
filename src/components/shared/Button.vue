@@ -102,11 +102,13 @@ withDefaults(
     border-radius: 24px;
   }
 
-  &:hover {
-    background-color: rgba(colors.$primary-text-color, 0.08);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(colors.$primary-text-color, 0.08);
 
-    &.tinted {
-      background-color: rgba(colors.$theme-color, 0.08);
+      &.tinted {
+        background-color: rgba(colors.$theme-color, 0.08);
+      }
     }
   }
 
@@ -132,10 +134,12 @@ withDefaults(
     background: colors.$theme-color;
     color: white;
 
-    &:hover {
-      @include shadows.shadow(4, colors.$theme-color-bright);
+    @media (hover: hover) {
+      &:hover {
+        @include shadows.shadow(4, colors.$theme-color-bright);
 
-      background-color: color.scale(colors.$theme-color, $lightness: 8%);
+        background-color: color.scale(colors.$theme-color, $lightness: 8%);
+      }
     }
 
     &:focus-visible {

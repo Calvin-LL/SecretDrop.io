@@ -79,7 +79,7 @@ async function copyLink() {
         <Transition>
           <div v-if="showLoadingAnimation" class="loading-bar">
             <AnimatedSafe class="animated-safe" width="36px" />
-            <div class="label">Generating key</div>
+            <div class="label">Generating key locally</div>
           </div>
           <div v-else class="botton-bar">
             <Button

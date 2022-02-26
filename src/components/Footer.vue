@@ -87,8 +87,10 @@ import githubLogoSvg from "@/assets/github-logo.svg?raw";
         transition-duration: 500ms;
         transition-timing-function: ease-in-out;
 
-        &:hover {
-          filter: unset;
+        @media (hover: hover) {
+          &:hover {
+            filter: unset;
+          }
         }
       }
     }

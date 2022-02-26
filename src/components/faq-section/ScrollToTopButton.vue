@@ -61,10 +61,12 @@ function scrollToTop() {
   background: colors.$theme-color;
   color: white;
 
-  &:hover {
-    @include shadows.shadow(8, colors.$theme-color-bright);
+  @media (hover: hover) {
+    &:hover {
+      @include shadows.shadow(8, colors.$theme-color-bright);
 
-    background-color: color.scale(colors.$theme-color, $lightness: 8%);
+      background-color: color.scale(colors.$theme-color, $lightness: 8%);
+    }
   }
 
   &:focus-visible {
