@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineProps<{
+  show?: boolean;
+}>();
+
 function scrollToTop() {
   window.scrollTo({
     top: 0,
@@ -11,6 +15,7 @@ function scrollToTop() {
 <template>
   <Transition>
     <button
+      v-show="show"
       class="scoll-to-top-button"
       aria-label="Scroll to top"
       @click="scrollToTop"

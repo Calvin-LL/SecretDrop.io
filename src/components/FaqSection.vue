@@ -309,7 +309,7 @@ function onWindowScroll() {
       </p>
     </div>
 
-    <ScrollToTopButton v-show="showScrollToTopButton" />
+    <ScrollToTopButton :show="showScrollToTopButton" />
   </div>
 </template>
 

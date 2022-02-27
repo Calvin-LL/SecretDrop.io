@@ -52,7 +52,7 @@ export const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
+    if (to.hash && !to.hash.startsWith("#key=")) {
       return {
         el: to.hash,
         behavior: "smooth",

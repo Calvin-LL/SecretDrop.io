@@ -3,3 +3,32 @@ $transition-duration-small: 280ms;
 $transition-timing-function-standard: cubic-bezier(0.4, 0, 0.2, 1);
 $transition-timing-function-deceleration: cubic-bezier(0, 0, 0.2, 1);
 $transition-timing-function-acceleration: cubic-bezier(0.4, 0, 1, 1);
+
+.collapse-enter-active {
+  transition-property: max-height;
+  transition-duration: $transition-duration-small;
+  transition-timing-function: $transition-timing-function-deceleration;
+}
+
+.collapse-leave-active {
+  transition-property: max-height;
+  transition-duration: $transition-duration-small;
+  transition-timing-function: $transition-timing-function-acceleration;
+}
+
+.collapse-enter-from,
+.collapse-leave-to {
+  max-height: 0px;
+}
+
+.opacity-enter-active,
+.opacity-leave-active {
+  transition-property: opacity;
+  transition-duration: $transition-duration-small;
+  transition-timing-function: $transition-timing-function-standard;
+}
+
+.opacity-enter-from,
+.opacity-leave-to {
+  opacity: 0;
+}

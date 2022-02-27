@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CardHeader from "./CardHeader.vue";
 defineProps<{
   color: "green" | "red";
   icon: string;
@@ -9,17 +10,16 @@ defineProps<{
 
 <template>
   <div class="card" :class="color">
-    <div class="card-title-container">
-      <div class="title-container">
-        <h2 class="title">{{ title }}</h2>
-        <span class="icon" :class="`material-icons-${iconStyle}`">
-          {{ icon }}
-        </span>
-      </div>
-      <div class="subtitle">
+    <CardHeader
+      :color="color"
+      :icon="icon"
+      :icon-style="iconStyle"
+      :title="title"
+    >
+      <template #subtitle>
         <slot name="subtitle"></slot>
-      </div>
-    </div>
+      </template>
+    </CardHeader>
     <slot></slot>
   </div>
 </template>
@@ -48,8 +48,6 @@ defineProps<{
   }
 
   &.green {
-    --card-highlight-color: #{colors.$encrypt-color};
-
     @include shadows.shadow(24, colors.$encrypt-color-bright);
 
     background-color: colors.$encrypt-card-background;
@@ -59,11 +57,13 @@ defineProps<{
 
       background-color: colors.$encrypt-card-background-dark;
     }
+
+    & > .card-title-container > .title-container > .icon {
+      color: colors.$encrypt-color;
+    }
   }
 
   &.red {
-    --card-highlight-color: #{colors.$decrypt-color};
-
     @include shadows.shadow(24, colors.$decrypt-color-bright);
 
     background-color: colors.$decrypt-card-background;
@@ -73,46 +73,9 @@ defineProps<{
 
       background-color: colors.$decrypt-card-background-dark;
     }
-  }
 
-  & > .card-title-container {
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 8px;
-    margin-bottom: 16px;
-    padding-left: 8px;
-    padding-right: 8px;
-    contain: content;
-
-    & > .title-container {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex-direction: row;
-
-      margin-bottom: 4px;
-
-      & > .title {
-        font-weight: 500;
-        margin: 0px;
-      }
-
-      & > .icon {
-        color: var(--card-highlight-color);
-        margin-left: 8px;
-      }
-    }
-
-    & > .subtitle {
-      @include global.secondary-text-auto;
-
-      span.warning {
-        color: colors.$warning-color;
-
-        @media (prefers-color-scheme: dark) {
-          color: colors.$warning-color-dark;
-        }
-      }
+    & > .card-title-container > .title-container > .icon {
+      color: colors.$decrypt-color;
     }
   }
 }
