@@ -7,9 +7,9 @@ import { Blob } from "node:buffer";
  * Based on:
  * https://github.com/capricorn86/happy-dom/blob/master/packages/happy-dom/src/file/File.ts (MIT licensed).
  */
-export default class File extends Blob {
-  public readonly lastModified: number | null = null;
-  public readonly name: string | null = null;
+export class File extends Blob {
+  readonly lastModified: number;
+  readonly name: string = "";
 
   /**
    * Constructor.
@@ -28,8 +28,7 @@ export default class File extends Blob {
   ) {
     super(bits, options);
 
-    this.name = name.replace(/\//g, ":");
-    this.lastModified =
-      options && options.lastModified ? options.lastModified : Date.now();
+    this.name = name;
+    this.lastModified = options?.lastModified ?? Date.now();
   }
 }
