@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Snackbar from "./components/Snackbar.vue";
-import Footer from "./components/Footer.vue";
+import Snackbar from "@/components/Snackbar.vue";
+import Footer from "@/components/Footer.vue";
 
 import TopBar from "@/components/TopBar.vue";
 import FaqSection from "@/components/FaqSection.vue";
