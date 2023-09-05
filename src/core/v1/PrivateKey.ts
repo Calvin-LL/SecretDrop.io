@@ -1,13 +1,13 @@
+import { ec } from "elliptic";
 // @ts-expect-error the ts doesn't have that file
 import KeyPair from "elliptic/lib/elliptic/ec/key";
-import { ec } from "elliptic";
 
-import { bufferToUint8, concatBuffers, uint8ArrayToBuffer } from "./helpers";
-import { ecurve } from "./ecurve";
-import { V1_VERSION_CODE, V1_VERSION_CODE_BUFFER } from "./constants";
-import { base64ToBuffer, bufferToBase64 } from "./base64";
-import { PublicKey } from "./PublicKey";
 import { AESKey } from "./AESKey";
+import { PublicKey } from "./PublicKey";
+import { base64ToBuffer, bufferToBase64 } from "./base64";
+import { V1_VERSION_CODE, V1_VERSION_CODE_BUFFER } from "./constants";
+import { ecurve } from "./ecurve";
+import { bufferToUint8, concatBuffers, uint8ArrayToBuffer } from "./helpers";
 
 export class PrivateKey {
   readonly #key: ec.KeyPair;
@@ -30,9 +30,9 @@ export class PrivateKey {
   }
 
   async #getSharedSecret(publicKey: PublicKey): Promise<CryptoKey> {
-    const sharedSecretBuffer = this.#key
-      .derive(publicKey.getPublicBasePoint())
-      .toBuffer();
+    const sharedSecretBuffer = new Uint8Array(
+      this.#key.derive(publicKey.getPublicBasePoint()).toArray()
+    );
 
     return window.crypto.subtle.importKey(
       "raw",
@@ -44,7 +44,7 @@ export class PrivateKey {
   }
 
   toString(): string {
-    const privateKeyBuffer = this.#key.getPrivate().toBuffer();
+    const privateKeyBuffer = Uint8Array.from(this.#key.getPrivate().toArray());
 
     return bufferToBase64(
       concatBuffers([V1_VERSION_CODE_BUFFER, privateKeyBuffer])

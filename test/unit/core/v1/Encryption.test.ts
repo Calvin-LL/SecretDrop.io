@@ -1,16 +1,18 @@
-import path from "node:path";
-import fs from "node:fs";
 import { webcrypto } from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 
 import { expect, it } from "vitest";
 
 import { File } from "../v1/File";
 
-import { PlainText } from "@/core/v1/PlainText";
-import { PlainFile } from "@/core/v1/PlainFile";
-import { KeyPair } from "@/core/v1/KeyPair";
-import { EncryptedText } from "@/core/v1/EncryptedText";
 import { EncryptedFile } from "@/core/v1/EncryptedFile";
+import { EncryptedText } from "@/core/v1/EncryptedText";
+import { KeyPair } from "@/core/v1/KeyPair";
+import { PlainFile } from "@/core/v1/PlainFile";
+import { PlainText } from "@/core/v1/PlainText";
+import { PrivateKey } from "@/core/v1/PrivateKey";
+import { PublicKey } from "@/core/v1/PublicKey";
 
 // eslint-disable-next-line no-global-assign
 globalThis.window = {
@@ -25,7 +27,7 @@ it("should encrypt then decrypt string", async () => {
     "!#$%&()*MNOPQRSTUVWXYZ[]^_`abcdefghijklmnz{|}~☇☈☉☊☋☌☍☎☏☐☑☒☓☚☛☜☝☞☟☠☡☢☣☤☥买乱乲乳乴乵乶乷乸乹乺乻乼乽癩羅蘿螺裸邏樂洛烙珞落酪駱亂👩🏼‍🦯👩‍❤️‍👨👩‍❤️‍👩👨‍❤️‍👨👩‍❤️‍💋‍👨👩‍❤️‍💋‍👩👨‍👩‍👦👨‍❤️‍💋‍👨👨‍👩‍👧👩‍👩‍👧‍👧👩‍👦👗👮🏿‍♀️👮🏿👮🏽‍♂️";
   const message = ogMessage;
 
-  // a is sending text to b
+  // a is sending encrypted text to b
   const aKeyPair = new KeyPair();
   const bKeyPair = new KeyPair();
 
@@ -44,7 +46,33 @@ it("should encrypt then decrypt string", async () => {
   expect(decryptText.content).toBe(message);
 }, 60000);
 
-it.only("should encrypt then decrypt random buffer", async () => {
+it("should encrypt then decrypt string and reconstruct keys from strings", async () => {
+  const ogMessage =
+    "!#$%&()*MNOPQRSTUVWXYZ[]^_`abcdefghijklmnz{|}~☇☈☉☊☋☌☍☎☏☐☑☒☓☚☛☜☝☞☟☠☡☢☣☤☥买乱乲乳乴乵乶乷乸乹乺乻乼乽癩羅蘿螺裸邏樂洛烙珞落酪駱亂👩🏼‍🦯👩‍❤️‍👨👩‍❤️‍👩👨‍❤️‍👨👩‍❤️‍💋‍👨👩‍❤️‍💋‍👩👨‍👩‍👦👨‍❤️‍💋‍👨👨‍👩‍👧👩‍👩‍👧‍👧👩‍👦👗👮🏿‍♀️👮🏿👮🏽‍♂️";
+  const message = ogMessage;
+
+  // a is sending encrypted text to b
+  const aKeyPair = new KeyPair();
+  const bKeyPair = new KeyPair();
+  const bPublicKeyString = bKeyPair.publicKey.toString();
+  const bPublicKey = new PublicKey(bPublicKeyString);
+
+  const plainText = new PlainText(message);
+  const encryptText = await plainText.encrypt(aKeyPair.privateKey, bPublicKey);
+  const encryptedMessage = new EncryptedText(encryptText.content);
+
+  const bPrivateKeyString = bKeyPair.privateKey.toString();
+  const bPrivateKey = new PrivateKey(bPrivateKeyString);
+
+  const decryptText = await encryptedMessage.decrypt(bPrivateKey);
+
+  expect(plainText.name).toMatchInlineSnapshot('"decrypted.txt"');
+  expect(encryptText.name).toMatchInlineSnapshot('"encrypted.txt"');
+
+  expect(decryptText.content).toBe(message);
+}, 60000);
+
+it("should encrypt then decrypt random buffer", async () => {
   const randomBuffer = fs.readFileSync(
     path.join(__dirname, "./fixtures/Macaca_nigra_self-portrait_large.jpg")
   );
