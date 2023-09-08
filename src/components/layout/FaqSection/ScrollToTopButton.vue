@@ -48,6 +48,7 @@ function scrollToTop() {
 
 .button-container {
   position: fixed;
+  z-index: 10;
   bottom: 1rem;
   right: 1rem;
 
