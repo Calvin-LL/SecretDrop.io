@@ -1,0 +1,79 @@
+---
+import personalLogoSvg from "@/assets/personal-logo.svg?raw";
+---
+
+<footer>
+  <div>
+    <a
+      href="https://calvin.sh"
+      target="_blank"
+      class="personal-logo-link"
+      rel="noopener noreferrer"
+      set:html={personalLogoSvg}
+    />
+  </div>
+  <div class="text">
+    Made by <a
+      href="https://calvin.sh"
+      target="_blank"
+      rel="noopener noreferrer">Calvin Liang</a
+    >
+  </div>
+  <div class="text">
+    <a
+      class="github-link"
+      href="https://github.com/Calvin-LL/secretdrop.io"
+      target="_blank"
+      rel="noopener noreferrer">View on Github</a
+    >
+  </div>
+</footer>
+
+<style lang="scss">
+  @use "@/scss/global";
+  @use "@/scss/colors";
+  @use "@/scss/transitions";
+
+  footer {
+    @include global.dark-background-auto;
+
+    text-align: center;
+    margin-top: 48px;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+
+    .text {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .personal-logo-link {
+      & > :global(svg) {
+        width: 2rem;
+        filter: grayscale(100%);
+        transition-property: all;
+        transition-duration: transitions.$transition-duration-tiny;
+        transition-timing-function: transitions.$transition-timing-function-standard;
+
+        &:active {
+          filter: unset;
+        }
+
+        @media (hover: hover) {
+          &:hover {
+            filter: unset;
+          }
+        }
+
+        @media (hover: hover) {
+          &:hover {
+            filter: unset;
+          }
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,363 @@
+---
+import diagram from "@/assets/diagram.svg";
+import { Image } from "astro:assets";
+import ScrollToTopButton from "./ScrollToTopButton.vue";
+---
+
+<div id="faq">
+  <div>
+    <h2>How this works?</h2>
+    <p>
+      This uses <a
+        href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic-curve cryptography</a
+      > to exchange keys and <a
+        href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard"
+        target="_blank"
+        rel="noopener noreferrer">Advanced Encryption Standard (AES)</a
+      > to encrypt the files and messages. The encryption link contains the
+      public key. The decryption link contains the private key.
+    </p>
+
+    <p>
+      You might find these YouTube videos helpful:
+      <br />
+      <a
+        href="https://www.youtube.com/watch?v=NF1pwjL9-DE"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic Curves - Computerphile</a
+      >
+      <br />
+      <a
+        href="https://www.youtube.com/watch?v=NmM9HA2MQGI"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Secret Key Exchange (Diffie-Hellman) - Computerphile</a
+      >
+      <br />
+      <a
+        href="https://www.youtube.com/watch?v=O4xNJsjtN6E"
+        target="_blank"
+        rel="noopener noreferrer"
+        >AES Explained (Advanced Encryption Standard) - Computerphile</a
+      >
+    </p>
+
+    <p>
+      Wikipedia:
+      <br />
+      <a
+        href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic-curve cryptography</a
+      >
+      <br />
+      <a
+        href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic-curve Diffie–Hellman</a
+      >
+      <br />
+      <a
+        href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard"
+        target="_blank"
+        rel="noopener noreferrer">Advanced Encryption Standard (AES)</a
+      >
+    </p>
+  </div>
+
+  <div>
+    <h2>How secure is this?</h2>
+    <p>
+      This uses <a
+        href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic-curve cryptography</a
+      > to exchange keys, <a
+        href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic-curve cryptography</a
+      > is also used in Bitcoin to authenticate the billion of dollars of
+      transactions every day.
+    </p>
+
+    <figure>
+      <blockquote
+        cite="https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/"
+      >
+        <p>
+          "the U.S. government uses it to protect internal communications, the
+          Tor project uses it to help assure anonymity, it is the mechanism used
+          to prove ownership of bitcoins, it provides signatures in Apple's
+          iMessage service, it is used to encrypt DNS information with DNSCurve,
+          and it is the preferred method for authentication for secure web
+          browsing over SSL/TLS."
+        </p>
+      </blockquote>
+      <figcaption>
+        -<a
+          href="https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <cite
+            >A (Relatively Easy To Understand) Primer on Elliptic Curve
+            Cryptography</cite
+          >
+        </a>, CloudFlare
+      </figcaption>
+    </figure>
+
+    <p>
+      <a
+        href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard"
+        target="_blank"
+        rel="noopener noreferrer">Advanced Encryption Standard (AES)</a
+      >
+       is then uses to encrypt the files and messages. According to Wikipedia:
+    </p>
+
+    <figure>
+      <blockquote
+        cite="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard"
+      >
+        <p>
+          "Fifty supercomputers that could check a billion billion (10<sup
+            >18</sup
+          >) AES keys per second (if such a device could ever be made) would, in
+          theory, require about 3×10<sup>51</sup> years to exhaust the 256-bit
+          key space." (3×10<sup>51</sup> years is 3 sexdecillion years)
+        </p>
+      </blockquote>
+    </figure>
+
+    <p>
+      In addition everything is done in the browser. Nothing leaves your device
+      and I do not collect any of your information. I don't even have a server
+      that can process users information (can't afford one). Try disconnecting
+      your device from the internet, this site would still work!
+    </p>
+
+    <p>
+      The source code for this website is publicly available on
+      <a
+        href="https://github.com/Calvin-LL/secretdrop.io"
+        target="_blank"
+        rel="noopener noreferrer">Github</a
+      >
+       anyone can read it since I have nothing to hide.
+    </p>
+  </div>
+
+  <div>
+    <h2>Give me some of that juicy technical details.</h2>
+    <figure>
+      <Image src={diagram} alt="Diagram of how SecretDrop.io works" />
+      <figcaption>Here is a diagram</figcaption>
+    </figure>
+    <p>
+      <a
+        href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman"
+        target="_blank"
+        rel="noopener noreferrer">Elliptic-curve Diffie–Hellman (ECDH)</a
+      > is used for both sides to establish a shared secret. I chose <a
+        href="https://en.wikipedia.org/wiki/Curve25519"
+        target="_blank"
+        rel="noopener noreferrer">Curve25519</a
+      > because it seems popular. The shared secret is then pass through <a
+        href="https://en.wikipedia.org/wiki/PBKDF2"
+        target="_blank"
+        rel="noopener noreferrer">PBKDF2</a
+      > with 3000000 iterations (3000000 iterations takes around 1 second on my
+      phone and laptop) and 16 bits of random data as salt to derive a 256 bit
+      AES key. The message or file is then encrypted with <a
+        href="https://en.wikipedia.org/wiki/Galois/Counter_Mode"
+        target="_blank"
+        rel="noopener noreferrer">AES-GCM</a
+      >. Other than the <a
+        href="https://en.wikipedia.org/wiki/PBKDF2"
+        target="_blank"
+        rel="noopener noreferrer">PBKDF2</a
+      > key derivation operation, all other delays are artificially added. EC
+      and AES are actually really fast. Besides <a
+        href="https://en.wikipedia.org/wiki/PBKDF2"
+        target="_blank"
+        rel="noopener noreferrer">PBKDF2</a
+      >, all other operations are done in less than a second on my laptop (other
+      than large files for AES). When multiple files are encrypted, each file
+      will have its own EC key pair.
+    </p>
+    <p>
+      Encryption links are of the form:<br />
+       https://SecretDrop.io/encrypt/#key=[public key]
+    </p>
+    <p>
+      Decryption links are of the form:<br />
+       https://SecretDrop.io/decrypt/#key=[private key]
+    </p>
+    <p>Encrypted messages are of the form:</p>
+    <div style="overflow-x: auto">
+      <pre>
+          <code>
+            +-------------+---------------+-----------------+
+            | size (byte) | type          | description     |
+            +-------------+---------------+-----------------+
+            | variable    | string        | VersionCode     |
+            +-------------+---------------+-----------------+
+            | 1           | string        | "."             |
+            +-------------+---------------+-----------------+
+            | variable    | base64 string | EncryptedBuffer |
+            +-------------+---------------+-----------------+
+          </code>
+        </pre>
+    </div>
+    <p>Encrypted files are of the form:</p>
+    <div style="overflow-x: auto">
+      <pre>
+          <code>
+            +-------------+--------+-----------------+
+            | size (byte) | type   | description     |
+            +-------------+--------+-----------------+
+            | 1           | uint8  | VersionCode     |
+            +-------------+--------+-----------------+
+            | variable    | buffer | EncryptedBuffer |
+            +-------------+--------+-----------------+
+          </code>
+        </pre>
+    </div>
+    <p>VersionCode (uint8)</p>
+    <div style="overflow-x: auto">
+      <pre>
+          <code>
+            +---------+--------------+
+            | version | version code |
+            +---------+--------------+
+            | 1       | 1            |
+            +---------+--------------+
+          </code>
+        </pre>
+    </div>
+    <p>EncryptedBuffer (all data are stored in big endian)</p>
+    <div style="overflow-x: auto">
+      <pre>
+          <code>
+            +-------------+--------+------------------------+
+            | size (byte) | type   | description            |
+            +-------------+--------+------------------------+
+            | 32          | uint32 | encrypter's public key |
+            +-------------+--------+------------------------+
+            | 16          | uint16 | key import salt        |
+            +-------------+--------+------------------------+
+            | 12          | buffer | iv                     |
+            +-------------+--------+------------------------+
+            | variable    | buffer | encrypted data         |
+            +-------------+--------+------------------------+
+            | 16          | buffer | authentication tag     |
+            +-------------+--------+------------------------+
+          </code>
+        </pre>
+    </div>
+  </div>
+
+  <ScrollToTopButton client:idle />
+</div>
+
+<style lang="scss">
+  @use "@/scss/global";
+
+  #faq {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-top: 46px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+    figure {
+      & > figcaption {
+        text-align: center;
+      }
+
+      & > blockquote ~ figcaption {
+        text-align: end;
+
+        cite {
+          font-style: normal;
+        }
+      }
+
+      blockquote {
+        margin-left: 0px;
+        margin-right: 0px;
+
+        // show a gray line on the left
+        p {
+          position: relative;
+
+          padding-left: 16px;
+
+          &::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 4px;
+            height: 100%;
+
+            background-color: rgba($color: #000, $alpha: 0.2);
+
+            @media (prefers-color-scheme: dark) {
+              background-color: rgba($color: #fff, $alpha: 0.2);
+            }
+          }
+        }
+      }
+    }
+
+    & > h1 {
+      font-weight: 500;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    & > div {
+      width: 100%;
+      max-width: 700px;
+      padding-left: 8px;
+      padding-right: 8px;
+
+      & > h2 {
+        font-weight: 500;
+        margin-top: 48px;
+
+        @media (max-width: 640px) {
+          margin-top: 24px;
+        }
+      }
+
+      a {
+        overflow-wrap: break-word;
+        word-break: break-all;
+      }
+
+      .icons {
+        margin: 2px;
+        background-color: grey;
+        max-width: 60px;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        background-color: white;
+      }
+    }
+  }
+</style>

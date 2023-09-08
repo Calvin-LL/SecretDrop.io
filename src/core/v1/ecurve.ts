@@ -1,3 +1,3 @@
-import { ec as EC } from "elliptic";
+import elliptic from "elliptic";
 
-export const ecurve = new EC("curve25519");
+export const ecurve = new elliptic.ec("curve25519");

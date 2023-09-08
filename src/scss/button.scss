@@ -1,0 +1,74 @@
+@use "sass:color";
+@use "@/scss/colors";
+@use "@/scss/shadows";
+
+@mixin raised($fab: false) {
+  @if $fab {
+    @include shadows.shadow(6, colors.$theme-color-bright);
+
+    @media (hover: hover) {
+      &:hover {
+        @include shadows.shadow(8, colors.$theme-color-bright);
+      }
+    }
+
+    &:focus-visible {
+      @include shadows.shadow(8, colors.$theme-color-bright);
+    }
+
+    &:active {
+      @include shadows.shadow(12, colors.$theme-color-bright);
+    }
+  }
+
+  @include shadows.shadow(1, colors.$theme-color-bright);
+
+  @media (hover: hover) {
+    &:hover {
+      @include shadows.shadow(4, colors.$theme-color-bright);
+    }
+  }
+
+  &:focus-visible {
+    @include shadows.shadow(4, colors.$theme-color-bright);
+  }
+
+  &:active {
+    @include shadows.shadow(8, colors.$theme-color-bright);
+  }
+}
+
+@mixin filled($color) {
+  background: linear-gradient(color.scale($color, $lightness: 8%), $color);
+  border-width: 0.8px;
+  border-style: solid;
+  border-color: color.scale($color, $lightness: 16%);
+
+  color: white;
+
+  @media (hover: hover) {
+    &:hover {
+      background: linear-gradient(
+        color.scale($color, $lightness: 16%),
+        color.scale($color, $lightness: 8%)
+      );
+      border-color: color.scale($color, $lightness: 24%);
+    }
+  }
+
+  &:focus-visible {
+    background: linear-gradient(
+      color.scale($color, $lightness: 24%),
+      color.scale($color, $lightness: 16%)
+    );
+    border-color: color.scale($color, $lightness: 32%);
+  }
+
+  &:active {
+    background: linear-gradient(
+      color.scale($color, $lightness: 32%),
+      color.scale($color, $lightness: 24%)
+    );
+    border-color: color.scale($color, $lightness: 40%);
+  }
+}

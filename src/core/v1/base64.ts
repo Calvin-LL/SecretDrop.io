@@ -6,7 +6,7 @@
 // - no `/`
 
 const chars =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-";
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
 
 const lookup = new Uint8Array(256);
 chars.split("").forEach((c, i) => {

@@ -1,4 +1,4 @@
-import { saveAs } from "file-saver";
+import fileSaver from "file-saver";
 
 export class DownloadableFile {
   constructor(
@@ -7,6 +7,6 @@ export class DownloadableFile {
   ) {}
 
   download(): void {
-    saveAs(new Blob([this.buffer]), this.name);
+    fileSaver.saveAs(new Blob([this.buffer]), this.name);
   }
 }

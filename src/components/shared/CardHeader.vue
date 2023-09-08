@@ -20,12 +20,12 @@ defineProps<{
       </span>
     </div>
     <div class="subtitle">
-      <slot name="subtitle"></slot>
+      <slot></slot>
     </div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "@/scss/colors";
 @use "@/scss/global";
 
@@ -36,7 +36,6 @@ defineProps<{
   margin-bottom: 16px;
   padding-left: 8px;
   padding-right: 8px;
-  contain: content;
 
   & > .title-container {
     display: flex;
@@ -67,7 +66,7 @@ defineProps<{
   & > .subtitle {
     @include global.secondary-text-auto;
 
-    span.warning {
+    :deep(span.warning) {
       color: colors.$warning-color;
 
       @media (prefers-color-scheme: dark) {

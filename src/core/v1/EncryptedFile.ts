@@ -1,8 +1,8 @@
-import { bufferToUint8 } from "./helpers";
-import { V1_VERSION_CODE } from "./constants";
-import { PrivateKey } from "./PrivateKey";
-import { PlainFile } from "./PlainFile";
 import { DownloadableFile } from "./DownloadableFile";
+import { PlainFile } from "./PlainFile";
+import { PrivateKey } from "./PrivateKey";
+import { V1_VERSION_CODE } from "./constants";
+import { bufferToUint8 } from "./helpers";
 
 export class EncryptedFile extends DownloadableFile {
   constructor(buffer: ArrayBuffer, name: string) {

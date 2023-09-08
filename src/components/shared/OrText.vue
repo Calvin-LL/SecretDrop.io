@@ -1,16 +1,21 @@
 <script setup lang="ts">
+import CollapseTransition from "@/components/shared/CollapseTransition.vue";
+import { ref } from "vue";
+
 defineProps<{
-  show?: boolean;
+  hidden?: boolean;
 }>();
+
+const root = ref<HTMLDivElement>();
 </script>
 
 <template>
-  <Transition name="collapse">
-    <div v-if="show" class="or-p">or</div>
-  </Transition>
+  <CollapseTransition :element="root" :elementVisible="!hidden">
+    <div v-show="!hidden" ref="root" class="or-p">or</div>
+  </CollapseTransition>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "@/scss/global";
 @use "@/scss/transitions";
 
@@ -25,6 +30,5 @@ defineProps<{
   max-height: 3rem;
 
   overflow: hidden;
-  contain: content;
 }
 </style>

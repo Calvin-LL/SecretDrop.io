@@ -1,4 +1,4 @@
-import { ec } from "elliptic";
+import { type ec } from "elliptic";
 // @ts-expect-error the ts doesn't have that file
 import KeyPair from "elliptic/lib/elliptic/ec/key";
 

@@ -1,0 +1,32 @@
+---
+import EncryptCardContent from "@/components/pages/encrypt/EncryptCardContent.vue";
+import Card from "@/components/shared/Card.astro";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Encrypt - SecretDrop.io">
+  <div id="encrypt">
+    <Card
+      id="encrypt-card"
+      color="green"
+      icon="lock"
+      iconStyle="outlined"
+      title="Encrypt"
+    >
+      <span slot="subtitle">
+        Only the person who has the decryption link can decrypt your message or
+        file. Everything is done on this device. This page also works offline.
+      </span>
+      <EncryptCardContent client:load />
+    </Card>
+  </div>
+</Layout>
+
+<style lang="scss">
+  #encrypt {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+</style>

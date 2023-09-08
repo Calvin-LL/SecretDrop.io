@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import safeSvg from "@/assets/safe.svg?raw";
 import parachuteSvg from "@/assets/parachute.svg?raw";
+import safeSvg from "@/assets/safe.svg?raw";
 
 defineProps<{
   animate?: boolean;
   animateOnHover?: boolean;
   tilted?: boolean;
-  width: string;
+  width?: string;
 }>();
 </script>
 
@@ -16,14 +16,12 @@ defineProps<{
     :class="{ animate, tilted, 'animate-on-hover': animateOnHover }"
     :style="{ width }"
   >
-    <!-- eslint-disable-next-line vue/no-v-html -->
     <div class="parachute-svg-container" v-html="parachuteSvg" />
-    <!-- eslint-disable-next-line vue/no-v-html -->
     <div class="safe-svg-container" v-html="safeSvg" />
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .animated-logo {
   position: relative;
   display: flex;
@@ -40,7 +38,7 @@ defineProps<{
   &.animate-on-hover:hover {
     animation: swing ease-in-out 1s infinite alternate;
 
-    & > .safe-svg-container > svg {
+    & > .safe-svg-container > :deep(svg) {
       animation: swing-little ease-in-out 1s infinite alternate-reverse;
 
       // the dots on the safe
@@ -54,7 +52,7 @@ defineProps<{
   & > .parachute-svg-container {
     display: contents;
 
-    & > svg {
+    & > :deep(svg) {
       backface-visibility: hidden;
       width: 100%;
     }
@@ -63,7 +61,7 @@ defineProps<{
   & > .safe-svg-container {
     display: contents;
 
-    & > svg {
+    & > :deep(svg) {
       backface-visibility: hidden;
       width: 44%;
       margin-top: -10%;

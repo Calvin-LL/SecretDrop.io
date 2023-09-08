@@ -1,0 +1,80 @@
+---
+import CardHeader from "./CardHeader.vue";
+
+interface Props {
+  id?: string;
+  color: "green" | "red";
+  icon: string;
+  iconStyle: "round" | "outlined";
+  title: string;
+}
+
+const { id, color, icon, iconStyle, title } = Astro.props;
+---
+
+<div id={id} class:list={["card", color]}>
+  <CardHeader color={color} icon={icon} iconStyle={iconStyle} title={title}>
+    <slot name="subtitle" />
+  </CardHeader>
+  <slot />
+</div>
+
+<style lang="scss">
+  @use "@/scss/colors";
+  @use "@/scss/shadows";
+  @use "@/scss/global";
+
+  .card {
+    position: relative;
+
+    box-sizing: border-box;
+    width: calc(100% - 96px);
+    min-height: 100px;
+    max-width: 470px;
+
+    border-radius: 32px;
+    overflow: hidden;
+
+    padding: 16px;
+    margin-left: 48px;
+    margin-right: 48px;
+
+    @media (max-width: 640px) {
+      width: 92%;
+      margin-left: 4%;
+      margin-right: 4%;
+    }
+
+    &.green {
+      @include shadows.shadow(24, colors.$encrypt-color-bright);
+
+      background-color: colors.$encrypt-card-background;
+
+      @media (prefers-color-scheme: dark) {
+        @include shadows.shadow(24, colors.$encrypt-color-bright-dark);
+
+        background-color: colors.$encrypt-card-background-dark;
+      }
+
+      & > .card-title-container > .title-container > .icon {
+        color: colors.$encrypt-color;
+      }
+    }
+
+    &.red {
+      @include shadows.shadow(24, colors.$decrypt-color-bright);
+
+      background-color: colors.$decrypt-card-background;
+
+      @media (prefers-color-scheme: dark) {
+        @include shadows.shadow(24, colors.$decrypt-color-bright-dark);
+
+        background-color: colors.$decrypt-card-background-dark;
+      }
+
+      & > .card-title-container > .title-container > .icon {
+        color: colors.$decrypt-color;
+      }
+    }
+  }
+</style>

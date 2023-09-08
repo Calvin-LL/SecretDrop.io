@@ -1,0 +1,31 @@
+---
+import DecryptCardContent from "@/components/pages/decrypt/DecryptCardContent.vue";
+import Card from "@/components/shared/Card.astro";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Decrypt - SecretDrop.io">
+  <div id="decrypt">
+    <Card
+      id="decrypt-card"
+      color="red"
+      icon="key"
+      iconStyle="outlined"
+      title="Decrypt"
+    >
+      <span slot="subtitle">
+        <span class="warning">Never share this link.</span>
+      </span>
+      <DecryptCardContent client:load />
+    </Card>
+  </div>
+</Layout>
+
+<style lang="scss">
+  #decrypt {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+</style>

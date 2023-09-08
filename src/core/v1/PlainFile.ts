@@ -1,9 +1,9 @@
-import { concatBuffers } from "./helpers";
-import { V1_VERSION_CODE_BUFFER } from "./constants";
-import { PublicKey } from "./PublicKey";
-import { PrivateKey } from "./PrivateKey";
-import { EncryptedFile } from "./EncryptedFile";
 import { DownloadableFile } from "./DownloadableFile";
+import { EncryptedFile } from "./EncryptedFile";
+import { PrivateKey } from "./PrivateKey";
+import { PublicKey } from "./PublicKey";
+import { V1_VERSION_CODE_BUFFER } from "./constants";
+import { concatBuffers } from "./helpers";
 
 export class PlainFile extends DownloadableFile {
   constructor(buffer: ArrayBuffer, name: string) {

@@ -1,11 +1,11 @@
+import { type curve, type ec } from "elliptic";
 // @ts-expect-error the ts doesn't have that file
 import KeyPair from "elliptic/lib/elliptic/ec/key";
-import { curve, ec } from "elliptic";
 
-import { bufferToUint8, concatBuffers, uint8ArrayToBuffer } from "./helpers";
-import { ecurve } from "./ecurve";
-import { V1_VERSION_CODE, V1_VERSION_CODE_BUFFER } from "./constants";
 import { base64ToBuffer, bufferToBase64 } from "./base64";
+import { V1_VERSION_CODE, V1_VERSION_CODE_BUFFER } from "./constants";
+import { ecurve } from "./ecurve";
+import { bufferToUint8, concatBuffers, uint8ArrayToBuffer } from "./helpers";
 
 export class PublicKey {
   readonly #key: ec.KeyPair;

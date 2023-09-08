@@ -8,12 +8,11 @@ defineProps<{
 
 <template>
   <div class="animated-safe" :style="{ width }">
-    <!-- eslint-disable-next-line vue/no-v-html -->
     <div class="safe-svg-container" v-html="safeSvg" />
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .animated-safe {
   position: relative;
   display: flex;
@@ -23,7 +22,7 @@ defineProps<{
   & > .safe-svg-container {
     display: contents;
 
-    & > svg {
+    & > :deep(svg) {
       backface-visibility: hidden;
       transform-origin: center;
       animation: turning-dial ease-in-out 1s infinite;

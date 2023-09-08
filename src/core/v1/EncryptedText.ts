@@ -1,10 +1,10 @@
 import LZUTF8 from "lzutf8";
 
-import { V1_VERSION_CODE_STRING } from "./constants";
-import { base64ToBuffer } from "./base64";
-import { PrivateKey } from "./PrivateKey";
-import { PlainText } from "./PlainText";
 import { DownloadableText } from "./DownloadableText";
+import { PlainText } from "./PlainText";
+import { PrivateKey } from "./PrivateKey";
+import { base64ToBuffer } from "./base64";
+import { V1_VERSION_CODE_STRING } from "./constants";
 
 export class EncryptedText extends DownloadableText {
   constructor(content: string) {

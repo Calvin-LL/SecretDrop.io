@@ -1,0 +1,53 @@
+---
+import DecryptLinkCardContent from "@/components/pages/index/link-cards/DecryptLinkCardContent.vue";
+import EncryptLinkCardContent from "@/components/pages/index/link-cards/EncryptLinkCardContent.vue";
+import Card from "@/components/shared/Card.astro";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Generate New Key Pair - SecretDrop.io">
+  <div id="generate-key-pair">
+    <Card
+      id="encryption-link-card"
+      color="green"
+      icon="lock"
+      iconStyle="outlined"
+      title="Public Encryption Link"
+    >
+      <span slot="subtitle">
+        Files and messages encrypted with this link can only be decrypted with
+        the private decryption link. Share this link.
+      </span>
+      <EncryptLinkCardContent client:load />
+    </Card>
+
+    <Card
+      id="decryption-link-card"
+      color="red"
+      icon="key"
+      iconStyle="round"
+      title="Private Decryption Link"
+    >
+      <span slot="subtitle">
+        This link can only decrypt files and messages encrypted with the public
+        encryption link above. <span class="warning"
+          >Never share this link.</span
+        >
+      </span>
+      <DecryptLinkCardContent client:load />
+    </Card>
+  </div>
+</Layout>
+
+<style lang="scss">
+  #generate-key-pair {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 64px;
+  }
+</style>

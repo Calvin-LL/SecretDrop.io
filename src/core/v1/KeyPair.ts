@@ -1,6 +1,6 @@
-import { ecurve } from "./ecurve";
-import { PublicKey } from "./PublicKey";
 import { PrivateKey } from "./PrivateKey";
+import { PublicKey } from "./PublicKey";
+import { ecurve } from "./ecurve";
 
 export class KeyPair {
   public readonly publicKey: PublicKey;

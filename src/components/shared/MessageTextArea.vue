@@ -1,10 +1,13 @@
 <script setup lang="ts">
-withDefaults(
+import CollapseTransition from "@/components/shared/CollapseTransition.vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+
+const props = withDefaults(
   defineProps<{
-    show?: boolean;
-    placeholder: string;
+    placeholder?: string;
     message: string;
     disabled?: boolean;
+    hidden?: boolean;
     fontSize?: "big" | "small";
   }>(),
   {
@@ -13,8 +16,22 @@ withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: "update:message", message: string): void;
+  "update:message": [message: string];
+  enterPressed: [e: KeyboardEvent];
 }>();
+
+const root = ref<HTMLDivElement>();
+const textarea = ref<HTMLTextAreaElement>();
+
+onMounted(() => {
+  addEventListener("resize", updateTextAreaHeight);
+});
+
+watch(() => props.message, updateTextAreaHeight);
+
+onBeforeUnmount(() => {
+  removeEventListener("resize", updateTextAreaHeight);
+});
 
 function onInput(e: Event) {
   const target = e.target as HTMLTextAreaElement;
@@ -22,26 +39,40 @@ function onInput(e: Event) {
 
   emit("update:message", newMessage);
 
-  target.style.height = "auto";
-  target.style.height = `${target.scrollHeight}px`;
+  updateTextAreaHeight();
+}
+
+function updateTextAreaHeight() {
+  if (textarea.value) {
+    textarea.value.style.height = "auto";
+    textarea.value.style.height =
+      Math.max(textarea.value.scrollHeight, 100) + "px";
+  }
 }
 </script>
 
 <template>
-  <Transition name="collapse">
-    <div v-if="show" class="textarea-container">
+  <CollapseTransition :element="root" :elementVisible="!hidden">
+    <div v-show="!hidden" ref="root" class="textarea-container">
       <textarea
+        ref="textarea"
         :class="fontSize"
         :placeholder="placeholder"
         :readonly="disabled"
         :value="message"
         @input="onInput"
+        @keydown.ctrl.enter.exact.prevent="
+          !disabled && emit('enterPressed', $event)
+        "
+        @keydown.meta.enter.exact.prevent="
+          !disabled && emit('enterPressed', $event)
+        "
       />
     </div>
-  </Transition>
+  </CollapseTransition>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "@fontsource/roboto-slab/400" as *;
 @use "@/scss/global";
 @use "@/scss/transitions";
@@ -51,18 +82,13 @@ function onInput(e: Event) {
   padding-right: 8px;
   padding-bottom: 8px;
 
-  contain: content;
-
-  &.collapse-enter-to,
-  &.collapse-leave-from {
-    max-height: 100px;
-  }
-
   & > textarea {
     @include global.primary-text-auto;
 
     width: 100%;
     min-height: 100px;
+
+    box-sizing: border-box;
 
     resize: none;
     border: none;
@@ -75,6 +101,8 @@ function onInput(e: Event) {
     background-color: transparent;
 
     font-family: "Roboto Slab", serif;
+    word-break: break-all;
+    line-break: anywhere;
 
     &::placeholder {
       @include global.secondary-text-auto;
