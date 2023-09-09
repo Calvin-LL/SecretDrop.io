@@ -36,7 +36,8 @@ test("encrypt then decrypt text", async ({ page, context }) => {
     .getAttribute("href");
   const encryptPage = await context.newPage();
   encryptPage.on("console", console.log);
-  await encryptPage.goto(encryptLink!, { waitUntil: "networkidle" });
+  await encryptPage.goto(encryptLink!);
+  await encryptPage.waitForSelector("body[data-loaded]");
 
   const message =
     "!#$%&()*MNOPQRSTUVWXYZ[]^_`abcdefghijklmnz{|}~☇☈☉☊☋☌☍☎☏☐☑☒☓☚☛☜☝☞☟☠☡☢☣☤☥买乱乲乳乴乵乶乷乸乹乺乻乼乽癩羅蘿螺裸邏樂洛烙珞落酪駱亂👩🏼‍🦯👩‍❤️‍👨👩‍❤️‍👩👨‍❤️‍👨👩‍❤️‍💋‍👨👩‍❤️‍💋‍👩👨‍👩‍👦👨‍❤️‍💋‍👨👨‍👩‍👧👩‍👩‍👧‍👧👩‍👦👗👮🏿‍♀️👮🏿👮🏽‍♂️";
@@ -62,7 +63,8 @@ test("encrypt then decrypt text", async ({ page, context }) => {
     .getAttribute("href");
   const decryptPage = await context.newPage();
   decryptPage.on("console", console.log);
-  await decryptPage.goto(decryptLink!, { waitUntil: "networkidle" });
+  await decryptPage.goto(decryptLink!);
+  await decryptPage.waitForSelector("body[data-loaded]");
 
   await decryptPage.locator("textarea:not([readonly])").type(encryptedMessage);
 
@@ -93,7 +95,8 @@ test("encrypt then decrypt files", async ({ page, context }) => {
     .getAttribute("href");
   const encryptPage = await context.newPage();
   encryptPage.on("console", console.log);
-  await encryptPage.goto(encryptLink!, { waitUntil: "networkidle" });
+  await encryptPage.goto(encryptLink!);
+  await encryptPage.waitForSelector("body[data-loaded]");
 
   const file1Content = "test1";
   const file2Content = "test2";
@@ -130,7 +133,8 @@ test("encrypt then decrypt files", async ({ page, context }) => {
     .getAttribute("href");
   const decryptPage = await context.newPage();
   decryptPage.on("console", console.log);
-  await decryptPage.goto(decryptLink!, { waitUntil: "networkidle" });
+  await decryptPage.goto(decryptLink!);
+  await decryptPage.waitForSelector("body[data-loaded]");
 
   const [encryptedFileChooser] = await Promise.all([
     decryptPage.waitForEvent("filechooser"),
