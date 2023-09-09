@@ -52,9 +52,15 @@ function scrollToTop() {
   bottom: 1rem;
   right: 1rem;
 
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  right: max(1rem, env(safe-area-inset-right));
+
   @media (min-width: 1024px) {
     bottom: 1.5rem;
     right: 1.5rem;
+
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
+    right: max(1.5rem, env(safe-area-inset-right));
   }
 
   &.v-enter-active {

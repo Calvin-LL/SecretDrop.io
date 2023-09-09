@@ -16,7 +16,10 @@ const { title } = Astro.props;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,viewport-fit=cover"
+    />
 
     <meta name="author" content="Calvin Liang" />
     <meta name="description" content="Public key cryptography made easy" />
@@ -119,6 +122,9 @@ const { title } = Astro.props;
     min-width: 320px;
     min-height: 100lvh;
     overflow: auto;
+
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) 0
+      env(safe-area-inset-left);
   }
 
   a {
