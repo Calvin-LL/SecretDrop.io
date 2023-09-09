@@ -14,7 +14,7 @@ const props = defineProps<{
 let cancelTextAnimation: (() => void) | undefined;
 
 const fullUrl = ref("");
-const displayUrl = ref(" ");
+const displayUrl = ref(" ".repeat(78));
 const isLoading = ref(true);
 
 onMounted(() => {
