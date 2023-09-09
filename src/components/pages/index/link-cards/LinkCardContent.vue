@@ -40,7 +40,9 @@ onBeforeUnmount(() => {
 });
 
 function getUrlBase() {
-  const origin = import.meta.env.SSR ? "" : window.location.origin;
+  const origin = import.meta.env.SSR
+    ? ""
+    : window.location.origin.replace("secretdrop.io", "SecretDrop.io");
 
   return `${origin}/${props.cardType}#key=`;
 }
