@@ -164,7 +164,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
 function waitForDownloads(page: Page, count: number): Promise<Download[]> {
   return new Promise((resolve) => {
     const downloads: Download[] = [];
-    const listener = async (download: Download) => {
+    const listener = (download: Download) => {
       downloads.push(download);
 
       if (downloads.length === count) {
