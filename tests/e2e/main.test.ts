@@ -119,12 +119,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
   ]);
 
   const [[encryptedFile1Download, encryptedFile2Download]] = await Promise.all([
-    (async () => {
-      const download1 = await encryptPage.waitForEvent("download");
-      const download2 = await encryptPage.waitForEvent("download");
-
-      return [download1, download2];
-    })(),
+    waitForDownloads(encryptPage, 2),
     encryptPage.locator("button").filter({ hasText: "encrypt" }).click(),
   ]);
 
@@ -154,12 +149,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
   ]);
 
   const [[decryptedFile1Download, decryptedFile2Download]] = await Promise.all([
-    (async () => {
-      const download1 = await decryptPage.waitForEvent("download");
-      const download2 = await decryptPage.waitForEvent("download");
-
-      return [download1, download2];
-    })(),
+    waitForDownloads(decryptPage, 2),
     decryptPage.locator("button").filter({ hasText: "decrypt" }).click(),
   ]);
 
@@ -170,6 +160,24 @@ test("encrypt then decrypt files", async ({ page, context }) => {
     file2Content
   );
 });
+
+function waitForDownloads(page: Page, count: number): Promise<Download[]> {
+  return new Promise((resolve) => {
+    const downloads: Download[] = [];
+    const listener = async (download: Download) => {
+      downloads.push(download);
+
+      if (downloads.length === count) {
+        page.off("download", listener);
+        resolve(downloads);
+      }
+    };
+
+    page.on("download", listener);
+
+    return downloads;
+  });
+}
 
 async function downloadAndGetContent(
   page: Page,
