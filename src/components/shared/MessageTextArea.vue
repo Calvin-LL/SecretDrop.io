@@ -9,6 +9,7 @@ const props = withDefaults(
     disabled?: boolean;
     hidden?: boolean;
     fontSize?: "big" | "small";
+    disableSpellcheck?: boolean;
   }>(),
   {
     fontSize: "small",
@@ -60,6 +61,7 @@ function updateTextAreaHeight() {
         :placeholder="placeholder"
         :readonly="disabled"
         :value="message"
+        :spellcheck="!disableSpellcheck"
         @input="onInput"
         @keydown.ctrl.enter.exact.prevent="
           !disabled && emit('enterPressed', $event)

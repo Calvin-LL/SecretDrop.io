@@ -177,6 +177,7 @@ function onClearClick() {
       :disabled="loadingResult || type === 'file'"
       :hidden="type === 'file'"
       @enter-pressed="onEnterPressed"
+      disableSpellcheck
     />
     <OrText :hidden="type !== undefined" />
     <FileDrop
