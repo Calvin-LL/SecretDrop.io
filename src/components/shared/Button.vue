@@ -261,14 +261,11 @@ const classes = computed(() => [
   }
 
   & > .label {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-
     text-decoration: none;
     text-transform: uppercase;
 
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.01rem;
   }
 }
