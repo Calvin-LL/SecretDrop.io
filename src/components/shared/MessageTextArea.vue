@@ -106,6 +106,8 @@ function updateTextAreaHeight() {
     word-break: break-all;
     line-break: anywhere;
 
+    font-size: 1rem;
+
     &::placeholder {
       @include global.secondary-text-auto;
     }
