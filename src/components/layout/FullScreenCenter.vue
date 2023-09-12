@@ -9,9 +9,6 @@ const topBarHeight = ref(0);
 onMounted(() => {
   window.addEventListener("resize", updateHeight);
   updateHeight();
-
-  // add this to let the test know that the component is loaded
-  document.body.dataset.loaded = "";
 });
 
 onBeforeUnmount(() => {

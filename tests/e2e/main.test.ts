@@ -36,8 +36,7 @@ test("encrypt then decrypt text", async ({ page, context }) => {
     .getAttribute("href");
   const encryptPage = await context.newPage();
   encryptPage.on("console", console.log);
-  await encryptPage.goto(encryptLink!);
-  await encryptPage.waitForSelector("body[data-loaded]");
+  await astroGoto(encryptPage, encryptLink!);
 
   const message =
     "!#$%&()*MNOPQRSTUVWXYZ[]^_`abcdefghijklmnz{|}~☇☈☉☊☋☌☍☎☏☐☑☒☓☚☛☜☝☞☟☠☡☢☣☤☥买乱乲乳乴乵乶乷乸乹乺乻乼乽癩羅蘿螺裸邏樂洛烙珞落酪駱亂👩🏼‍🦯👩‍❤️‍👨👩‍❤️‍👩👨‍❤️‍👨👩‍❤️‍💋‍👨👩‍❤️‍💋‍👩👨‍👩‍👦👨‍❤️‍💋‍👨👨‍👩‍👧👩‍👩‍👧‍👧👩‍👦👗👮🏿‍♀️👮🏿👮🏽‍♂️";
@@ -63,8 +62,7 @@ test("encrypt then decrypt text", async ({ page, context }) => {
     .getAttribute("href");
   const decryptPage = await context.newPage();
   decryptPage.on("console", console.log);
-  await decryptPage.goto(decryptLink!);
-  await decryptPage.waitForSelector("body[data-loaded]");
+  await astroGoto(decryptPage, decryptLink!);
 
   await decryptPage.locator("textarea:not([readonly])").type(encryptedMessage);
 
@@ -95,8 +93,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
     .getAttribute("href");
   const encryptPage = await context.newPage();
   encryptPage.on("console", console.log);
-  await encryptPage.goto(encryptLink!);
-  await encryptPage.waitForSelector("body[data-loaded]");
+  await astroGoto(encryptPage, encryptLink!);
 
   const file1Content = "test1";
   const file2Content = "test2";
@@ -128,8 +125,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
     .getAttribute("href");
   const decryptPage = await context.newPage();
   decryptPage.on("console", console.log);
-  await decryptPage.goto(decryptLink!);
-  await decryptPage.waitForSelector("body[data-loaded]");
+  await astroGoto(decryptPage, decryptLink!);
 
   const [encryptedFileChooser] = await Promise.all([
     decryptPage.waitForEvent("filechooser"),
@@ -216,4 +212,16 @@ async function readStreamToBuffer(
   }
 
   return Buffer.concat(chunks);
+}
+
+/**
+ * returns a promise that resolves when the page and all astro components have loaded
+ */
+async function astroGoto(page: Page, path: string) {
+  await Promise.all([
+    page.waitForFunction(
+      () => document.querySelectorAll("astro-island[ssr]").length === 0
+    ),
+    page.goto(path),
+  ]);
 }
