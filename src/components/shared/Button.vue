@@ -262,7 +262,7 @@ const classes = computed(() => [
 
   & > .label {
     text-decoration: none;
-    text-transform: uppercase;
+    text-transform: capitalize;
 
     font-size: 0.875rem;
     font-weight: 400;
