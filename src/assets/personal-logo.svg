@@ -3,7 +3,6 @@
         <style>
             .a,.c{fill:none;stroke-miterlimit:10;}.a{stroke:#ffb700;stroke-width:84.75px;}.b{fill:#ff3100;}.c{stroke:#03abf4;stroke-width:94.99px;}</style>
     </defs>
-    <title>logo-light</title>
     <polyline class="a" points="1482.43 1229.79 1482.43 668.8 1482.43 668.8 1482.43 0" />
     <rect class="b" x="1345.75" y="1428.94" width="273.35" height="273.35" rx="136.68" />
     <path class="c"
