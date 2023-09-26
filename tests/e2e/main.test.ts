@@ -244,6 +244,8 @@ async function readStreamToBuffer(
  * returns a promise that resolves when the page and all astro components have loaded
  */
 async function astroGoto(page: Page, path: string) {
+  console.log("opening", path);
+
   await Promise.all([
     page.waitForFunction(
       () => document.querySelectorAll("astro-island[ssr]").length === 0
