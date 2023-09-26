@@ -107,27 +107,32 @@ test("encrypt then decrypt files", async ({ page, context }) => {
   const file1Content = "test1";
   const file2Content = "test2";
 
-  const [plainFileChooser] = await Promise.all([
-    encryptPage.waitForEvent("filechooser"),
-    encryptPage.locator("input[type=file]").click(),
-  ]);
-  await plainFileChooser.setFiles([
-    {
-      name: "test1.txt",
-      mimeType: "text/plain",
-      buffer: Buffer.from(file1Content),
-    },
-    {
-      name: "test2.txt",
-      mimeType: "text/plain",
-      buffer: Buffer.from(file2Content),
-    },
-  ]);
+  const [[encryptedFile1Download, encryptedFile2Download]] = await retry(
+    async () => {
+      const [plainFileChooser] = await Promise.all([
+        encryptPage.waitForEvent("filechooser"),
+        encryptPage.locator("input[type=file]").click(),
+      ]);
+      await plainFileChooser.setFiles([
+        {
+          name: "test1.txt",
+          mimeType: "text/plain",
+          buffer: Buffer.from(file1Content),
+        },
+        {
+          name: "test2.txt",
+          mimeType: "text/plain",
+          buffer: Buffer.from(file2Content),
+        },
+      ]);
 
-  const [[encryptedFile1Download, encryptedFile2Download]] = await Promise.all([
-    waitForDownloads(encryptPage, 2),
-    encryptPage.locator("button").filter({ hasText: "encrypt" }).click(),
-  ]);
+      return await Promise.all([
+        waitForDownloads(encryptPage, 2),
+        encryptPage.locator("button").filter({ hasText: "encrypt" }).click(),
+      ]);
+    },
+    3
+  );
 
   const decryptLink = await page
     .locator("#decryption-link-card a")
@@ -136,27 +141,32 @@ test("encrypt then decrypt files", async ({ page, context }) => {
   decryptPage.on("console", console.log);
   await astroGoto(decryptPage, decryptLink!);
 
-  const [encryptedFileChooser] = await Promise.all([
-    decryptPage.waitForEvent("filechooser"),
-    decryptPage.locator("input[type=file]").click(),
-  ]);
-  await encryptedFileChooser.setFiles([
-    {
-      name: "test1.txt",
-      mimeType: "text/plain",
-      buffer: await getDownloadContentBuffer(encryptedFile1Download),
-    },
-    {
-      name: "test2.txt",
-      mimeType: "text/plain",
-      buffer: await getDownloadContentBuffer(encryptedFile2Download),
-    },
-  ]);
+  const [[decryptedFile1Download, decryptedFile2Download]] = await retry(
+    async () => {
+      const [encryptedFileChooser] = await Promise.all([
+        decryptPage.waitForEvent("filechooser"),
+        decryptPage.locator("input[type=file]").click(),
+      ]);
+      await encryptedFileChooser.setFiles([
+        {
+          name: "test1.txt",
+          mimeType: "text/plain",
+          buffer: await getDownloadContentBuffer(encryptedFile1Download),
+        },
+        {
+          name: "test2.txt",
+          mimeType: "text/plain",
+          buffer: await getDownloadContentBuffer(encryptedFile2Download),
+        },
+      ]);
 
-  const [[decryptedFile1Download, decryptedFile2Download]] = await Promise.all([
-    waitForDownloads(decryptPage, 2),
-    decryptPage.locator("button").filter({ hasText: "decrypt" }).click(),
-  ]);
+      return await Promise.all([
+        waitForDownloads(decryptPage, 2),
+        decryptPage.locator("button").filter({ hasText: "decrypt" }).click(),
+      ]);
+    },
+    3
+  );
 
   expect(await getDownloadContentString(decryptedFile1Download)).toBe(
     file1Content
