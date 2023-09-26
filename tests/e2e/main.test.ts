@@ -41,11 +41,16 @@ test("encrypt then decrypt text", async ({ page, context }) => {
   const message =
     "!#$%&()*MNOPQRSTUVWXYZ[]^_`abcdefghijklmnz{|}~☇☈☉☊☋☌☍☎☏☐☑☒☓☚☛☜☝☞☟☠☡☢☣☤☥买乱乲乳乴乵乶乷乸乹乺乻乼乽癩羅蘿螺裸邏樂洛烙珞落酪駱亂👩🏼‍🦯👩‍❤️‍👨👩‍❤️‍👩👨‍❤️‍👨👩‍❤️‍💋‍👨👩‍❤️‍💋‍👩👨‍👩‍👦👨‍❤️‍💋‍👨👨‍👩‍👧👩‍👩‍👧‍👧👩‍👦👗👮🏿‍♀️👮🏿👮🏽‍♂️";
 
-  await encryptPage.locator("textarea:not([readonly])").type(message);
-  await Promise.all([
-    encryptPage.waitForSelector(".loading-bar"),
-    encryptPage.locator("button").filter({ hasText: "encrypt" }).click(),
-  ]);
+  await retry(async () => {
+    const textarea = encryptPage.locator("textarea:not([readonly])");
+    await textarea.clear();
+    await textarea.type(message);
+
+    await Promise.all([
+      encryptPage.waitForSelector(".loading-bar"),
+      encryptPage.locator("button").filter({ hasText: "encrypt" }).click(),
+    ]);
+  }, 3);
   await encryptPage.waitForSelector(".loading-bar", {
     state: "detached",
     timeout: 120 * 1000,
@@ -64,12 +69,16 @@ test("encrypt then decrypt text", async ({ page, context }) => {
   decryptPage.on("console", console.log);
   await astroGoto(decryptPage, decryptLink!);
 
-  await decryptPage.locator("textarea:not([readonly])").type(encryptedMessage);
+  await retry(async () => {
+    const textarea = decryptPage.locator("textarea:not([readonly])");
+    await textarea.clear();
+    await textarea.type(encryptedMessage);
 
-  await Promise.all([
-    decryptPage.waitForSelector(".loading-bar"),
-    decryptPage.locator("button").filter({ hasText: "decrypt" }).click(),
-  ]);
+    await Promise.all([
+      decryptPage.waitForSelector(".loading-bar"),
+      decryptPage.locator("button").filter({ hasText: "decrypt" }).click(),
+    ]);
+  }, 3);
   await decryptPage.waitForSelector(".loading-bar", {
     state: "detached",
     timeout: 120 * 1000,
@@ -224,4 +233,21 @@ async function astroGoto(page: Page, path: string) {
     ),
     page.goto(path),
   ]);
+}
+
+async function retry<T>(
+  fn: () => Promise<T>,
+  retries: number,
+  delay: number = 0
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    if (retries > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return retry(fn, retries - 1, delay);
+    } else {
+      throw error;
+    }
+  }
 }
