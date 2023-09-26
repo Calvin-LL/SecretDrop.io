@@ -47,7 +47,7 @@ test("encrypt then decrypt text", async ({ page, context }) => {
     await textarea.type(message);
 
     await Promise.all([
-      encryptPage.waitForSelector(".loading-bar"),
+      encryptPage.waitForSelector(".loading-bar", { timeout: 5 * 1000 }),
       encryptPage.locator("button").filter({ hasText: "encrypt" }).click(),
     ]);
   }, 3);
@@ -75,7 +75,7 @@ test("encrypt then decrypt text", async ({ page, context }) => {
     await textarea.type(encryptedMessage);
 
     await Promise.all([
-      decryptPage.waitForSelector(".loading-bar"),
+      decryptPage.waitForSelector(".loading-bar", { timeout: 5 * 1000 }),
       decryptPage.locator("button").filter({ hasText: "decrypt" }).click(),
     ]);
   }, 3);
@@ -93,6 +93,8 @@ test("encrypt then decrypt text", async ({ page, context }) => {
 });
 
 test("encrypt then decrypt files", async ({ page, context }) => {
+  test.slow();
+
   await page.goto("/");
 
   await page.waitForSelector(".loading-bar", { state: "detached" });
@@ -110,7 +112,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
   const [[encryptedFile1Download, encryptedFile2Download]] = await retry(
     async () => {
       const [plainFileChooser] = await Promise.all([
-        encryptPage.waitForEvent("filechooser"),
+        encryptPage.waitForEvent("filechooser", { timeout: 5 * 1000 }),
         encryptPage.locator("input[type=file]").click(),
       ]);
       await plainFileChooser.setFiles([
@@ -144,7 +146,7 @@ test("encrypt then decrypt files", async ({ page, context }) => {
   const [[decryptedFile1Download, decryptedFile2Download]] = await retry(
     async () => {
       const [encryptedFileChooser] = await Promise.all([
-        decryptPage.waitForEvent("filechooser"),
+        decryptPage.waitForEvent("filechooser", { timeout: 5 * 1000 }),
         decryptPage.locator("input[type=file]").click(),
       ]);
       await encryptedFileChooser.setFiles([
@@ -177,21 +179,26 @@ test("encrypt then decrypt files", async ({ page, context }) => {
 });
 
 function waitForDownloads(page: Page, count: number): Promise<Download[]> {
-  return new Promise((resolve) => {
-    const downloads: Download[] = [];
-    const listener = (download: Download) => {
-      downloads.push(download);
+  return Promise.race([
+    page.waitForTimeout(30 * 1000).then(() => {
+      throw new Error("Timeout waiting for downloads");
+    }),
+    new Promise<Download[]>((resolve) => {
+      const downloads: Download[] = [];
+      const listener = (download: Download) => {
+        downloads.push(download);
 
-      if (downloads.length === count) {
-        page.off("download", listener);
-        resolve(downloads);
-      }
-    };
+        if (downloads.length === count) {
+          page.off("download", listener);
+          resolve(downloads);
+        }
+      };
 
-    page.on("download", listener);
+      page.on("download", listener);
 
-    return downloads;
-  });
+      return downloads;
+    }),
+  ]);
 }
 
 async function downloadAndGetContent(
@@ -203,7 +210,7 @@ async function downloadAndGetContent(
   );
 
   const [download] = await Promise.all([
-    page.waitForEvent("download"),
+    page.waitForEvent("download", { timeout: 5 * 1000 }),
     downloadButton!.click(),
   ]);
 
