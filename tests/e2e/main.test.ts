@@ -44,7 +44,7 @@ test("encrypt then decrypt text", async ({ page, context }) => {
   await retry(async () => {
     const textarea = encryptPage.locator("textarea:not([readonly])");
     await textarea.clear();
-    await textarea.type(message);
+    await textarea.fill(message);
 
     await Promise.all([
       encryptPage.waitForSelector(".loading-bar", { timeout: 5 * 1000 }),
@@ -72,7 +72,7 @@ test("encrypt then decrypt text", async ({ page, context }) => {
   await retry(async () => {
     const textarea = decryptPage.locator("textarea:not([readonly])");
     await textarea.clear();
-    await textarea.type(encryptedMessage);
+    await textarea.fill(encryptedMessage);
 
     await Promise.all([
       decryptPage.waitForSelector(".loading-bar", { timeout: 5 * 1000 }),
