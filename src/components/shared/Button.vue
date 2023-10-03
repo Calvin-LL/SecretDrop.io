@@ -87,11 +87,12 @@ const classes = computed(() => [
   padding-left: 12px;
 
   height: 36px;
-  border-radius: 18px;
+  --buttonBorderRadius: 18px;
+  border-radius: var(--buttonBorderRadius);
 
   background: transparent;
 
-  transition-property: background, box-shadow;
+  transition-property: background, box-shadow, border-color;
   transition-duration: transitions.$transition-duration-tiny;
   transition-timing-function: transitions.$transition-timing-function-standard;
 
@@ -128,7 +129,8 @@ const classes = computed(() => [
     width: 48px;
     height: 48px;
 
-    border-radius: 24px;
+    --buttonBorderRadius: 24px;
+    border-radius: var(--buttonBorderRadius);
   }
 
   @media (hover: hover) {
@@ -212,7 +214,8 @@ const classes = computed(() => [
   &.fab {
     height: 56px;
     width: 56px;
-    border-radius: 28px;
+    --buttonBorderRadius: 28px;
+    border-radius: var(--buttonBorderRadius);
 
     @include button.raised(true);
     &.green {

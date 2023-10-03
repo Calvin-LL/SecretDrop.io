@@ -1,6 +1,7 @@
 @use "sass:color";
 @use "@/scss/colors";
 @use "@/scss/shadows";
+@use "@/scss/transitions";
 
 @mixin raised($fab: false) {
   @if $fab {
@@ -38,37 +39,83 @@
   }
 }
 
+@mixin gradient-overlay($gradient) {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  content: "";
+
+  background: $gradient;
+
+  border-radius: var(--buttonBorderRadius);
+
+  opacity: 0;
+
+  transition-property: opacity;
+  transition-duration: transitions.$transition-duration-tiny;
+  transition-timing-function: transitions.$transition-timing-function-standard;
+}
+
 @mixin filled($color) {
-  background: linear-gradient(color.scale($color, $lightness: 8%), $color);
+  $color1: color.scale($color, $lightness: 8%);
+  $color2: color.scale($color, $lightness: 16%);
+  $color3: color.scale($color, $lightness: 24%);
+  $color4: color.scale($color, $lightness: 32%);
+  $color5: color.scale($color, $lightness: 40%);
+  $gradient-direction: to bottom;
+
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient($gradient-direction, $color1, $color);
   border-width: 0.8px;
   border-style: solid;
-  border-color: color.scale($color, $lightness: 16%);
-
+  border-color: $color2;
   color: white;
+
+  &::before {
+    @include gradient-overlay(
+      linear-gradient($gradient-direction, $color4, $color3)
+    );
+
+    border-radius: var(--buttonBorderRadius);
+  }
 
   @media (hover: hover) {
     &:hover {
-      background: linear-gradient(
-        color.scale($color, $lightness: 16%),
-        color.scale($color, $lightness: 8%)
-      );
-      border-color: color.scale($color, $lightness: 24%);
+      // background: linear-gradient($gradient-direction, $color2, $color1);
+      border-color: $color3;
+
+      &::before {
+        opacity: 0.5;
+      }
     }
   }
 
   &:focus-visible {
-    background: linear-gradient(
-      color.scale($color, $lightness: 24%),
-      color.scale($color, $lightness: 16%)
-    );
-    border-color: color.scale($color, $lightness: 32%);
+    // background: linear-gradient($gradient-direction, $color3, $color2);
+    border-color: $color4;
+
+    outline-color: $color;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: 2px;
+
+    &::before {
+      opacity: 0.7;
+    }
   }
 
   &:active {
-    background: linear-gradient(
-      color.scale($color, $lightness: 32%),
-      color.scale($color, $lightness: 24%)
-    );
-    border-color: color.scale($color, $lightness: 40%);
+    // background: linear-gradient($gradient-direction, $color4, $color3);
+    border-color: $color5;
+
+    &::before {
+      opacity: 1;
+    }
   }
 }
