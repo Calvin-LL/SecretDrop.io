@@ -51,7 +51,7 @@
 
   background: $gradient;
 
-  border-radius: var(--buttonBorderRadius);
+  border-radius: var(--buttonOverlayBorderRadius);
 
   opacity: 0;
 
@@ -68,6 +68,16 @@
   $color5: color.scale($color, $lightness: 40%);
   $gradient-direction: to bottom;
 
+  // if color1 and color5 are the same, use darken instead
+  @if $color1 == $color5 {
+    $color1: color.scale($color, $lightness: -8%);
+    $color2: color.scale($color, $lightness: -16%);
+    $color3: color.scale($color, $lightness: -24%);
+    $color4: color.scale($color, $lightness: -32%);
+    $color5: color.scale($color, $lightness: -40%);
+    $gradient-direction: to top;
+  }
+
   position: relative;
   z-index: 1;
 
@@ -75,14 +85,13 @@
   border-width: 0.8px;
   border-style: solid;
   border-color: $color2;
+  --buttonOverlayBorderRadius: calc(var(--buttonBorderRadius) - 0.8px);
   color: white;
 
   &::before {
     @include gradient-overlay(
       linear-gradient($gradient-direction, $color4, $color3)
     );
-
-    border-radius: var(--buttonBorderRadius);
   }
 
   @media (hover: hover) {
