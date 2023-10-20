@@ -7,8 +7,10 @@ import FAQButton from "./FAQButton.vue";
 <div id="top-bar">
   <div class="content">
     <header>
-      <a class="logo-with-text" href="/">
-        <AnimatedLogo animate-on-hover tilted />
+      <div class="animated-logo-container">
+        <AnimatedLogo type="tiled-animate-on-hover" />
+      </div>
+      <a class="logo-text-link" href="/">
         <span class="logo-text">SecretDrop.io</span>
       </a>
     </header>
@@ -59,39 +61,39 @@ import FAQButton from "./FAQButton.vue";
         }
       }
 
-      & > header > .logo-with-text {
-        all: unset;
-
-        @include global.primary-text-auto;
-
-        cursor: pointer;
-
+      & > header {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        &:focus-visible {
-          outline-color: colors.$theme-color;
-          outline-width: 2px;
-          outline-style: solid;
-          outline-offset: 8px;
-        }
-
-        & > .animated-logo {
-          width: 70px;
+        & > .animated-logo-container {
+          width: 90px;
 
           @media (max-width: 740px) {
-            width: 50px;
+            width: 70px;
           }
         }
 
-        & > .logo-text {
-          font-size: 2rem;
-          margin-left: 16px;
+        & > .logo-text-link {
+          all: unset;
 
-          @media (max-width: 740px) {
-            font-size: 1.8rem;
-            margin-left: 8px;
+          @include global.primary-text-auto;
+
+          cursor: pointer;
+
+          &:focus-visible {
+            outline-color: colors.$theme-color;
+            outline-width: 2px;
+            outline-style: solid;
+            outline-offset: 8px;
+          }
+
+          & > .logo-text {
+            font-size: 2rem;
+
+            @media (max-width: 740px) {
+              font-size: 1.8rem;
+            }
           }
         }
       }

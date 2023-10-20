@@ -1,0 +1,191 @@
+<svg id="logo" viewBox="-50 -17 1052 1304" fill="none" xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink" pointer-events="all">
+  <g transform="rotate(-5 476 911)">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      dur="3s"
+      values="-5 476 911;5 476 911;-5 476 911"
+      calcMode="spline"
+      keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+      keyTimes="0;0.5;1"
+      repeatCount="indefinite"
+      begin="logo.mouseenter"
+      end="logo.mouseleave"
+    />
+    <path
+      d="M476 22C227.129 22 25.028 180.971 22.034 428.908c-.036 2.965 2.532 5.326 5.482 5.02L181 418c40.5-166.722 68-284 295-396Zm448.484 411.928c2.95.306 5.518-2.055 5.482-5.02C926.972 180.971 724.871 22 476 22c227 112 254.5 229.278 295 396l153.484 15.928Z"
+      fill="url(#a)" />
+    <path
+      d="M362.5 418 476 476.722 589.5 418c0-185.722-33.5-293-113.5-396-80 103-113.5 210.278-113.5 396Z"
+      fill="url(#a)" />
+    <path
+      d="m589.5 418 106.288 54.991a12.002 12.002 0 0 0 13.357-1.576L771 418c-40.5-166.722-68-284-295-396 80 103 113.5 210.278 113.5 396ZM181 418l61.855 53.415a12.002 12.002 0 0 0 13.357 1.576L362.5 418c0-185.722 33.5-293 113.5-396-227 112-254.5 229.278-295 396Z"
+      fill="url(#b)" />
+    <path fill-rule="evenodd" clip-rule="evenodd"
+      d="M47.325 422.769C109.6 382.322 194.234 389.116 249 443.149c62.642-61.804 164.358-61.804 227 .001 62.642-61.805 164.358-61.805 227 0 54.766-54.034 139.399-60.828 201.675-20.381C878.161 209.221 696.318 44 476 44S73.839 209.221 47.325 422.769Zm852.831 52.772c-49.308-49.802-132.953-46.065-177.108 11.209l-1.307 1.695-165.589 333.204 344.004-346.108ZM498 839.796l178.998-360.187c-48.003-53.264-133.169-51.706-178.998 4.675v355.512Zm-44-355.512c-45.829-56.381-130.995-57.939-178.998-4.675L454 839.796V484.284Zm-58.152 337.365L51.844 475.541c49.308-49.802 132.953-46.065 177.108 11.209l1.307 1.695 165.589 333.204ZM0 476.722C0 213.469 213.08 0 476 0c262.92 0 476 213.469 476 476.722a22 22 0 0 1-6.396 15.509l-454 456.778a22 22 0 0 1-31.208 0l-454-456.778A22.002 22.002 0 0 1 0 476.722Z"
+      fill="url(#c1)" />
+    <g fill="url(#d1)">
+      <animateTransform
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="3 476 1042;-3 476 1042;3 476 1042"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+      <rect x="273" y="839" width="406" height="406" rx="60" stroke="url(#c2)" stroke-width="50" />
+      <g style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))">
+        <circle cx="476" cy="1042" r="111" stroke="url(#c)" stroke-width="38" />
+        <g fill="url(#d2)">
+          <animateTransform
+            attributeName="transform"
+            attributeType="XML"
+            type="rotate"
+            dur="3s"
+            values="0 476 1042;360 476 1042;0 476 1042"
+            calcMode="spline"
+            keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+            keyTimes="0;0.5;1"
+            repeatCount="indefinite"
+            begin="logo.mouseenter"
+            end="logo.mouseleave"
+          />
+          <path
+            d="M363 1031c-6.075 0-11 4.92-11 11s4.925 11 11 11h9c3.314 0 6-2.69 6-6v-10c0-3.31-2.686-6-6-6h-9Z" />
+          <path
+            d="M589 1031c6.075 0 11 4.92 11 11s-4.925 11-11 11h-9c-3.314 0-6-2.69-6-6v-10c0-3.31 2.686-6 6-6h9Z" />
+          <path
+            d="M465 1155c0 6.08 4.925 11 11 11s11-4.92 11-11v-9c0-3.31-2.686-6-6-6h-10c-3.314 0-6 2.69-6 6v9Z" />
+          <path
+            d="M465 929c0-6.075 4.925-11 11-11s11 4.925 11 11v9a6 6 0 0 1-6 6h-10a6 6 0 0 1-6-6v-9Z" />
+          <path
+            d="M388.319 1114.13c-4.296 4.29-4.296 11.26 0 15.55 4.295 4.3 11.26 4.3 15.556 0l6.364-6.36a6.006 6.006 0 0 0 0-8.49l-7.071-7.07a6.005 6.005 0 0 0-8.485 0l-6.364 6.37Z"
+          />
+          <path
+            d="M548.125 954.319c4.296-4.296 11.26-4.296 15.556 0 4.296 4.296 4.296 11.26 0 15.556l-6.364 6.364a6 6 0 0 1-8.485 0l-7.071-7.071a6 6 0 0 1 0-8.485l6.364-6.364Z"
+          />
+          <path
+            d="M563.681 1114.13c4.296 4.29 4.296 11.26 0 15.55-4.296 4.3-11.261 4.3-15.557 0l-6.363-6.36a6.004 6.004 0 0 1 0-8.49l7.071-7.07a6.005 6.005 0 0 1 8.485 0l6.364 6.37Z"
+          />
+          <path
+            d="M403.875 954.319c-4.296-4.296-11.261-4.296-15.556 0-4.296 4.296-4.296 11.26 0 15.556l6.363 6.364a6.001 6.001 0 0 0 8.486 0l7.071-7.071a6 6 0 0 0 0-8.485l-6.364-6.364Z"
+          />
+        </g>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <linearGradient id="a" x1="50%" y1="0%" x2="50%" y2="100%" gradientTransform="rotate(5 .5 .5)">
+      <animateTransform
+        attributeName="gradientTransform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="5 0.5 0.5;-5 0.5 0.5;5 0.5 0.5"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+      <stop stop-color="#84FA71" />
+      <stop offset="1" stop-color="#009E61" />
+    </linearGradient>
+    <linearGradient id="b" x1="50%" y1="44%" x2="50%" y2="100%" gradientTransform="rotate(5 .5 .5)">
+      <animateTransform
+        attributeName="gradientTransform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="5 0.5 0.5;-5 0.5 0.5;5 0.5 0.5"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+      <stop offset="0" stop-color="#fff" />
+      <stop offset="1" stop-color="#CDDAD6" />
+    </linearGradient>
+
+    <linearGradient id="c" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop stop-color="#243B42" />
+      <stop offset="1" stop-color="#011E24" />
+    </linearGradient>
+    <linearGradient id="c1" href="#c" gradientTransform="rotate(5 .5 .5)">
+      <animateTransform
+        attributeName="gradientTransform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="5 0.5 0.5;-5 0.5 0.5;5 0.5 0.5"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+    </linearGradient>
+    <linearGradient id="c2" href="#c" gradientTransform="rotate(5 .5 .5)">
+      <animateTransform
+        attributeName="gradientTransform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="2 0.5 0.5;-2 0.5 0.5;2 0.5 0.5"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+    </linearGradient>
+
+
+    <linearGradient id="d" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop stop-color="#F7FAF9" />
+      <stop offset="1" stop-color="#8E949D" />
+    </linearGradient>
+    <linearGradient id="d1" href="#d" gradientTransform="rotate(5 .5 .5)">
+      <animateTransform
+        attributeName="gradientTransform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="2 0.5 0.5;-2 0.5 0.5;2 0.5 0.5"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+    </linearGradient>
+    <linearGradient id="d2" href="#d">
+      <animateTransform
+        attributeName="gradientTransform"
+        attributeType="XML"
+        type="rotate"
+        dur="3s"
+        values="360 0.5 0.5;0 0.5 0.5;360 0.5 0.5"
+        calcMode="spline"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        keyTimes="0;0.5;1"
+        repeatCount="indefinite"
+        begin="logo.mouseenter"
+        end="logo.mouseleave"
+      />
+    </linearGradient>
+  </defs>
+</svg>

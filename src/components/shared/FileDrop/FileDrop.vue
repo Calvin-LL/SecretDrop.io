@@ -96,7 +96,9 @@ async function getFilesFromEvent(event: Event) {
       <div class="file-drop-clickable-and-preview-container">
         <Transition name="opacity">
           <div v-if="showLoadingOverlay" class="loading-overlay">
-            <AnimatedLogo width="50px" animate />
+            <div class="animated-logo-container">
+              <AnimatedLogo type="animated" />
+            </div>
           </div>
         </Transition>
 
@@ -163,8 +165,13 @@ async function getFilesFromEvent(event: Event) {
       @include global.flex-center;
       @include global.absolute-overlay;
 
+      z-index: 1;
       border-radius: 16px;
       background-color: rgba(#000000, 0.1);
+
+      & > .animated-logo-container {
+        width: 70px;
+      }
     }
 
     & > .file-drop-clickable {

@@ -12,7 +12,9 @@ defineProps<{
   <div class="bottom-bar-container">
     <Transition name="opacity">
       <div v-if="loading" class="loading-bar">
-        <AnimatedSafe class="animated-safe" width="36px" />
+        <div class="animated-safe-container">
+          <AnimatedSafe />
+        </div>
         <div class="label">{{ loadingText }}</div>
       </div>
       <StaticButtonBar v-else>
@@ -39,9 +41,10 @@ defineProps<{
     justify-content: flex-start;
     align-items: center;
 
-    & > .animated-safe {
+    & > .animated-safe-container {
+      width: 50px;
       margin-left: 8px;
-      margin-right: 16px;
+      margin-right: 8px;
     }
 
     & > .label {
