@@ -20,6 +20,7 @@ const { id, color, icon, iconStyle, title } = Astro.props;
 </div>
 
 <style lang="scss">
+  @use "sass:color";
   @use "@/scss/colors";
   @use "@/scss/shadows";
   @use "@/scss/global";
@@ -48,12 +49,20 @@ const { id, color, icon, iconStyle, title } = Astro.props;
     &.green {
       @include shadows.shadow(24, colors.$encrypt-color-bright);
 
-      background-color: colors.$encrypt-card-background;
+      background: linear-gradient(
+        to bottom,
+        color.scale(colors.$encrypt-card-background, $lightness: 50%),
+        colors.$encrypt-card-background
+      );
 
       @media (prefers-color-scheme: dark) {
         @include shadows.shadow(24, colors.$encrypt-color-bright-dark);
 
-        background-color: colors.$encrypt-card-background-dark;
+        background: linear-gradient(
+          to bottom,
+          color.scale(colors.$encrypt-card-background-dark, $lightness: 8%),
+          colors.$encrypt-card-background-dark
+        );
       }
 
       & > .card-title-container > .title-container > .icon {
@@ -64,12 +73,20 @@ const { id, color, icon, iconStyle, title } = Astro.props;
     &.red {
       @include shadows.shadow(24, colors.$decrypt-color-bright);
 
-      background-color: colors.$decrypt-card-background;
+      background: linear-gradient(
+        to bottom,
+        color.scale(colors.$decrypt-card-background, $lightness: 50%),
+        colors.$decrypt-card-background
+      );
 
       @media (prefers-color-scheme: dark) {
         @include shadows.shadow(24, colors.$decrypt-color-bright-dark);
 
-        background-color: colors.$decrypt-card-background-dark;
+        background: linear-gradient(
+          to bottom,
+          color.scale(colors.$decrypt-card-background-dark, $lightness: 8%),
+          colors.$decrypt-card-background-dark
+        );
       }
 
       & > .card-title-container > .title-container > .icon {
