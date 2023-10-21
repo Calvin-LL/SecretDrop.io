@@ -76,7 +76,7 @@
     </g>
   </g>
   <defs>
-    <linearGradient id="a" x1="50%" y1="0%" x2="50%" y2="100%">
+    <linearGradient id="a" x1="50%" y1="0%" x2="50%" y2="100%" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"
@@ -91,7 +91,8 @@
       <stop stop-color="#84FA71" />
       <stop offset="1" stop-color="#009E61" />
     </linearGradient>
-    <linearGradient id="b" x1="50%" y1="44%" x2="50%" y2="100%">
+    <linearGradient id="b" x1="50%" y1="44%" x2="50%" y2="100%"
+      gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"
@@ -111,7 +112,7 @@
       <stop stop-color="#243B42" />
       <stop offset="1" stop-color="#011E24" />
     </linearGradient>
-    <linearGradient id="c1" href="#c">
+    <linearGradient id="c1" href="#c" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"
@@ -124,7 +125,7 @@
         repeatCount="indefinite"
       />
     </linearGradient>
-    <linearGradient id="c2" href="#c">
+    <linearGradient id="c2" href="#c" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"
@@ -143,7 +144,7 @@
       <stop stop-color="#F7FAF9" />
       <stop offset="1" stop-color="#8E949D" />
     </linearGradient>
-    <linearGradient id="d1" href="#d">
+    <linearGradient id="d1" href="#d" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"
@@ -156,7 +157,7 @@
         repeatCount="indefinite"
       />
     </linearGradient>
-    <linearGradient id="d2" href="#d">
+    <linearGradient id="d2" href="#d" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"

@@ -58,7 +58,7 @@
 		</linearGradient>
 
 		<!-- outer -->
-		<linearGradient id="b" href="#d">
+		<linearGradient id="b" href="#d" gradientTransform="rotate(0 0.5 0.5)">
 			<animateTransform
 				attributeName="gradientTransform"
 				attributeType="XML"
@@ -71,7 +71,7 @@
 				repeatCount="indefinite"
 			/>
 		</linearGradient>
-		<linearGradient id="a" href="#e">
+		<linearGradient id="a" href="#e" gradientTransform="rotate(0 0.5 0.5)">
 			<animateTransform
 				attributeName="gradientTransform"
 				attributeType="XML"
@@ -86,7 +86,7 @@
 		</linearGradient>
 
 		<!-- inner -->
-		<linearGradient id="c" href="#e">
+		<linearGradient id="c" href="#e" gradientTransform="rotate(0 0.5 0.5)">
 			<animateTransform
 				attributeName="gradientTransform"
 				attributeType="XML"

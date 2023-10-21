@@ -172,7 +172,7 @@
         end="logo.mouseleave"
       />
     </linearGradient>
-    <linearGradient id="d2" href="#d">
+    <linearGradient id="d2" href="#d" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
         attributeType="XML"
