@@ -52,6 +52,16 @@
 			<stop stop-color="#243B42" />
 			<stop offset="1" stop-color="#011E24" />
 		</linearGradient>
+		<style>
+			@media (prefers-color-scheme: dark) {
+			#d stop:nth-child(1) {
+			stop-color: #5C828D;
+			}
+			#d stop:nth-child(2) {
+			stop-color: #28464D;
+			}
+			}
+		</style>
 		<linearGradient id="e" x1="50%" y1="0%" x2="50%" y2="100%">
 			<stop stop-color="#F7FAF9" />
 			<stop offset="1" stop-color="#8E949D" />

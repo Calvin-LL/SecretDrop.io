@@ -112,6 +112,16 @@
       <stop stop-color="#243B42" />
       <stop offset="1" stop-color="#011E24" />
     </linearGradient>
+    <style>
+      @media (prefers-color-scheme: dark) {
+      #c stop:nth-child(1) {
+      stop-color: #5C828D;
+      }
+      #c stop:nth-child(2) {
+      stop-color: #28464D;
+      }
+      }
+    </style>
     <linearGradient id="c1" href="#c" gradientTransform="rotate(0 0.5 0.5)">
       <animateTransform
         attributeName="gradientTransform"
