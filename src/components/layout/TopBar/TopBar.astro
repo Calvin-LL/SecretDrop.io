@@ -65,9 +65,16 @@ import FAQButton from "./FAQButton.vue";
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 8px;
 
-        & > .animated-logo-container {
+        @media (max-width: 740px) {
+          gap: 4px;
+        }
+
+        & > .animated-logo-container,
+        & > .animated-logo-container > :global(*) {
           width: 90px;
+          aspect-ratio: 1052 / 1304;
 
           @media (max-width: 740px) {
             width: 70px;

@@ -17,3 +17,9 @@ defineProps<{
     "
   />
 </template>
+
+<style lang="scss" scoped>
+object {
+  display: block;
+}
+</style>
