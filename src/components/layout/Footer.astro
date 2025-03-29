@@ -1,21 +1,22 @@
 ---
-import personalLogoSvg from "@/assets/personal-logo.svg?raw";
+import pfp from "@/assets/pfp.png";
+import { Image } from "astro:assets";
 ---
 
 <footer>
   <div>
-    <a
-      href="https://calvin.sh"
-      target="_blank"
-      class="personal-logo-link"
-      rel="noopener"
-      set:html={personalLogoSvg}
-    />
+    <a href="https://calvin.sh" target="_blank" class="personal-logo-link">
+      <Image
+        src={pfp}
+        alt="Calvin Liang"
+        class="pfp"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
   </div>
   <div class="text">
-    Made by <a href="https://calvin.sh" target="_blank" rel="noopener"
-      >Calvin Liang</a
-    >
+    Made by <a href="https://calvin.sh" target="_blank">Calvin Liang</a>
   </div>
   <div class="text">
     <a
@@ -49,28 +50,10 @@ import personalLogoSvg from "@/assets/personal-logo.svg?raw";
     }
 
     .personal-logo-link {
-      & > :global(svg) {
+      .pfp {
         width: 2rem;
-        filter: grayscale(100%);
-        transition-property: all;
-        transition-duration: transitions.$transition-duration-tiny;
-        transition-timing-function: transitions.$transition-timing-function-standard;
-
-        &:active {
-          filter: unset;
-        }
-
-        @media (hover: hover) {
-          &:hover {
-            filter: unset;
-          }
-        }
-
-        @media (hover: hover) {
-          &:hover {
-            filter: unset;
-          }
-        }
+        height: 2rem;
+        border-radius: 50%;
       }
     }
   }
