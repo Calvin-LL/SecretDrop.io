@@ -43,9 +43,13 @@ const classes = computed(() => [
     rel="noopener noreferrer"
     :aria-label="ariaLabel"
   >
-    <span v-if="icon" class="icon" :class="`material-icons-${iconStyle}`">{{
-      icon
-    }}</span>
+    <span
+      v-if="icon"
+      class="icon"
+      :class="`material-icons-${iconStyle}`"
+      aria-hidden="true"
+      >{{ icon }}</span
+    >
     <span v-if="text" class="label">{{ text }}</span>
   </a>
   <button
@@ -55,9 +59,13 @@ const classes = computed(() => [
     :aria-label="ariaLabel"
     @click="emit('click', $event)"
   >
-    <span v-if="icon" class="icon" :class="`material-icons-${iconStyle}`">{{
-      icon
-    }}</span>
+    <span
+      v-if="icon"
+      class="icon"
+      :class="`material-icons-${iconStyle}`"
+      aria-hidden="true"
+      >{{ icon }}</span
+    >
     <span v-if="text" class="label">{{ text }}</span>
   </button>
 </template>
