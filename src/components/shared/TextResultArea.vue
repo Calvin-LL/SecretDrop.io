@@ -32,7 +32,7 @@ const hidden = computed(() => props.text.length === 0);
   <CollapseTransition :element="root" :elementVisible="!hidden">
     <div v-show="!hidden" ref="root" class="result-container">
       <CardHeader :title="title">
-        <template #subtitle>
+        <template>
           <slot name="subtitle"></slot>
         </template>
       </CardHeader>
