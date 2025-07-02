@@ -9,6 +9,7 @@ const props = withDefaults(
     disabled?: boolean;
     hidden?: boolean;
     fontSize?: "big" | "small";
+    monospace?: boolean;
     disableSpellcheck?: boolean;
   }>(),
   {
@@ -57,7 +58,7 @@ function updateTextAreaHeight() {
     <div v-show="!hidden" ref="root" class="textarea-container">
       <textarea
         ref="textarea"
-        :class="fontSize"
+        :class="[fontSize, { monospace }]"
         :placeholder="placeholder"
         :readonly="disabled"
         :value="message"
@@ -75,7 +76,8 @@ function updateTextAreaHeight() {
 </template>
 
 <style lang="scss" scoped>
-@use "@fontsource/roboto-slab/400" as *;
+@use "@fontsource/roboto-slab";
+@use "@fontsource/roboto-mono";
 @use "@/scss/global";
 @use "@/scss/transitions";
 
@@ -110,10 +112,15 @@ function updateTextAreaHeight() {
 
     &::placeholder {
       @include global.secondary-text-auto;
+      font-family: "Roboto Slab", serif;
     }
 
     &.big {
       font-size: 1.2rem;
+    }
+
+    &.monospace {
+      font-family: "Roboto Mono", monospace;
     }
   }
 }

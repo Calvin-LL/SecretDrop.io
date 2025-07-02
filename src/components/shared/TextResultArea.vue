@@ -12,6 +12,7 @@ const props = withDefaults(
     loading: boolean;
     loadingText: string;
     fontSize?: "big" | "small";
+    monospace?: boolean;
   }>(),
   {
     fontSize: "small",
@@ -38,6 +39,7 @@ const hidden = computed(() => props.text.length === 0);
       <MessageTextArea
         :message="text"
         :font-size="fontSize"
+        :monospace="monospace"
         @enter-pressed="emit('enterPressed', $event)"
         disabled
       />

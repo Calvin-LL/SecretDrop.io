@@ -178,6 +178,7 @@ function onClearClick() {
       :hidden="type === 'file'"
       @enter-pressed="onEnterPressed"
       disableSpellcheck
+      monospace
     />
     <OrText :hidden="type !== undefined" />
     <FileDrop

@@ -219,6 +219,7 @@ function onClearClick() {
       :loading="loadingResult"
       @download-click="onDownloadClick"
       @copy-click="onCopyClick"
+      monospace
     >
       <template #subtitle>
         You can post or send the encrypted files anywhere. Only the person who
